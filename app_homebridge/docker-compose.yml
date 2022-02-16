@@ -10,6 +10,6 @@ services:
       - PGID=1000
       - PUID=1000
       - HOMEBRIDGE_CONFIG_UI=1
-      - HOMEBRIDGE_CONFIG_UI_PORT=1111
+      - HOMEBRIDGE_CONFIG_UI_PORT=1113
     volumes:
       - /home/kjhuggins/homelab/app_homebridge/data/:/homebridge

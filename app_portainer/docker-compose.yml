@@ -1,0 +1,12 @@
+version: "3"
+services:
+  app_portainer:
+    image: portainer/portainer-ce
+    container_name: app_portainer
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/kjhuggins/homelab/app_portainer/private:/data
+    ports:
+      - 1111:8080
+      - 9443:9443
