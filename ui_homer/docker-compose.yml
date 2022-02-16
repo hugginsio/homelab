@@ -1,0 +1,10 @@
+version: "3"
+services:
+  ui_homer:
+    image: b4bz/homer
+    container_name: ui_homer
+    restart: unless-stopped
+    volumes:
+      - /home/kjhuggins/homelab/ui_homer/data/:/www/assets/
+    ports:
+      - 1112:8080

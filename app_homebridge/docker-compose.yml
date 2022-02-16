@@ -1,0 +1,15 @@
+version: "3"
+services:
+  app_homebridge:
+    image: oznu/homebridge:latest
+    container_name: app_homebridge
+    restart: unless_stopped
+    network_mode: host
+    environment:
+      - TZ='America/Chicago'
+      - PGID=1000
+      - PUID=1000
+      - HOMEBRIDGE_CONFIG_UI=1
+      - HOMEBRIDGE_CONFIG_UI_PORT=1111
+    volumes:
+      - /home/kjhuggins/homelab/app_homebridge/data/:/homebridge
