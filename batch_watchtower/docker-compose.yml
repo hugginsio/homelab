@@ -3,6 +3,6 @@ services:
   batch_watchtower:
     image: containrrr/watchtower
     container_name: batch_watchtower
-    restart: unless_stopped
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
