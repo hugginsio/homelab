@@ -8,3 +8,6 @@ services:
       - /home/kjhuggins/homelab/ui_homer/data/:/www/assets/
     ports:
       - 1112:8080
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Path(`/`)"

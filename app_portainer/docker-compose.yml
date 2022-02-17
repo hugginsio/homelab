@@ -10,3 +10,6 @@ services:
     ports:
       - 1111:8080
       - 9443:9443
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Path(`/portainer`)"

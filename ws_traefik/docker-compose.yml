@@ -1,0 +1,25 @@
+version: '3'
+services:
+  ws_traefik:
+    image: traefik
+    container_name: ws_traefik
+    restart: always
+    command:
+      - "--providers.docker"
+      - "--api.insecure=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "1113:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Path(`/traefik`)"
+  ws_whoami:
+    image: traefik/whoami
+    container_name: ws_whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Path(`/urltest`)"
