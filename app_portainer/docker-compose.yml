@@ -5,6 +5,7 @@ services:
     container_name: app_portainer
     restart: always
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - /home/kjhuggins/homelab/app_portainer/private:/data
     ports:
@@ -12,4 +13,4 @@ services:
       - 9443:9443
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.app_portainer.rule=Path(`/portainer`)"
+      - "traefik.http.routers.app_portainer.rule=PathPrefix(`/portainer`)"

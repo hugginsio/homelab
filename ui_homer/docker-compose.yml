@@ -5,9 +5,8 @@ services:
     container_name: ui_homer
     restart: unless-stopped
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - /home/kjhuggins/homelab/ui_homer/data/:/www/assets/
-    ports:
-      - 1112:8080
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ui_homer.rule=Path(`/`)"
+      - "traefik.http.routers.ui_homer.rule=PathPrefix(`/homer`)"

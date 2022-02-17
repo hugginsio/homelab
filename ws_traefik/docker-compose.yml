@@ -11,15 +11,16 @@ services:
       - "--entrypoints.web.address=:80"
     ports:
       - "80:80"
-      - "1113:8080"
+      - "8080:8080"
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ws_traefik.rule=Path(`/traefik`)"
+      - "traefik.http.routers.ws_traefik.rule=PathPrefix(`/traefik`)"
   ws_whoami:
     image: traefik/whoami
     container_name: ws_whoami
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ws_whoami.rule=Path(`/urltest`)"
+      - "traefik.http.routers.ws_whoami.rule=PathPrefix(`/urltest`)"

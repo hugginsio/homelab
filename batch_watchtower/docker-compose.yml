@@ -5,7 +5,7 @@ services:
     container_name: batch_watchtower
     restart: always
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - WATCHTOWER_ROLLING_RESTART=true
