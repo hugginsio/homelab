@@ -10,4 +10,4 @@ services:
       - 1112:8080
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Path(`/`)"
+      - "traefik.http.routers.ui_homer.rule=Path(`/`)"

@@ -12,4 +12,4 @@ services:
       - 9443:9443
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Path(`/portainer`)"
+      - "traefik.http.routers.app_portainer.rule=Path(`/portainer`)"
