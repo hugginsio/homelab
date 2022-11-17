@@ -1,0 +1,24 @@
+# Compose file for Uptime Kuma
+
+version: "3.9"
+services:
+  kuma:
+    image: "louislam/uptime-kuma:1.18.5"
+    container_name: "kuma"
+    restart: unless-stopped
+    networks:
+      - traefik-external
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/home/${USERNAME}/homelab-sync/kuma/:/app/data"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.kuma.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/`)"
+      - "traefik.http.services.kuma.loadbalancer.server.port=3001"
+      - "traefik.http.routers.kuma.entrypoints=websecure"
+      - "traefik.http.routers.kuma.tls=true"
+networks:
+  traefik-external:
+    external: true

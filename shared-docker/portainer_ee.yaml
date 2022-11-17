@@ -1,0 +1,19 @@
+# Compose file for Portainer Business Edition
+
+version: "3.9"
+services:
+  portainer:
+    image: "portainer/portainer-ee:2.16.1"
+    container_name: "portainer"
+    restart: unless-stopped
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/home/${USERNAME}/homelab-sync/portainer-${DOCKER_HOSTNAME}:/data"
+      - "/home/${USERNAME}/homelab-sync/certs:/etc/certs:ro"
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+    command:
+      - "--sslcert=/etc/certs/${DOMAIN_NAME}.crt"
+      - "--sslkey=/etc/certs/${DOMAIN_HOME}.key"

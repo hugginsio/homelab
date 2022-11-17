@@ -1,0 +1,26 @@
+# Compose file for Homer Dashboard
+
+version: "3.9"
+services:
+  homer:
+    image: "b4bz/homer:v22.11.1"
+    container_name: "homer"
+    restart: unless-stopped
+    networks:
+      - traefik-external
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/home/${USERNAME}/homelab-sync/homer/:/www/assets/"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.homer.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/homer`)"
+      - "traefik.http.services.homer.loadbalancer.server.port=8080"
+      - "traefik.http.routers.homer.entrypoints=websecure"
+      - "traefik.http.routers.homer.tls=true"
+    environment:
+      - SUBFOLDER=/homer
+networks:
+  traefik-external:
+    external: true
