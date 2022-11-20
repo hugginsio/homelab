@@ -24,7 +24,6 @@ services:
       - "homepage.group=Monitoring"
       - "homepage.name=Uptime Kuma"
       - "homepage.description=Uptime monitoring for internal & external services."
-      - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/uptime-kuma.png"
       - "homepage.href=${DOMAIN_NAME}:3001"
 networks:
   traefik-external:
