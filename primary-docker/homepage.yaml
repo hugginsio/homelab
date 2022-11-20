@@ -1,0 +1,24 @@
+# Compose file for Homepage
+
+version: "3.9"
+services:
+  homepage:
+    image: "ghcr.io/benphelps/homepage:v0.4.18"
+    container_name: "homepage"
+    restart: unless-stopped
+    networks:
+      - traefik-external
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/home/${USERNAME}/homelab-sync/homepage/:/app/config"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.homepage.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/homepage`)"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+      - "traefik.http.routers.homepage.entrypoints=websecure"
+      - "traefik.http.routers.homepage.tls=true"
+networks:
+  traefik-external:
+    external: true
