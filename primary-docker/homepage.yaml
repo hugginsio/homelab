@@ -3,7 +3,7 @@
 version: "3.9"
 services:
   homepage:
-    image: "ghcr.io/benphelps/homepage:v0.4.18"
+    image: "ghcr.io/benphelps/homepage:latest"
     container_name: "homepage"
     restart: unless-stopped
     networks:
@@ -15,7 +15,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
-      - "traefik.http.routers.homepage.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/homepage`) || Host(`${DOMAIN_NAME}`) && PathPrefix(`/_next`)"
+      - "traefik.http.routers.homepage.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/homepage`) || Host(`${DOMAIN_NAME}`) && PathPrefix(`/_next`) || Host(`${DOMAIN_NAME}`) && PathPrefix(`/static`)"
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"
       - "traefik.http.routers.homepage.entrypoints=websecure"
       - "traefik.http.routers.homepage.tls=true"
