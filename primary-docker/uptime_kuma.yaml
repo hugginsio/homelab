@@ -8,12 +8,14 @@ services:
     restart: unless-stopped
     networks:
       - traefik-external
+    ports:
+      - "3001:3001"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/home/${USERNAME}/homelab-sync/kuma/:/app/data"
     labels:
-      - "traefik.enable=true"
+      - "traefik.enable=false"
       - "traefik.docker.network=traefik-external"
       - "traefik.http.routers.kuma.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/`)"
       - "traefik.http.services.kuma.loadbalancer.server.port=3001"
