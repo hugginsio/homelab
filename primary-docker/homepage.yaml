@@ -15,7 +15,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
-      - "traefik.http.routers.homepage.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/homepage`)"
+      - "traefik.http.routers.homepage.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/homepage`) || Host(`${DOMAIN_NAME}`) && PathPrefix(`/_next`)"
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"
       - "traefik.http.routers.homepage.entrypoints=websecure"
       - "traefik.http.routers.homepage.tls=true"
