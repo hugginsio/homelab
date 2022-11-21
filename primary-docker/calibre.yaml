@@ -26,6 +26,8 @@ services:
       - "traefik.http.routers.calibre-books.entrypoints=websecure"
       - "traefik.http.routers.calibre-books.tls=true"
     environment:
+      - "PUID=1000"
+      - "PGID=1000"
       - "DOCKER_MODS=linuxserver/mods:universal-calibre"
 networks:
   traefik-external:
