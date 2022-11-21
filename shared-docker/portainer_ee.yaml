@@ -3,7 +3,7 @@
 version: "3.9"
 services:
   portainer:
-    image: "portainer/portainer-ee:2.16.1"
+    image: "portainer/portainer-ee:2.16.2"
     container_name: "portainer"
     restart: unless-stopped
     networks:
@@ -19,8 +19,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
       - "traefik.http.routers.portainer.rule=Host(`portainer.${DOMAIN_NAME}`)"
-      - "traefik.http.services.portainer.loadbalancer.server.scheme=https"
-      - "traefik.http.services.portainer.loadbalancer.server.port=9443"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.entrypoints=websecure"
       - "traefik.http.routers.portainer.tls=true"
 networks:
