@@ -1,0 +1,26 @@
+# Compose file for Calibre
+
+version: "3.9"
+services:
+  calibre:
+    image: "lscr.io/linuxserver/calibre:latest"
+    container_name: "calibre"
+    restart: unless-stopped
+    networks:
+      - traefik-external
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/home/${USERNAME}/homelab-sync/calibre:/config"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.calibre-books.rule=Host(`books.${DOMAIN_NAME}`)"
+      - "traefik.http.services.calibre-books.loadbalancer.server.port=8080"
+      - "traefik.http.routers.calibre-books.entrypoints=websecure"
+      - "traefik.http.routers.calibre-books.tls=true"
+    environment:
+      - "DOCKER_MODS=linuxserver/mods:universal-calibre"
+networks:
+  traefik-external:
+    external: true
