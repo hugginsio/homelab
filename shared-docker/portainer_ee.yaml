@@ -13,7 +13,10 @@ services:
       - "/home/${USERNAME}/homelab-sync/certs:/etc/certs:ro"
     ports:
       - "8000:8000"
-      - "9443:9443"
-    command:
-      - "--sslcert=/etc/certs/${DOMAIN_NAME}.crt"
-      - "--sslkey=/etc/certs/${DOMAIN_HOME}.key"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${DOMAIN_NAME}`)"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9443"
+      - "traefik.http.routers.portainer.entrypoints=websecure"
+      - "traefik.http.routers.portainer.tls=true"

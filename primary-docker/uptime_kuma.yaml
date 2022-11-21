@@ -2,29 +2,23 @@
 
 version: "3.9"
 services:
-  kuma:
+  app_kuma:
     image: "louislam/uptime-kuma:1.18.5"
-    container_name: "kuma"
+    container_name: "app_kuma"
     restart: unless-stopped
     networks:
       - traefik-external
-    ports:
-      - "3001:3001"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/home/${USERNAME}/homelab-sync/kuma/:/app/data"
+      - "/home/host/homelab-sync/app_kuma/:/app/data"
     labels:
-      - "traefik.enable=false"
+      - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
-      - "traefik.http.routers.kuma.rule=Host(`${DOMAIN_NAME}`) && PathPrefix(`/`)"
-      - "traefik.http.services.kuma.loadbalancer.server.port=3001"
-      - "traefik.http.routers.kuma.entrypoints=websecure"
-      - "traefik.http.routers.kuma.tls=true"
-      - "homepage.group=Monitoring"
-      - "homepage.name=Uptime Kuma"
-      - "homepage.description=Uptime monitoring for internal & external services."
-      - "homepage.href=${DOMAIN_NAME}:3001"
+      - "traefik.http.routers.app_kuma.rule=Host(`uptime.${DOMAIN_NAME}`)"
+      - "traefik.http.services.app_kuma.loadbalancer.server.port=3001"
+      - "traefik.http.routers.app_kuma.entrypoints=websecure"
+      - "traefik.http.routers.app_kuma.tls=true"
 networks:
   traefik-external:
     external: true

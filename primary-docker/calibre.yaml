@@ -15,8 +15,14 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.calibre-client.rule=Host(`calibre.${DOMAIN_NAME}`)"
+      - "traefik.http.routers.calibre-client.service=calibre-client"
+      - "traefik.http.services.calibre-client.loadbalancer.server.port=8080"
+      - "traefik.http.routers.calibre-client.entrypoints=websecure"
+      - "traefik.http.routers.calibre-client.tls=true"
       - "traefik.http.routers.calibre-books.rule=Host(`books.${DOMAIN_NAME}`)"
-      - "traefik.http.services.calibre-books.loadbalancer.server.port=8080"
+      - "traefik.http.routers.calibre-books.service=calibre-books"
+      - "traefik.http.services.calibre-books.loadbalancer.server.port=8081"
       - "traefik.http.routers.calibre-books.entrypoints=websecure"
       - "traefik.http.routers.calibre-books.tls=true"
     environment:
