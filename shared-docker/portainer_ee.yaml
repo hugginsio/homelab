@@ -6,6 +6,8 @@ services:
     image: "portainer/portainer-ee:2.16.1"
     container_name: "portainer"
     restart: unless-stopped
+    networks:
+      - traefik-external
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
@@ -20,3 +22,6 @@ services:
       - "traefik.http.services.portainer.loadbalancer.server.port=9443"
       - "traefik.http.routers.portainer.entrypoints=websecure"
       - "traefik.http.routers.portainer.tls=true"
+networks:
+  traefik-external:
+    external: true
