@@ -19,6 +19,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
       - "traefik.http.routers.portainer.rule=Host(`portainer.${DOMAIN_NAME}`)"
+      - "traefik.http.services.portainer.loadbalancer.server.scheme=https"
       - "traefik.http.services.portainer.loadbalancer.server.port=9443"
       - "traefik.http.routers.portainer.entrypoints=websecure"
       - "traefik.http.routers.portainer.tls=true"
