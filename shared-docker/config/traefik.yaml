@@ -1,9 +1,6 @@
 global:
   checkNewVersion: true
 
-log:
-  level: WARN
-
 api:
   insecure: true
   dashboard: true
