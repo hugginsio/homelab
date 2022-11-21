@@ -16,8 +16,14 @@ services:
       - traefik-external
     ports:
       - "80:80"
-      - "8080:8080"
       - "443:443"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN_NAME}`)"
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls=true"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/home/${USERNAME}/homelab-remote/shared-docker/config/:/etc/traefik/"
