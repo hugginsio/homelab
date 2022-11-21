@@ -32,7 +32,5 @@ entryPoints:
   websecure:
     address: :443
 
-tls:
-  certificates:
-    - certFile: /etc/certs/limestone.camel-herring.ts.net.crt
-      keyFile: /etc/certs/limestone.camel-herring.ts.net.key
+serversTransport:
+  insecureSkipVerify: true
