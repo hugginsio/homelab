@@ -15,7 +15,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
-      - "traefik.http.routers.app_kuma.rule=Host(`uptime.${DOMAIN_NAME}`)"
+      - "traefik.http.routers.app_kuma.rule=Host(`status.${DOMAIN_NAME}`)"
       - "traefik.http.services.app_kuma.loadbalancer.server.port=3001"
       - "traefik.http.routers.app_kuma.entrypoints=websecure"
       - "traefik.http.routers.app_kuma.tls=true"
