@@ -1,0 +1,20 @@
+# Compose file for Docker Image Update Notifier
+
+version: "3.9"
+services:
+  diun:
+    image: "ghcr.io/crazy-max/diun:4.22"
+    container_name: "diun"
+    restart: unless-stopped
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/home/${USERNAME}/homelab-sync/diun-${DOCKER_HOSTNAME}/:/data/"
+    environment:
+      - "TZ=America/Chicago"
+      - "LOG_LEVEL=info"
+      - "LOG_JSON=false"
+      - "DIUN_PROVIDERS_DOCKER=true"
+      - "DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT=true"
+      - "DIUN_WATCH_SCHEDULE=0 7 * * *"
+      - "DIUN_NOTIF_DISCORD_WEBHOOKURL=${DISCORD_WEBHOOK}"
+      - "DIUN_NOTIF_DISCORD_RENDERFIELDS=true"
