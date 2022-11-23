@@ -1,0 +1,15 @@
+# Compose file for Autoheal
+
+version: "3.9"
+services:
+  autoheal:
+    image: "willfarrell/autoheal:1.2.0"
+    container_name: "autoheal"
+    restart: unless-stopped
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    environment:
+      - "AUTOHEAL_CONTAINER_LABEL=all"
+      - "AUTOHEAL_INTERVAL=30"
+      - "AUTOHEAL_START_PERIOD=30"
