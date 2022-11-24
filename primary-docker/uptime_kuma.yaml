@@ -19,6 +19,11 @@ services:
       - "traefik.http.services.app_kuma.loadbalancer.server.port=3001"
       - "traefik.http.routers.app_kuma.entrypoints=websecure"
       - "traefik.http.routers.app_kuma.tls=true"
+      - "homepage.group=Monitoring"
+      - "homepage.name=Uptime Kuma"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/uptime-kuma.png"
+      - "homepage.href=https://status.${DOMAIN_NAME}"
+      - "homepage.description=Self-hosted uptime monitoring tool."
 networks:
   traefik-external:
     external: true
