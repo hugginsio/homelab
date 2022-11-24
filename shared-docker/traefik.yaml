@@ -24,6 +24,11 @@ services:
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls=true"
+      - "homepage.group=Networking"
+      - "homepage.name=Traefik"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/traefik.png"
+      - "homepage.href=https://traefik.${DOMAIN_NAME}"
+      - "homepage.description=Reverse proxy and load balancer."
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/home/${USERNAME}/homelab-remote/shared-docker/config/:/etc/traefik/"
