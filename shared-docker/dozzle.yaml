@@ -18,6 +18,11 @@ services:
       - "traefik.http.services.dozzle.loadbalancer.server.port=8080"
       - "traefik.http.routers.dozzle.entrypoints=websecure"
       - "traefik.http.routers.dozzle.tls=true"
+      - "homepage.group=Monitoring"
+      - "homepage.name=Dozzle"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/dozzle.png"
+      - "homepage.href=https://logs.${DOMAIN_NAME}"
+      - "homepage.description=Log viewer for local Docker containers."
 networks:
   traefik-external:
     external: true
