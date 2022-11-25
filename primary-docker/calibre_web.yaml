@@ -1,0 +1,29 @@
+# Compose file for Calibre Web Books Server
+
+version: "3.9"
+services:
+  calibre_web:
+    image: "lscr.io/linuxserver/calibre-web:0.6.19"
+    container_name: "calibre_web"
+    restart: unless-stopped
+    networks:
+      - traefik-external
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/home/${USERNAME}/homelab-sync/calibre_web:/config"
+      - "/home/${USERNAME}/homelab-sync/calibre/Library:/books"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.calibre_web.rule=Host(`books.${DOMAIN_NAME}`)"
+      - "traefik.http.services.calibre_web.loadbalancer.server.port=8083"
+      - "traefik.http.routers.calibre_web.entrypoints=websecure"
+      - "traefik.http.routers.calibre_web.tls=true"
+      - "homepage.group=Applications"
+      - "homepage.name=e-Book Library"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/bookstack.png"
+      - "homepage.href=https://books.${DOMAIN_NAME}"
+      - "homepage.description=Our digital library, managed by Calibre."
+networks:
+  traefik-external:
+    external: true

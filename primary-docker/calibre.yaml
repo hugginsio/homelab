@@ -3,32 +3,32 @@
 version: "3.9"
 services:
   calibre:
-    image: "lscr.io/linuxserver/calibre:latest"
+    image: "linuxserver/calibre:6.7.1"
     container_name: "calibre"
     restart: unless-stopped
     networks:
       - traefik-external
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/etc/localtime:/etc/localtime:ro"
       - "/home/${USERNAME}/homelab-sync/calibre:/config"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
       - "traefik.http.routers.calibre-client.rule=Host(`calibre.${DOMAIN_NAME}`)"
-      - "traefik.http.routers.calibre-client.service=calibre-client"
       - "traefik.http.services.calibre-client.loadbalancer.server.port=8080"
       - "traefik.http.routers.calibre-client.entrypoints=websecure"
       - "traefik.http.routers.calibre-client.tls=true"
-      - "traefik.http.routers.calibre-books.rule=Host(`books.${DOMAIN_NAME}`)"
-      - "traefik.http.routers.calibre-books.service=calibre-books"
-      - "traefik.http.services.calibre-books.loadbalancer.server.port=8081"
-      - "traefik.http.routers.calibre-books.entrypoints=websecure"
-      - "traefik.http.routers.calibre-books.tls=true"
+      - "homepage.group=Applications"
+      - "homepage.name=Calibre"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/calibre.png"
+      - "homepage.href=https://calibre.${DOMAIN_NAME}"
+      - "homepage.description=Comprehensive e-book software."
     environment:
       - "PUID=1000"
       - "PGID=1000"
       - "DOCKER_MODS=linuxserver/mods:universal-calibre"
+    security_opt:
+      - "seccomp:unconfined"
 networks:
   traefik-external:
     external: true
