@@ -3,7 +3,7 @@
 version: "3.9"
 services:
   portainer_agent:
-    image: "portainer/agent:2.16.1"
+    image: "portainer/agent:2.16.2"
     container_name: "portainer_agent"
     restart: unless-stopped
     ports:
