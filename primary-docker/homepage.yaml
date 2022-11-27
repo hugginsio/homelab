@@ -3,7 +3,7 @@
 version: "3.9"
 services:
   homepage:
-    image: "ghcr.io/benphelps/homepage:latest"
+    image: "ghcr.io/benphelps/homepage:v0.5.1"
     container_name: "homepage"
     restart: unless-stopped
     networks:
