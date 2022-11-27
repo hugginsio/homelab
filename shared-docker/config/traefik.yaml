@@ -28,6 +28,8 @@ entryPoints:
           permanent: true
   websecure:
     address: :443
+  wireguard:
+    address: :51820/udp
 
 serversTransport:
   insecureSkipVerify: true
