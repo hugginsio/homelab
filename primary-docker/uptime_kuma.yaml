@@ -2,16 +2,15 @@
 
 version: "3.9"
 services:
-  app_kuma:
+  uptime_kuma:
     image: "louislam/uptime-kuma:1.18.5"
-    container_name: "app_kuma"
+    container_name: "uptime_kuma"
     restart: unless-stopped
     networks:
       - traefik-external
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "/home/host/homelab-sync/app_kuma/:/app/data"
+      - "/home/${USERNAME}/homelab-sync/uptime_kuma:/app/data"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
