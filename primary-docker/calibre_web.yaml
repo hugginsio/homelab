@@ -11,7 +11,7 @@ services:
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "/home/${USERNAME}/homelab-sync/calibre_web:/config"
-      - "/home/${USERNAME}/homelab-sync/calibre/Library:/books"
+      - "/home/${USERNAME}/datastore/homelab/calibre/Library:/books"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
