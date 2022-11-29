@@ -1,0 +1,75 @@
+# Compose file for Paperless-ngx and supporting services
+
+version: "3.9"
+services:
+  paperless_postgres:
+    image: "postgres:13"
+    container_name: "paperless_postgres"
+    restart: unless-stopped
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/home/${USERNAME}/datastore/homelab/paperless_ngx/postgres:/var/lib/postgresql/data"
+    environment:
+      - "POSTGRES_DB=paperless"
+      - "POSTGRES_USER=paperless"
+      - "POSTGRES_PASSWORD=paperless"
+    networks:
+      - "paperless-internal"
+  paperless_broker:
+    image: "redis:7"
+    container_name: "paperless_broker"
+    restart: unless-stopped
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/home/${USERNAME}/datastore/homelab/paperless_ngx/redis:/data"
+    networks:
+      - "paperless-internal"
+  paperless_ui:
+    image: "ghcr.io/paperless-ngx/paperless-ngx:1.10"
+    container_name: "paperless_ui"
+    restart: unless-stopped
+    depends_on:
+      - "paperless_postgres"
+      - "paperless_broker"
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "-S", "--max-time", "2", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/home/${USERNAME}/datastore/homelab/paperless_ngx/data:/usr/src/paperless/data"
+      - "/home/${USERNAME}/datastore/homelab/paperless_ngx/media:/usr/src/paperless/media"
+      - "/home/${USERNAME}/datastore/homelab/paperless_ngx/export:/usr/src/paperless/export"
+      - "/home/${USERNAME}/datastore/homelab/paperless_ngx/consume:/usr/src/paperless/consume"
+    environment:
+      - "PAPERLESS_REDIS=redis://paperless_broker:6379"
+      - "PAPERLESS_DBHOST=paperless_postgres"
+      - "PAPERLESS_URL=https://paperless.${DOMAIN_NAME}"
+      - "PAPERLESS_ADMIN_USER=admin"
+      - "PAPERLESS_ADMIN_PASSWORD=${PASSWORD}"
+      - "PAPERLESS_TIME_ZONE=America/Chicago"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.paperless_ui.rule=Host(`paperless.${DOMAIN_NAME}`)"
+      - "traefik.http.services.paperless_ui.loadbalancer.server.port=8000"
+      - "traefik.http.routers.paperless_ui.entrypoints=websecure"
+      - "traefik.http.routers.paperless_ui.tls=true"
+      - "homepage.group=Applications"
+      - "homepage.name=Paperless"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/paperless-ng.png"
+      - "homepage.href=https://paperless.${DOMAIN_NAME}"
+      - "homepage.description=Powerful document management system."
+      - "homepage.widget.type=paperlessngx"
+      - "homepage.widget.url=https://paperless.${DOMAIN_NAME}"
+      - "homepage.widget.username=admin"
+      - "homepage.widget.password=${PASSWORD}"
+    networks:
+      - "traefik-external"
+      - "paperless-internal"
+networks:
+  traefik-external:
+    external: true
+  paperless-internal:
+    driver: bridge
