@@ -1,0 +1,17 @@
+# Compose file for Docker Socket Proxy
+
+version: "3.9"
+services:
+  docker_proxy:
+    image: "tecnativa/docker-socket-proxy:0.1"
+    container_name: "docker_proxy"
+    restart: unless-stopped
+    ports:
+      - "2375:2375"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    environment:
+      - "LOG_LEVEL=debug"
+      - "CONTAINERS=1"
+      - "POST=0"
