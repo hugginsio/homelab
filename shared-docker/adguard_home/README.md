@@ -1,4 +1,4 @@
-# pi_hole
+# Adguard Home
 
 ## Check port 53
 
@@ -20,6 +20,6 @@ vi /etc/systemd/resolved.conf.d/override.conf
 
 ```
 [Resolve]
-DNS=11.0.0.1
+DNS=127.0.0.1
 DNSStubListener=no
 ```
