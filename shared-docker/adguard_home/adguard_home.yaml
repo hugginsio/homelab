@@ -1,0 +1,33 @@
+# Compose file for Adguard Home
+
+version: "3.9"
+services:
+  adguard_home:
+    image: "adguard/adguardhome:v0.107.19"
+    container_name: "adguard_home"
+    hostname: "adguard_home-${DOCKER_HOSTNAME}"
+
+    restart: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "83:80/tcp"
+      - "84:3000/tcp"
+    dns:
+      - "127.0.0.1"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/home/${USERNAME}/homelab-sync/adguard_home-${DOCKER_HOSTNAME}/config:/opt/adguardhome/conf"
+      - "/home/${USERNAME}/homelab-sync/adguard_home-${DOCKER_HOSTNAME}:/opt/adguardhome/work"
+    environment:
+      - "TZ=America/Chicago"
+    labels:
+      - "homepage.group=Networking"
+      - "homepage.name=Adguard Home (${DOCKER_HOSTNAME})"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/adguard-home.png"
+      - "homepage.href=http://${IP_ADDRESS}:83"
+      - "homepage.description=Network-wide software for blocking ads & tracking."
+      - "homepage.widget.type=adguard"
+      - "homepage.widget.url=http://${IP_ADDRESS}:83"
+      - "homepage.widget.username=admin"
+      - "homepage.widget.password=${PASSWORD}"
