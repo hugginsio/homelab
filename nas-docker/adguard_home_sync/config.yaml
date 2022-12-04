@@ -1,0 +1,27 @@
+cron: "*/10 * * * *"
+
+origin:
+  insecureSkipVerify: true
+  username: admin
+
+replica:
+  insecureSkipVerify: true
+  username: admin
+
+api:
+  port: 0
+
+features:
+  generalSettings: true
+  queryLogConfig: true
+  statsConfig: true
+  clientSettings: true
+  services: true
+  filters: true
+  dhcp:
+    serverConfig: true
+    staticLeases: true
+  dns:
+    serverConfig: true
+    accessLists: true
+    rewrites: true

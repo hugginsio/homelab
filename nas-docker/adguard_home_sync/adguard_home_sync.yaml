@@ -1,0 +1,18 @@
+# Compose file for Adguard Home Sync
+
+version: "3.9"
+services:
+  adguard_home_sync:
+    image: "ghcr.io/bakito/adguardhome-sync:v0.4.10"
+    container_name: "adguard_home_sync"
+    restart: unless-stopped
+    command: "run --config /config/config.yaml"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/home/${USERNAME}/homelab-remote/nas-docker/adguard_home_sync/config.yaml:/config/config.yaml"
+    environment:
+      - "RUNONSTART=false"
+      - "ORIGIN_URL=http://${ORIGIN_ADDRESS}"
+      - "ORIGIN_PASSWORD=${PASSWORD}"
+      - "REPLICA_URL=http://${REPLICA_ADDRESS}"
+      - "REPLICA_PASSWORD=${PASSWORD}"
