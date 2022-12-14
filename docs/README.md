@@ -2,6 +2,10 @@
 
 This repository contains the "production-ready" Docker Compose files used in my homelab environment.
 
+## Bootstrapping
+
+Basic instructions for getting started from scratch with this repository are available [in this document](bootstrap.md).
+
 ## Environment
 
 These Docker containers are deployed on one (or both) of my two host machines:
