@@ -3,7 +3,7 @@
 version: "3.9"
 services:
   calibre:
-    image: "linuxserver/calibre:6.7.1"
+    image: "linuxserver/calibre:6.11.0"
     container_name: "calibre"
     restart: unless-stopped
     networks:
