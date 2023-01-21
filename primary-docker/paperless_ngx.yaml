@@ -13,6 +13,8 @@ services:
       - "POSTGRES_DB=paperless"
       - "POSTGRES_USER=paperless"
       - "POSTGRES_PASSWORD=paperless"
+    labels:
+      - "diun.enable=false"
     networks:
       - "paperless-internal"
   paperless_broker:
@@ -22,10 +24,12 @@ services:
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "/home/${USERNAME}/datastore/homelab/paperless_ngx/redis:/data"
+    labels:
+      - "diun.enable=false"
     networks:
       - "paperless-internal"
   paperless_ui:
-    image: "ghcr.io/paperless-ngx/paperless-ngx:1.10"
+    image: "ghcr.io/paperless-ngx/paperless-ngx:1.11.3"
     container_name: "paperless_ui"
     restart: unless-stopped
     depends_on:
