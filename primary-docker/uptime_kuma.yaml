@@ -3,7 +3,7 @@
 version: "3.9"
 services:
   uptime_kuma:
-    image: "louislam/uptime-kuma:1.18.5"
+    image: "louislam/uptime-kuma:1.19.6"
     container_name: "uptime_kuma"
     restart: unless-stopped
     networks:
