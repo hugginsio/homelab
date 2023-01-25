@@ -3,7 +3,7 @@
 version: "3.9"
 services:
   adguard_home_sync:
-    image: "ghcr.io/bakito/adguardhome-sync:v0.4.10"
+    image: "ghcr.io/bakito/adguardhome-sync:v0.4.11"
     container_name: "adguard_home_sync"
     restart: unless-stopped
     command: "run --config /config/config.yaml"
