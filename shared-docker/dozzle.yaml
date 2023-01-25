@@ -3,7 +3,7 @@
 version: "3.9"
 services:
   dozzle:
-    image: "amir20/dozzle:pr-1961"
+    image: "amir20/dozzle:pr-2014"
     container_name: "dozzle"
     restart: unless-stopped
     networks:
