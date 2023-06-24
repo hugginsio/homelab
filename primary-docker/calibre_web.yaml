@@ -6,6 +6,11 @@ services:
     image: "lscr.io/linuxserver/calibre-web:0.6.19"
     container_name: "calibre_web"
     restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
     networks:
       - traefik-external
     volumes:

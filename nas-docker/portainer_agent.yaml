@@ -1,11 +1,16 @@
 # Compose file for the Portainer Agent
-  
+
 version: "3.9"
 services:
   portainer_agent:
     image: "portainer/agent:2.16.2"
     container_name: "portainer_agent"
     restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
     ports:
       - "9001:9001"
     volumes:

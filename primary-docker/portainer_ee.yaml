@@ -6,6 +6,11 @@ services:
     image: "portainer/portainer-ee:2.17.0"
     container_name: "portainer"
     restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
     networks:
       - traefik-external
     volumes:
