@@ -6,12 +6,17 @@ services:
     image: "traefik:v2.9.4"
     container_name: "traefik"
     restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
     healthcheck:
-          test: ["CMD", "traefik", "healthcheck", "--ping"]
-          interval: 10s
-          timeout: 5s
-          retries: 3
-          start_period: 15s
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     networks:
       - traefik-external
     ports:

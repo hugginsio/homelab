@@ -6,6 +6,11 @@ services:
     image: "weejewel/wg-easy:7"
     container_name: "wireguard_easy"
     restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
     networks:
       - traefik-external
     volumes:

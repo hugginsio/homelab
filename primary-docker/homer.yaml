@@ -6,6 +6,11 @@ services:
     image: "b4bz/homer:v22.11.2"
     container_name: "homer"
     restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
     networks:
       - traefik-external
     volumes:

@@ -6,6 +6,11 @@ services:
     image: "tecnativa/docker-socket-proxy:0.1"
     container_name: "docker_proxy"
     restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
     ports:
       - "2375:2375"
     volumes:

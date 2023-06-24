@@ -6,6 +6,11 @@ services:
     image: "louislam/uptime-kuma:1.19.6"
     container_name: "uptime_kuma"
     restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
     networks:
       - traefik-external
     volumes:

@@ -6,6 +6,11 @@ services:
     image: "ghcr.io/crazy-max/diun:4.23.1"
     container_name: "diun"
     restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/home/${USERNAME}/homelab-sync/diun-${DOCKER_HOSTNAME}/:/data/"
