@@ -7,6 +7,11 @@ services:
     container_name: "adguard_home_sync"
     restart: unless-stopped
     command: "run --config /config/config.yaml"
+    logging:
+      driver: "local"
+      options:
+        max-file: "5"
+        max-size: "5m"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "/home/${USERNAME}/homelab-remote/nas-docker/adguard_home_sync/config.yaml:/config/config.yaml"
