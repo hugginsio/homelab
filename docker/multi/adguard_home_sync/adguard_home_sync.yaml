@@ -14,7 +14,8 @@ services:
         max-size: "5m"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "/home/${USERNAME}/homelab-remote/nas-docker/adguard_home_sync/config.yaml:/config/config.yaml"
+      - "${PATH_PARENT}/homelab-git/nas-docker/adguard_home_sync/config.yaml:/config/config.yaml"
+      - "${PATH_PARENT}/homelab-git/docker/multi/adguard_home_sync/config.yaml:/config/config.yaml"
     environment:
       - "RUNONSTART=false"
       - "ORIGIN_URL=http://${ORIGIN_ADDRESS}"

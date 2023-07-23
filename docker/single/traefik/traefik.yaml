@@ -45,8 +45,8 @@ services:
       - "homepage.widget.url=https://traefik.${DOMAIN_NAME}"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "/home/${USERNAME}/homelab-remote/shared-docker/config/:/etc/traefik/"
-      - "/home/${USERNAME}/homelab-sync/certs/:/etc/certs/:ro"
+      - "${PATH_PARENT}/homelab-git/docker/single/traefix/config/:/etc/traefik/"
+      - "${PATH_PARENT}/homelab-data/certs/:/etc/certs/:ro"
     command:
       - "--log.level=DEBUG"
     environment:
@@ -56,6 +56,11 @@ services:
     image: "traefik/whoami:v1.8.7"
     container_name: "whoami"
     restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"

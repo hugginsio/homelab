@@ -13,7 +13,7 @@ services:
         max-size: "5m"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "/home/${USERNAME}/datastore/homelab/paperless_ngx/postgres:/var/lib/postgresql/data"
+      - "${PATH_PARENT}/homelab-data/paperless_ngx/postgres:/var/lib/postgresql/data"
     environment:
       - "POSTGRES_DB=paperless"
       - "POSTGRES_USER=paperless"
@@ -24,15 +24,25 @@ services:
     image: "redis:7"
     container_name: "paperless_broker"
     restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "/home/${USERNAME}/datastore/homelab/paperless_ngx/redis:/data"
+      - "${PATH_PARENT}/homelab-data/paperless_ngx/redis:/data"
     networks:
       - "paperless-internal"
   paperless_ui:
     image: "ghcr.io/paperless-ngx/paperless-ngx:1.10"
     container_name: "paperless_ui"
     restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
     depends_on:
       - "paperless_postgres"
       - "paperless_broker"
@@ -44,10 +54,10 @@ services:
       retries: 5
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "/home/${USERNAME}/datastore/homelab/paperless_ngx/data:/usr/src/paperless/data"
-      - "/home/${USERNAME}/datastore/homelab/paperless_ngx/media:/usr/src/paperless/media"
-      - "/home/${USERNAME}/datastore/homelab/paperless_ngx/export:/usr/src/paperless/export"
-      - "/home/${USERNAME}/datastore/homelab/paperless_ngx/consume:/usr/src/paperless/consume"
+      - "${PATH_PARENT}/homelab-data/paperless_ngx/data:/usr/src/paperless/data"
+      - "${PATH_PARENT}/homelab-data/paperless_ngx/media:/usr/src/paperless/media"
+      - "${PATH_PARENT}/homelab-data/paperless_ngx/export:/usr/src/paperless/export"
+      - "${PATH_PARENT}/homelab-data/paperless_ngx/consume:/usr/src/paperless/consume"
     environment:
       - "PAPERLESS_REDIS=redis://paperless_broker:6379"
       - "PAPERLESS_DBHOST=paperless_postgres"

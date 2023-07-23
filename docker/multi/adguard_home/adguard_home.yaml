@@ -21,8 +21,8 @@ services:
       - "127.0.0.1"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "/home/${USERNAME}/homelab-sync/adguard_home-${DOCKER_HOSTNAME}/config:/opt/adguardhome/conf"
-      - "/home/${USERNAME}/homelab-sync/adguard_home-${DOCKER_HOSTNAME}:/opt/adguardhome/work"
+      - "${PATH_PARENT}/homelab-data/adguard_home-${DOCKER_HOSTNAME}/config:/opt/adguardhome/conf"
+      - "${PATH_PARENT}/homelab-data/adguard_home-${DOCKER_HOSTNAME}:/opt/adguardhome/work"
     environment:
       - "TZ=America/Chicago"
     labels:

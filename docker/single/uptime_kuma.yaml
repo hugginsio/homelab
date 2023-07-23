@@ -15,7 +15,7 @@ services:
       - traefik-external
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "/home/${USERNAME}/homelab-sync/uptime_kuma:/app/data"
+      - "${PATH_PARENT}/homelab-data/uptime_kuma:/app/data"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"

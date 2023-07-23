@@ -15,7 +15,7 @@ services:
       - traefik-external
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "/home/${USERNAME}/homelab-sync/wireguard_easy/:/etc/wireguard"
+      - "${PATH_PARENT}/homelab-sync/wireguard_easy/:/etc/wireguard"
     cap_add:
       - "NET_ADMIN"
       - "SYS_MODULE"
@@ -44,6 +44,11 @@ services:
     image: "oznu/cloudflare-ddns:revert-61-patch-1-amd64"
     container_name: "cloudflare_ddns"
     restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
     environment:
