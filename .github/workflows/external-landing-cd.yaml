@@ -1,0 +1,20 @@
+name: "CD: external-landing"
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "external-landing/**"
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Lint
+        uses: actions/setup-node@v3
+        with:
+          node-version: "latest"
+      - run: "npm ci"
+      - run: "npm run build"
