@@ -1,0 +1,31 @@
+# Compose file for Homepage
+
+version: "3.9"
+services:
+  homepage:
+    image: "ghcr.io/benphelps/homepage:v0.5.1"
+    container_name: "homepage"
+    restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
+    networks:
+      - traefik-external
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${PATH_PARENT}/homelab-data/homepage/:/app/config"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.homepage.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+      - "traefik.http.routers.homepage.entrypoints=websecure"
+      - "traefik.http.routers.homepage.tls=true"
+    environment:
+      - "LOG_LEVEL=debug"
+networks:
+  traefik-external:
+    external: true

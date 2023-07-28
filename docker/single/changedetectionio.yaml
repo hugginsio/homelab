@@ -1,0 +1,35 @@
+# Compose file for Change Detection
+
+version: "3.9"
+services:
+  changedetectionio:
+    image: "dgtlmoon/changedetection.io:0.44"
+    container_name: "changedetectionio"
+    restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
+    networks:
+      - traefik-external
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${PATH_PARENT}/homelab-data/changedetectionio:/datastore"
+    environment:
+      - "BASE_URL=https://changedetection.${DOMAIN_NAME}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.changedetectionio.rule=Host(`changedetection.${DOMAIN_NAME}`)"
+      - "traefik.http.services.changedetectionio.loadbalancer.server.port=5000"
+      - "traefik.http.routers.changedetectionio.entrypoints=websecure"
+      - "traefik.http.routers.changedetectionio.tls=true"
+      - "homepage.group=Monitoring"
+      - "homepage.name=Change Detection"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/changedetection-io.png"
+      - "homepage.href=https://changedetection.${DOMAIN_NAME}"
+      - "homepage.description=Website change detection and notifications."
+networks:
+  traefik-external:
+    external: true

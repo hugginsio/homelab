@@ -1,0 +1,37 @@
+# Compose file for Portainer Business Edition
+
+version: "3.9"
+services:
+  portainer:
+    image: "portainer/portainer-ee:2.18.3"
+    container_name: "portainer"
+    restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
+    networks:
+      - traefik-external
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "${PATH_PARENT}/homelab-data/portainer-${DOCKER_HOSTNAME}:/data"
+      - "${PATH_PARENT}/homelab-data/certs:/etc/certs:ro"
+    ports:
+      - "8000:8000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${DOMAIN_NAME}`)"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.http.routers.portainer.entrypoints=websecure"
+      - "traefik.http.routers.portainer.tls=true"
+      - "homepage.group=Monitoring"
+      - "homepage.name=Portainer"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/portainer.png"
+      - "homepage.href=https://portainer.${DOMAIN_NAME}"
+      - "homepage.description=Container observability & management platform."
+networks:
+  traefik-external:
+    external: true

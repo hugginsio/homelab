@@ -1,0 +1,61 @@
+# Compose file for Wireguard Easy
+
+version: "3.9"
+services:
+  wireguard_easy:
+    image: "weejewel/wg-easy:7"
+    container_name: "wireguard_easy"
+    restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
+    networks:
+      - traefik-external
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${PATH_PARENT}/homelab-sync/wireguard_easy/:/etc/wireguard"
+    cap_add:
+      - "NET_ADMIN"
+      - "SYS_MODULE"
+    sysctls:
+      - "net.ipv4.ip_forward=1"
+      - "net.ipv4.conf.all.src_valid_mark=1"
+    environment:
+      - "WG_HOST=vpn.${DOMAIN_NAME}"
+      - "PASSWORD=${PASSWORD}"
+      - "WG_DEFAULT_DNS=11.0.0.1"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.wireguard_easy.rule=Host(`vpn.${DOMAIN_NAME}`)"
+      - "traefik.http.services.wireguard_easy.loadbalancer.server.port=51821"
+      - "traefik.http.routers.wireguard_easy.entrypoints=websecure"
+      - "traefik.http.routers.wireguard_easy.tls=true"
+      - "traefik.udp.routers.wireguard_easy.entrypoints=wireguard"
+      - "traefik.udp.services.wireguard_easy.loadbalancer.server.port=51820"
+      - "homepage.group=Applications"
+      - "homepage.name=Wireguard"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/wireguard.png"
+      - "homepage.href=https://vpn.${DOMAIN_NAME}"
+      - "homepage.description=Fast, modern, and secure VPN tunnel."
+  cloudflare_ddns:
+    image: "oznu/cloudflare-ddns:revert-61-patch-1-amd64"
+    container_name: "cloudflare_ddns"
+    restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+    environment:
+      - "API_KEY=${CF_API_KEY}"
+      - "ZONE=${DOMAIN_NAME}"
+      - "SUBDOMAIN=vpn"
+      - "PROXIED=false"
+networks:
+  traefik-external:
+    external: true
