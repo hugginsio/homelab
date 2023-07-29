@@ -4,11 +4,8 @@ Compose files (and associated configuration) for Docker Standalone deployments.
 
 ## Structure
 
-```text
-.
-├── multi     # Containers ran on multiple nodes (e.g. Adguard Home)
-└── single    # Containers ran on a single node (e.g. Paperless NGX)
-```
+- `multi` (Containers ran on multiple nodes, e.g. Adguard Home)
+- `single` (Containers ran on a single node, e.g. Paperless NGX)
 
 ## Environment
 
