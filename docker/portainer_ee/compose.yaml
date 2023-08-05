@@ -3,7 +3,7 @@
 name: "portainer"
 services:
   portainer:
-    image: "portainer/portainer-ee:2.18.3"
+    image: "portainer/portainer-ee:2.18.4"
     container_name: "portainer"
     restart: unless-stopped
     logging:
