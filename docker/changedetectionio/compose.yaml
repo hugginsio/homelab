@@ -1,11 +1,11 @@
 # Compose file for Change Detection
 
-name: changedetectionio
+name: "changedetectionio"
 services:
   changedetectionio:
     image: "dgtlmoon/changedetection.io:0.44"
     container_name: "changedetectionio"
-    restart: unless-stopped
+    restart: "unless-stopped"
     logging:
       driver: "local"
       options:
@@ -30,6 +30,9 @@ services:
       - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/changedetection-io.png"
       - "homepage.href=https://changedetection.${DOMAIN_NAME}"
       - "homepage.description=Website change detection and notifications."
+      - "homepage.widget.type=changedetectionio"
+      - "homepage.widget.url=https://changedetection.${DOMAIN_NAME}"
+      - "homepage.widget.key=${CDIO_API_KEY}"
 networks:
   traefik-external:
     external: true
