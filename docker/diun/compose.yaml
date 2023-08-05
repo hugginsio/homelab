@@ -1,11 +1,11 @@
 # Compose file for Docker Image Update Notifier
 
-version: "3.9"
+name: "diun"
 services:
   diun:
     image: "ghcr.io/crazy-max/diun:4.23.1"
     container_name: "diun"
-    restart: unless-stopped
+    restart: "unless-stopped"
     logging:
       driver: "local"
       options:

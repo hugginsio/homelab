@@ -1,18 +1,18 @@
 # Compose file for Homepage
 
-version: "3.9"
+name: "homepage"
 services:
   homepage:
     image: "ghcr.io/benphelps/homepage:v0.5.1"
     container_name: "homepage"
-    restart: unless-stopped
+    restart: "unless-stopped"
     logging:
       driver: "local"
       options:
         max-file: "3"
         max-size: "5m"
     networks:
-      - traefik-external
+      - "traefik-external"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/etc/localtime:/etc/localtime:ro"

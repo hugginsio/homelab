@@ -1,6 +1,6 @@
 # Compose file for Autoheal
 
-version: "3.9"
+name: "autoheal"
 services:
   autoheal:
     image: "willfarrell/autoheal:1.2.0"

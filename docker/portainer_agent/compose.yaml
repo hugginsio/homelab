@@ -1,11 +1,11 @@
 # Compose file for the Portainer Agent
 
-version: "3.9"
+name: "portainer_agent"
 services:
   portainer_agent:
     image: "portainer/agent:2.16.2"
     container_name: "portainer_agent"
-    restart: unless-stopped
+    restart: "unless-stopped"
     logging:
       driver: "local"
       options:

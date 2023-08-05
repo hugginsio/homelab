@@ -1,11 +1,11 @@
 # Compose file for Docker Socket Proxy
 
-version: "3.9"
+name: "docker_proxy"
 services:
   docker_proxy:
     image: "tecnativa/docker-socket-proxy:0.1"
     container_name: "docker_proxy"
-    restart: unless-stopped
+    restart: "unless-stopped"
     logging:
       driver: "local"
       options:

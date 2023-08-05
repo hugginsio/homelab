@@ -1,12 +1,14 @@
-# Adguard Home
+# [AdGuard Home](https://github.com/AdguardTeam/AdguardHome)
 
-## Check port 53
+A DNS server for blocking ads & trackers.
+
+## Troubleshooting
+
+### Check port 53
 
 ```shell
 sudo lsof -i :53
 ```
-
-## Setup
 
 Create an override for systemd's `resolved.conf`:
 

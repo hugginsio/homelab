@@ -1,6 +1,6 @@
 # Compose file for Portainer Business Edition
 
-version: "3.9"
+name: "portainer"
 services:
   portainer:
     image: "portainer/portainer-ee:2.18.3"

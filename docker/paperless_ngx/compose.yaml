@@ -1,11 +1,11 @@
 # Compose file for Paperless-ngx and supporting services
 
-version: "3.9"
+name: "paperless_ngx"
 services:
   paperless_postgres:
     image: "postgres:13"
     container_name: "paperless_postgres"
-    restart: unless-stopped
+    restart: "unless-stopped"
     logging:
       driver: "local"
       options:
@@ -23,7 +23,7 @@ services:
   paperless_broker:
     image: "redis:7"
     container_name: "paperless_broker"
-    restart: unless-stopped
+    restart: "unless-stopped"
     logging:
       driver: "local"
       options:
@@ -37,7 +37,7 @@ services:
   paperless_ui:
     image: "ghcr.io/paperless-ngx/paperless-ngx:1.10"
     container_name: "paperless_ui"
-    restart: unless-stopped
+    restart: "unless-stopped"
     logging:
       driver: "local"
       options:
@@ -49,8 +49,8 @@ services:
     healthcheck:
       test:
         ["CMD", "curl", "-fs", "-S", "--max-time", "2", "http://localhost:8000"]
-      interval: 30s
-      timeout: 10s
+      interval: "30s"
+      timeout: "10s"
       retries: 5
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
@@ -88,4 +88,4 @@ networks:
   traefik-external:
     external: true
   paperless-internal:
-    driver: bridge
+    driver: "bridge"

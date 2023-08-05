@@ -1,6 +1,6 @@
 # Compose file for Change Detection
 
-version: "3.9"
+name: changedetectionio
 services:
   changedetectionio:
     image: "dgtlmoon/changedetection.io:0.44"
