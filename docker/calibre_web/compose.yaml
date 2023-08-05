@@ -1,6 +1,6 @@
-# Compose file for Calibre Web Books Server
+# Compose file for Calibre Web
 
-version: "3.9"
+name: "calibre_web"
 services:
   calibre_web:
     image: "lscr.io/linuxserver/calibre-web:0.6.19"

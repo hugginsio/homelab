@@ -1,18 +1,18 @@
 # Compose file for Wireguard Easy
 
-version: "3.9"
+name: "wireguard_easy"
 services:
   wireguard_easy:
     image: "weejewel/wg-easy:7"
     container_name: "wireguard_easy"
-    restart: unless-stopped
+    restart: "unless-stopped"
     logging:
       driver: "local"
       options:
         max-file: "3"
         max-size: "5m"
     networks:
-      - traefik-external
+      - "traefik-external"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "${PATH_PARENT}/homelab-sync/wireguard_easy/:/etc/wireguard"
@@ -43,7 +43,7 @@ services:
   cloudflare_ddns:
     image: "oznu/cloudflare-ddns:revert-61-patch-1-amd64"
     container_name: "cloudflare_ddns"
-    restart: unless-stopped
+    restart: "unless-stopped"
     logging:
       driver: "local"
       options:

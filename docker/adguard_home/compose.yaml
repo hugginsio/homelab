@@ -1,6 +1,6 @@
-# Compose file for Adguard Home
+# Compose file for AdGuard Home
 
-version: "3.9"
+name: adguard_home
 services:
   adguard_home:
     image: "adguard/adguardhome:v0.107.29"
@@ -27,10 +27,10 @@ services:
       - "TZ=America/Chicago"
     labels:
       - "homepage.group=Networking"
-      - "homepage.name=Adguard Home (${DOCKER_HOSTNAME})"
+      - "homepage.name=AdGuard Home (${DOCKER_HOSTNAME})"
       - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/adguard-home.png"
       - "homepage.href=http://${IP_ADDRESS}:83"
-      - "homepage.description=Network-wide software for blocking ads & tracking."
+      - "homepage.description=A DNS server for blocking ads & trackers."
       - "homepage.widget.type=adguard"
       - "homepage.widget.url=http://${IP_ADDRESS}:83"
       - "homepage.widget.username=admin"

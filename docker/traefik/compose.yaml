@@ -1,11 +1,11 @@
 # Compose file for Traefik and Whoami
 
-version: "3.9"
+name: "traefik"
 services:
   traefik:
     image: "traefik:v2.9.4"
     container_name: "traefik"
-    restart: unless-stopped
+    restart: "unless-stopped"
     logging:
       driver: "local"
       options:
@@ -13,12 +13,12 @@ services:
         max-size: "5m"
     healthcheck:
       test: ["CMD", "traefik", "healthcheck", "--ping"]
-      interval: 10s
-      timeout: 5s
+      interval: "10s"
+      timeout: "5s"
       retries: 3
-      start_period: 15s
+      start_period: "15s"
     networks:
-      - traefik-external
+      - "traefik-external"
     ports:
       - "80:80"
       - "443:443"
@@ -45,7 +45,7 @@ services:
       - "homepage.widget.url=https://traefik.${DOMAIN_NAME}"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "${PATH_PARENT}/homelab-git/docker/single/traefix/config/:/etc/traefik/"
+      - "${PATH_PARENT}/homelab-git/docker/traefik/config/:/etc/traefik/"
       - "${PATH_PARENT}/homelab-data/certs/:/etc/certs/:ro"
     command:
       - "--log.level=DEBUG"
@@ -55,7 +55,7 @@ services:
   whoami:
     image: "traefik/whoami:v1.8.7"
     container_name: "whoami"
-    restart: unless-stopped
+    restart: "unless-stopped"
     logging:
       driver: "local"
       options:
@@ -68,7 +68,7 @@ services:
       - "traefik.http.routers.whoami.entrypoints=websecure"
       - "traefik.http.routers.whoami.tls=true"
     networks:
-      - traefik-external
+      - "traefik-external"
 networks:
   traefik-external:
     external: true

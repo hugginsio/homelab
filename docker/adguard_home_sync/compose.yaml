@@ -1,6 +1,6 @@
-# Compose file for Adguard Home Sync
+# Compose file for AdGuard Home Sync
 
-version: "3.9"
+name: "adguard_home_sync"
 services:
   adguard_home_sync:
     image: "ghcr.io/bakito/adguardhome-sync:v0.4.14"
@@ -14,8 +14,7 @@ services:
         max-size: "5m"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "${PATH_PARENT}/homelab-git/nas-docker/adguard_home_sync/config.yaml:/config/config.yaml"
-      - "${PATH_PARENT}/homelab-git/docker/multi/adguard_home_sync/config.yaml:/config/config.yaml"
+      - "${PATH_PARENT}/homelab-git/docker/adguard_home_sync/config.yaml:/config/config.yaml"
     environment:
       - "RUNONSTART=false"
       - "ORIGIN_URL=http://${ORIGIN_ADDRESS}"

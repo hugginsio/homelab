@@ -2,11 +2,6 @@
 
 Compose files (and associated configuration) for Docker Standalone deployments.
 
-## Structure
-
-- `multi` (Containers ran on multiple nodes, e.g. Adguard Home)
-- `single` (Containers ran on a single node, e.g. Paperless NGX)
-
 ## Environment
 
 These containers are deployed on one of two 11th gen Intel mini-PCs: one with Ubuntu Server and one with multiple Debian LXCs on Proxmox. Currently, the majority of these workloads run on the primary Ubuntu Server node for easier access and management.
