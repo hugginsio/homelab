@@ -32,6 +32,10 @@ services:
       - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/portainer.png"
       - "homepage.href=https://portainer.${DOMAIN_NAME}"
       - "homepage.description=Container observability & management platform."
+      - "homepage.widget.type=portainer"
+      - "homepage.widget.url=https://portainer.${DOMAIN_NAME}"
+      - "homepage.widget.env=${PORTAINER_ENV}"
+      - "homepage.widget.key=${PORTAINER_KEY}"
 networks:
   traefik-external:
     external: true
