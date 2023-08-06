@@ -15,7 +15,7 @@ services:
       - "traefik-external"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "${PATH_PARENT}/homelab-sync/wireguard_easy/:/etc/wireguard"
+      - "${PATH_PARENT}/homelab-data/wireguard_easy/:/etc/wireguard"
     cap_add:
       - "NET_ADMIN"
       - "SYS_MODULE"
