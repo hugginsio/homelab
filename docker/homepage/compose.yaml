@@ -3,7 +3,7 @@
 name: "homepage"
 services:
   homepage:
-    image: "ghcr.io/benphelps/homepage:v0.5.1"
+    image: "ghcr.io/benphelps/homepage:v0.6.27"
     container_name: "homepage"
     restart: "unless-stopped"
     logging:
