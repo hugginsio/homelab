@@ -15,9 +15,7 @@ services:
         max-size: "5m"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "${PATH_PARENT}/homelab-data/mssql_server/data:/var/opt/mssql/data"
-      - "${PATH_PARENT}/homelab-data/mssql_server/log:/var/opt/mssql/log"
-      - "${PATH_PARENT}/homelab-data/mssql_server/secrets:/var/opt/mssql/secrets"
+      - "mssql_server:/var/opt/mssql"
     environment:
       - "ACCEPT_EULA=Y"
       - "MSSQL_SA_PASSWORD=${PASSWORD}"
