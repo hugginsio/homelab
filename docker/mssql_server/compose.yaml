@@ -1,0 +1,22 @@
+# Compose file for Microsoft SQL Server
+
+name: mssql_server
+services:
+  mssql_server:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: "mssql_server"
+    restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
+    volumes:
+      - "${PATH_PARENT}/homelab-data/mssql_server/data:/var/opt/mssql/data"
+      - "${PATH_PARENT}/homelab-data/mssql_server/log:/var/opt/mssql/log"
+      - "${PATH_PARENT}/homelab-data/mssql_server/secrets:/var/opt/mssql/secrets"
+    ports:
+      - "1433:1433"
+    environment:
+      - "ACCEPT_EULA=Y"
+      - "MSSQL_SA_PASSWORD=${PASSWORD}"
