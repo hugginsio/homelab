@@ -1,0 +1,33 @@
+# Compose file for DbGate
+
+name: "dbgate"
+services:
+  dbgate:
+    image: "dbgate/dbgate:5.2.7"
+    container_name: "dbgate"
+    restart: "unless-stopped"
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
+    networks:
+      - "traefik-external"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${PATH_PARENT}/homelab-data/dbgate/:/root/dbgate-data"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.dbgate.rule=Host(`dbgate.${DOMAIN_NAME}`)"
+      - "traefik.http.services.dbgate.loadbalancer.server.port=3000"
+      - "traefik.http.routers.dbgate.entrypoints=websecure"
+      - "traefik.http.routers.dbgate.tls=true"
+      - "homepage.group=Applications"
+      - "homepage.name=DbGate"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/sqlitebrowser.png"
+      - "homepage.href=https://dbgate.${DOMAIN_NAME}"
+      - "homepage.description=Database management tool suite."
+networks:
+  traefik-external:
+    external: true
