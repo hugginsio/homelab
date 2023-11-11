@@ -6,26 +6,18 @@ services:
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     container_name: "mssql_server"
     restart: unless-stopped
-    networks:
-      - "traefik-external"
     logging:
       driver: "local"
       options:
         max-file: "3"
         max-size: "5m"
+    ports:
+      - "1433:1433"
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
       - "mssql_server:/var/opt/mssql"
     environment:
       - "ACCEPT_EULA=Y"
       - "MSSQL_SA_PASSWORD=${PASSWORD}"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=traefik-external"
-      - "traefik.tcp.routers.mssql_server.entrypoints=mssql"
-      - "traefik.tcp.services.mssql_server.loadbalancer.server.port=1433"
 volumes:
   mssql_server:
-networks:
-  traefik-external:
-    external: true
