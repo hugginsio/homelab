@@ -22,10 +22,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
-      - "traefik.http.routers.mssql_server.rule=Host(`mssql.${DOMAIN_NAME}`)"
-      - "traefik.http.services.mssql_server.loadbalancer.server.port=1443"
-      - "traefik.http.routers.mssql_server.entrypoints=websecure"
-      - "traefik.http.routers.mssql_server.tls=true"
       - "traefik.tcp.routers.mssql_server.entrypoints=mssql"
       - "traefik.tcp.services.mssql_server.loadbalancer.server.port=1433"
 volumes:
