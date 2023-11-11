@@ -26,6 +26,8 @@ services:
       - "traefik.http.services.mssql.loadbalancer.server.port=1433"
       - "traefik.http.routers.mssql.entrypoints=mssql"
       - "traefik.http.routers.mssql.tls=true"
+volumes:
+  mssql_server:
 networks:
   traefik-external:
     external: true
