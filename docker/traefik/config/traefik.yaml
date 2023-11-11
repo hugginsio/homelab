@@ -30,6 +30,8 @@ entryPoints:
     address: :443
   wireguard:
     address: :51820/udp
+  mssql:
+    address: :1433
 
 serversTransport:
   insecureSkipVerify: true
