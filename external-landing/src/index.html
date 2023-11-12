@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" class="bg-stone-100 dark:bg-stone-900 box-border">
+  <head>
+    <title>Huggins Cloud</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link href="tailwind.css" rel="stylesheet" />
+  </head>
+  <body class="min-h-full flex flex-col box-border">
+    <main class="p-6 flex-grow">
+      <section
+        class="prose prose-stone prose-a:no-underline prose-a:font-normal prose-a:text-sky-700 hover:prose-a:text-sky-900 dark:prose-invert dark:prose-a:text-sky-300 dark:hover:prose-a:text-sky-100"
+      >
+        <h2>Trying to access the Huggins Cloud?</h2>
+        <p>Let's get you conencted. If you don't have WireGuard set up already, let's take care of that first.</p>
+        <ol>
+          <li>
+            <a
+              class="transition-all after:transition-all after:content-['\2192'] after:ml-1 hover:after:ml-2"
+              href="https://www.wireguard.com/install/"
+            >
+              Download and install WireGuard for your device
+            </a>
+          </li>
+          <li>Open the application and import the provided VPN profile</li>
+          <li>Accept any prompts to install VPN configurations that may appear</li>
+          <li>Enable the VPN connection</li>
+        </ol>
+        <p>
+          You should now be connected! You should see the application dashboard next time you visit this page. If you
+          still see these instructions after refreshing the page, please try again or ask for help.
+        </p>
+      </section>
+    </main>
+    <footer class="px-6 pb-6 flex-grow-0 flex-shrink-0">
+      <p class="prose prose-sm prose-stone dark:prose-invert">
+        WireGuard is a registered trademark of Jason A. Donenfeld.
+      </p>
+    </footer>
+  </body>
+</html>
