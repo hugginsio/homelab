@@ -1,0 +1,8 @@
+---
+- resources:
+    cpu: true
+    cputemp: true
+    memory: true
+    disk: /
+    uptime: true
+    expanded: true

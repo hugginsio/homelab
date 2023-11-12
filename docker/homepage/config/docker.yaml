@@ -1,0 +1,6 @@
+---
+primary-docker:
+  socket: /var/run/docker.sock
+secondary-docker:
+  host: 11.0.0.100
+  port: 2375

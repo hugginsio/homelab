@@ -16,7 +16,7 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "/etc/localtime:/etc/localtime:ro"
-      - "${PATH_PARENT}/homelab-data/homepage/:/app/config"
+      - "${PATH_PARENT}/homelab-git/docker/homepage/config/:/app/config"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
