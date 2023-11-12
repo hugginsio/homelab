@@ -3,6 +3,7 @@
     "build": "tailwindcss -i ./src/base.css -o ./src/tailwind.css",
     "clean": "node ./scripts/clean.js",
     "deploy": "wrangler pages deploy ./dist/ --project-name=external-landing",
+    "lint": "prettier ./src/ --write --print-width=120",
     "prebuild": "npm run clean",
     "predeploy": "npm run build && node ./scripts/predeploy.js",
     "start": "npm run build -- --watch"
