@@ -3,9 +3,11 @@
     "build": "tailwindcss -i ./src/base.css -o ./src/tailwind.css",
     "clean": "node ./scripts/clean.js",
     "deploy": "wrangler pages deploy ./dist/ --project-name=external-landing",
-    "lint": "prettier ./src/ --write --print-width=120",
+    "lint": "npm run prettier -- --check",
+    "lint:write": "npm run prettier -- --write",
     "prebuild": "npm run clean",
     "predeploy": "npm run build && node ./scripts/predeploy.js",
+    "prettier": "prettier ./src/ --print-width=120",
     "start": "npm run build -- --watch"
   },
   "devDependencies": {
