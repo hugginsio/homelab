@@ -1,0 +1,19 @@
+meta {
+  name: Get Endpoints
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://{{baseUrl}}/api/endpoints
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+auth:bearer {
+  token: {{pat}}
+}
