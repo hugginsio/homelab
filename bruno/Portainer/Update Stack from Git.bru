@@ -1,0 +1,41 @@
+meta {
+  name: Update Stack from Git
+  type: http
+  seq: 4
+}
+
+put {
+  url: https://{{baseUrl}}/api/stacks/74/git/redeploy?endpointId=2
+  body: json
+  auth: none
+}
+
+query {
+  endpointId: 2
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+auth:bearer {
+  token: {{pat}}
+}
+
+body:json {
+  {
+    "env": [
+      {
+        "name": "DOMAIN_NAME",
+        "value": "huggins.cloud"
+      },
+      {
+        "name": "PATH_PARENT",
+        "value": "/home/host"
+      }
+    ],
+    "prune": false,
+    "pullImage": false,
+    "repositoryAuthentication": false
+  }
+}

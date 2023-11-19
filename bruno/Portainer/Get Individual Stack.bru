@@ -1,0 +1,19 @@
+meta {
+  name: Get Individual Stack
+  type: http
+  seq: 3
+}
+
+get {
+  url: https://{{baseUrl}}/api/stacks/74
+  body: none
+  auth: none
+}
+
+headers {
+  X-API-Key: {{apiKey}}
+}
+
+auth:bearer {
+  token: {{pat}}
+}
