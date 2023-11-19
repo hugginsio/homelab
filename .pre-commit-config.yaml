@@ -15,4 +15,9 @@ repos:
       - id: check-merge-conflict
       - id: check-yaml
       - id: end-of-file-fixer
+      - id: pretty-format-json
+        args:
+          - "--autofix"
+          - "--no-ensure-ascii"
+          - "--no-sort-keys"
       - id: trailing-whitespace
