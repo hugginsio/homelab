@@ -1,0 +1,37 @@
+# Compose file for Handbrake
+
+name: handbrake
+services:
+  handbrake:
+    image: "jlesage/handbrake:v23.12.2"
+    container_name: "handbrake"
+    restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
+    networks:
+      - "traefik-external"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${PATH_PARENT}/homelab-data/handbrake/config:/config"
+      - "/media/media/Pending/makemkv:/storage:ro"
+      - "/media/media/Pending/handbrake:/output"
+    environment:
+      - "AUTOMATED_CONVERSION=0"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.handbrake.rule=Host(`handbrake.${DOMAIN_NAME}`)"
+      - "traefik.http.services.handbrake.loadbalancer.server.port=5800"
+      - "traefik.http.routers.handbrake.entrypoints=websecure"
+      - "traefik.http.routers.handbrake.tls=true"
+      - "homepage.group=Applications"
+      - "homepage.name=Handbrake"
+      - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/handbrake.png"
+      - "homepage.href=https://handbrake.${DOMAIN_NAME}"
+      - "homepage.description=Convert and transcode video from nearly any format."
+networks:
+  traefik-external:
+    external: true
