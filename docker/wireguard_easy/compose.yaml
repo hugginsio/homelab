@@ -3,7 +3,7 @@
 name: "wireguard_easy"
 services:
   wireguard_easy:
-    image: "weejewel/wg-easy:10"
+    image: "ghcr.io/wg-easy/wg-easy:10"
     container_name: "wireguard_easy"
     restart: "unless-stopped"
     logging:
