@@ -3,7 +3,7 @@
 name: "changedetectionio"
 services:
   changedetectionio:
-    image: "dgtlmoon/changedetection.io:0.44"
+    image: "dgtlmoon/changedetection.io:0.45.13"
     container_name: "changedetectionio"
     restart: "unless-stopped"
     logging:
