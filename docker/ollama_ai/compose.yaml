@@ -1,0 +1,47 @@
+# Compose file for Ollama
+
+name: "ollama_ai"
+services:
+  ollama_ai:
+    image: "ollama/ollama:0.1.23"
+    container_name: "ollama_ai"
+    restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
+    ports:
+      - "11434:11434"
+    volumes:
+      - "${PATH_PARENT}/datastore/ollama_ai:/root/.ollama"
+  ollama_webui:
+    image: "ghcr.io/ollama-webui/ollama-webui:main"
+    container_name: "ollama_webui"
+    restart: unless-stopped
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
+    networks:
+      - traefik-external
+    volumes:
+      - "${PATH_PARENT}/datastore/ollama_webui:/app/backend/data"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.ollama_webui.rule=Host(`ai.${DOMAIN_NAME}`)"
+      - "traefik.http.services.ollama_webui.loadbalancer.server.port=8080"
+      - "traefik.http.routers.ollama_webui.entrypoints=websecure"
+      - "traefik.http.routers.ollama_webui.tls=true"
+      - "homepage.group=Applications"
+      - "homepage.name=Ollama"
+      - "homepage.icon=https://avatars.githubusercontent.com/u/151674099"
+      - "homepage.href=https://ai.${DOMAIN_NAME}"
+      - "homepage.description=Self hosted large language models."
+    environment:
+      - "OLLAMA_API_BASE_URL=http://${IP_ADDRESS}:11434/api"
+networks:
+  traefik-external:
+    external: true
