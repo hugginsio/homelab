@@ -3,7 +3,7 @@
 name: "calibre_web"
 services:
   calibre_web:
-    image: "lscr.io/linuxserver/calibre-web:0.6.19"
+    image: "lscr.io/linuxserver/calibre-web:0.6.21"
     container_name: "calibre_web"
     restart: unless-stopped
     logging:
