@@ -1,0 +1,31 @@
+# Compose file for Distribution
+
+name: "distribution"
+services:
+  distribution:
+    image: "registry"
+    container_name: "distribution"
+    restart: "unless-stopped"
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
+    networks:
+      - "traefik-external"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${PATH_PARENT}/homelab-data/distribution/:/var/lib/registry/"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.distribution.rule=Host(`registry.${DOMAIN_NAME}`)"
+      - "traefik.http.services.distribution.loadbalancer.server.port=5000"
+      - "traefik.http.routers.distribution.entrypoints=websecure"
+      - "traefik.http.routers.distribution.tls=true"
+    environment:
+      - "REGISTRY_HTTP_RELATIVEURLS=true"
+networks:
+  traefik-external:
+    external: true
