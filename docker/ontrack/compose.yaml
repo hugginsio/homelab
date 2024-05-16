@@ -1,0 +1,53 @@
+# Compose file for OnTrack
+
+name: "ontrack"
+services:
+  ontrack:
+    image: "registry.${DOMAIN_NAME}/ontrack:latest"
+    container_name: "ontrack"
+    restart: "unless-stopped"
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
+    networks:
+      - "traefik-external"
+      - "ontrack-internal"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-external"
+      - "traefik.http.routers.ontrack.rule=Host(`budget.${DOMAIN_NAME}`)"
+      - "traefik.http.services.ontrack.loadbalancer.server.port=3000"
+      - "traefik.http.routers.ontrack.entrypoints=websecure"
+      - "traefik.http.routers.ontrack.tls=true"
+    environment:
+      - "NODE_ENV=production"
+      - "RAILS_ENV=production"
+      - "SECRET_KEY_BASE=${SECRET_KEY}"
+      - "DATABASE_URL=postgres://ontrack:${PASSWORD}@database/ontrack"
+  database:
+    image: "postgres"
+    container_name: "ontrack-db"
+    restart: "unless-stopped"
+    logging:
+      driver: "local"
+      options:
+        max-file: "3"
+        max-size: "5m"
+    networks:
+      - "ontrack-internal"
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "${PATH_PARENT}/homelab-data/ontrack/:/var/lib/postgresql/data/"
+    environment:
+      - "POSTGRES_DB=ontrack"
+      - "POSTGRES_USER=ontrack"
+      - "POSTGRES_PASSWORD=${PASSWORD}"
+networks:
+  traefik-external:
+    external: true
+  ontrack-internal:
+    external: false
