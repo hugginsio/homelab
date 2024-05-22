@@ -3,7 +3,7 @@
 name: "ollama_ai"
 services:
   ollama_ai:
-    image: "ollama/ollama:0.1.23"
+    image: "ollama/ollama:0.1.38"
     container_name: "ollama_ai"
     restart: unless-stopped
     logging:
@@ -15,8 +15,10 @@ services:
       - "11434:11434"
     volumes:
       - "${PATH_PARENT}/datastore/ollama_ai:/root/.ollama"
+    devices:
+      - "/dev/dri:/dev/dri"
   ollama_webui:
-    image: "ghcr.io/ollama-webui/ollama-webui:main"
+    image: "ghcr.io/open-webui/open-webui:main"
     container_name: "ollama_webui"
     restart: unless-stopped
     logging:
@@ -27,7 +29,7 @@ services:
     networks:
       - traefik-external
     volumes:
-      - "${PATH_PARENT}/datastore/ollama_webui:/app/backend/data"
+      - "${PATH_PARENT}/datastore/open-webui:/app/backend/data"
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
