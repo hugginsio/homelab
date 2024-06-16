@@ -1,0 +1,9 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: traefik-charts
+  namespace: helm-system
+spec:
+  interval: 1h
+  url: https://traefik.github.io/charts
