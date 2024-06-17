@@ -1,9 +1,0 @@
----
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: portainer-charts
-  namespace: helm-system
-spec:
-  interval: 1h
-  url: https://portainer.github.io/k8s/
