@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: crds
+  name: infra
   namespace: flux-system
 spec:
   dependsOn:
@@ -11,5 +11,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./kubernetes/crds
+  path: ./kubernetes/infra
   prune: true
