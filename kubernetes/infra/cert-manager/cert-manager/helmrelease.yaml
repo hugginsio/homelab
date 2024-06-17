@@ -5,7 +5,7 @@ metadata:
   name: cert-manager
   namespace: cert-manager
 spec:
-  interval: 5m
+  interval: 1m
   chart:
     spec:
       chart: cert-manager
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: jetstack-charts
         namespace: helm-system
-      interval: 5m
+      interval: 1m
   install:
     createNamespace: true
     remediation:
