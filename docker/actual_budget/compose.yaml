@@ -14,14 +14,14 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-external"
-      - "traefik.http.routers.actual_budget.rule=Host(`budget.${DOMAIN_NAME}`)"
+      - "traefik.http.routers.actual_budget.rule=Host(`actual.${DOMAIN_NAME}`)"
       - "traefik.http.services.actual_budget.loadbalancer.server.port=5006"
       - "traefik.http.routers.actual_budget.entrypoints=websecure"
       - "traefik.http.routers.actual_budget.tls=true"
       - "homepage.group=Applications"
       - "homepage.name=Actual Budget"
       - "homepage.icon=https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/actual.png"
-      - "homepage.href=https://budget.${DOMAIN_NAME}"
+      - "homepage.href=https://actual.${DOMAIN_NAME}"
       - "homepage.description=A local-first personal finance app."
 networks:
   traefik-external:
