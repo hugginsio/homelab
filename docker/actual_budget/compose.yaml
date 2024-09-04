@@ -3,7 +3,7 @@
 name: "actual_budget"
 services:
   actual_budget:
-    image: "docker.io/actualbudget/actual-server:latest"
+    image: "docker.io/actualbudget/actual-server:24.9.0"
     container_name: "actual_budget"
     restart: "unless-stopped"
     networks:
