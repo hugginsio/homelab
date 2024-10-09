@@ -1,0 +1,18 @@
+---
+creation_rules:
+  - path_regex: talos/talsecret(\.sops)?\.ya?ml
+    input_type: yaml
+    encrypted_regex: ^(cluster|secrets|trustdinfo|certs)$
+    mac_only_encrypted: true
+    key_groups:
+      - age:
+          - age1avqzr4clyk00gzdrphyn560dtuh7t8r8a2qcmwx6trhgxf4qcyfs8n9al3
+  - path_regex: kubernetes/.+\.secret(\.sops)?\.ya?ml
+    input_type: yaml
+    encrypted_regex: ^(data|stringData)$
+    mac_only_encrypted: true
+    key_groups:
+      - age:
+          - age1avqzr4clyk00gzdrphyn560dtuh7t8r8a2qcmwx6trhgxf4qcyfs8n9al3
+  - age: >-
+      age1avqzr4clyk00gzdrphyn560dtuh7t8r8a2qcmwx6trhgxf4qcyfs8n9al3
