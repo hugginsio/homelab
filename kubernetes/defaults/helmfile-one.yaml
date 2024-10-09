@@ -17,11 +17,8 @@ repositories:
     url: "https://postfinance.github.io/kubelet-csr-approver"
   - name: metrics-server
     url: "https://kubernetes-sigs.github.io/metrics-server/"
-  - name: jetstack
-    url: "https://charts.jetstack.io"
 
 releases:
-  # TODO: prometheus
   - name: prometheus-operator-crds
     namespace: monitoring
     chart: "prometheus-community/prometheus-operator-crds"

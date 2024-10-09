@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/defaults/cert-manager/cert-manager/app
+  path: ./kubernetes/hyperlab/namespaces/cert-manager/cert-manager/app
   prune: true
   wait: true
   sourceRef:
