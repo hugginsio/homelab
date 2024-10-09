@@ -4,5 +4,4 @@ resources:
   - "./namespace.yaml"
   ###
   - "./external-secrets/ks.yaml"
-  - "./external-secrets/extras/clustersecretstore.yaml"
   - "./bitwardensecrets.yaml"
