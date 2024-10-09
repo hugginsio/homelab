@@ -37,3 +37,6 @@ Temporary Items
 # End of https://www.toptal.com/developers/gitignore/api/macos
 
 **/*.log
+**/.env
+talos/**/clusterconfig/
+talos/**/talenv.yaml
