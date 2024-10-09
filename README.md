@@ -9,7 +9,7 @@ All my homelab related configuration and notes in one place.
 
 ## 🎯 Goals
 
-- Use a cluster instead of multiple machines with distinct roles to increase resiliency.
+- Use clusters instead of multiple machines with distinct roles to increase resiliency.
 - Use automation where possible to reduce setup and maintenance toil.
 - Explore parts of infrastructure management that are taken care of by other teams at work.
 
