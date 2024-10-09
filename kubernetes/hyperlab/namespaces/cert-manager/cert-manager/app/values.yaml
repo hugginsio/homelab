@@ -1,0 +1,6 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/cert-manager/cert-manager/refs/heads/master/deploy/charts/cert-manager/values.schema.json
+clusterResourceNamespace: "cert-manager"
+crds:
+  enabled: true
+  keep: true

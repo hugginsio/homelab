@@ -1,0 +1,19 @@
+---
+# https://helmfile.readthedocs.io/en/stable/
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile.json
+
+helmDefaults:
+  wait: true
+  waitForJobs: true
+  timeout: 300
+  force: true
+
+repositories:
+  - name: external-secrets-charts
+    url: "https://charts.external-secrets.io"
+
+releases:
+  - name: external-secrets
+    namespace: external-secrets
+    chart: "external-secrets-charts/external-secrets"
+    version: 0.10.4
