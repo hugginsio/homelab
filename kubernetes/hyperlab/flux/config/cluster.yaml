@@ -19,6 +19,26 @@ spec:
     /kubernetes/**/*.md
     /kubernetes/**/helmfil*.yaml
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/gitrepository-source-v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: homelab
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  url: "https://github.com/hugginsio/homelab-private.git"
+  ref:
+    branch: main
+  secretRef:
+    name: github-key
+  ignore: |-
+    /*
+    !/kubernetes/defaults
+    !/kubernetes/hyperlab
+    /kubernetes/**/*.md
+    /kubernetes/**/helmfil*.yaml
+---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
