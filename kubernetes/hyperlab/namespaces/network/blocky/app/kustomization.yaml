@@ -6,6 +6,7 @@ resources:
   - "./helmrelease.yaml"
 configMapGenerator:
   - name: blocky
+    namespace: network
     files:
       - "./config.yaml"
 configurations:
