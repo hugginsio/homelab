@@ -15,8 +15,8 @@ metadata:
   namespace: network-system
 spec:
   addresses:
-    - "10.0.0.40/32"
-    - "10.0.0.50/32"
+    - "10.0.1.40/32"
+    - "10.0.1.50/32"
   serviceAllocation:
     priority: 1
     namespaces:
