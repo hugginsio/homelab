@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - "./namespace.yaml"
   #
-  - "https://github.com/rancher/local-path-provisioner/deploy?ref=master"
+  - "github.com/rancher/local-path-provisioner/deploy?ref=v0.0.30"
