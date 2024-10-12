@@ -10,14 +10,9 @@ tasks:
       vars:
         - CLUSTER
     dir: "./{{.CLUSTER}}"
-    cmd: "talhelper genconfig --no-gitignore"
-  apply:
-    desc: "Generate commands to apply Talos cluster configuration"
-    requires:
-      vars:
-        - CLUSTER
-    dir: "./{{.CLUSTER}}"
-    cmd: "talhelper gencommand apply -o ./{{.CLUSTER}}/clusterconfig --extra-flags --insecure"
+    cmds:
+      - "talhelper genconfig --no-gitignore"
+      - "talhelper gencommand apply -o ./{{.CLUSTER}}/clusterconfig --extra-flags --insecure"
   reset:
     desc: "Reset a particular node"
     requires:
