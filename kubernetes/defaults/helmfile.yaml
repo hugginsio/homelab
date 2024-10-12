@@ -38,15 +38,15 @@ releases:
     needs:
       - "kube-system/kubelet-csr-approver"
   - name: sm-operator
-    namespace: sm-operator-system
+    namespace: secrets-toolkit
     chart: "bitwarden-sm/sm-operator"
     version: 0.1.0-Beta
     needs:
       - "kube-system/kubelet-csr-approver"
   - name: external-secrets
-    namespace: external-secrets
+    namespace: secrets-toolkit
     chart: "external-secrets-charts/external-secrets"
     version: 0.10.4
     needs:
       - "kube-system/kubelet-csr-approver"
-      - "sm-operator-system/sm-operator"
+      - "secrets-toolkit/sm-operator"
