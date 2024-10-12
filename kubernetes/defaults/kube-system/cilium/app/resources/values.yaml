@@ -1,0 +1,56 @@
+# https://docs.cilium.io/en/stable/
+# yaml-language-server: $schema=https://raw.githubusercontent.com/cilium/cilium/refs/heads/main/install/kubernetes/cilium/values.schema.json
+
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: "/sys/fs/cgroup"
+
+encryption:
+  enabled: true
+  type: wireguard
+  nodeEncryption: true
+
+gatewayAPI:
+  enabled: true
+
+hubble:
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+
+ipam:
+  mode: kubernetes
+
+k8sServiceHost: localhost
+k8sServicePort: 7445
+kubeProxyReplacement: true
+
+l2announcements:
+  enabled: true
+
+loadBalancer:
+  algorithm: maglev
+
+operator:
+  replicas: 1
+
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - IPC_LOCK
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - SETGID
+      - SETUID
+      - SYS_ADMIN
+      - SYS_RESOURCE
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE

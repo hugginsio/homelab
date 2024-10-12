@@ -9,24 +9,28 @@ helmDefaults:
   force: true
 
 repositories:
-  - name: bitwarden-sm
-    url: "https://charts.bitwarden.com/"
   - name: prometheus-community
     url: "https://prometheus-community.github.io/helm-charts"
   - name: postfinance
     url: "https://postfinance.github.io/kubelet-csr-approver"
   - name: metrics-server
     url: "https://kubernetes-sigs.github.io/metrics-server/"
+  - name: bitwarden-sm
+    url: "https://charts.bitwarden.com/"
+  - name: external-secrets-charts
+    url: "https://charts.external-secrets.io"
 
 releases:
-  - name: prometheus-operator-crds
-    namespace: monitoring
-    chart: "prometheus-community/prometheus-operator-crds"
-    version: 14.0.0
   - name: kubelet-csr-approver
     namespace: kube-system
     chart: "postfinance/kubelet-csr-approver"
     version: 1.2.2
+  - name: prometheus-operator-crds
+    namespace: monitoring
+    chart: "prometheus-community/prometheus-operator-crds"
+    version: 14.0.0
+    needs:
+      - "kube-system/kubelet-csr-approver"
   - name: metrics-server
     namespace: kube-system
     chart: "metrics-server/metrics-server"
@@ -37,3 +41,12 @@ releases:
     namespace: sm-operator-system
     chart: "bitwarden-sm/sm-operator"
     version: 0.1.0-Beta
+    needs:
+      - "kube-system/kubelet-csr-approver"
+  - name: external-secrets
+    namespace: external-secrets
+    chart: "external-secrets-charts/external-secrets"
+    version: 0.10.4
+    needs:
+      - "kube-system/kubelet-csr-approver"
+      - "sm-operator-system/sm-operator"

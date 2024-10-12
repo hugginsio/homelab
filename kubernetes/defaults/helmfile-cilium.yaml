@@ -9,11 +9,13 @@ helmDefaults:
   force: true
 
 repositories:
-  - name: external-secrets-charts
-    url: "https://charts.external-secrets.io"
+  - name: cilium
+    url: "https://helm.cilium.io"
 
 releases:
-  - name: external-secrets
-    namespace: external-secrets
-    chart: "external-secrets-charts/external-secrets"
-    version: 0.10.4
+  - name: cilium
+    namespace: kube-system
+    chart: "cilium/cilium"
+    version: 1.16.2
+    values:
+      - "kube-system/cilium/app/resources/values.yaml"
