@@ -10,7 +10,7 @@ spec:
   releaseName: *name
   chart:
     spec:
-      chart: app-template
+      chart: cilium
       version: 1.16.2
       sourceRef:
         kind: HelmRepository
