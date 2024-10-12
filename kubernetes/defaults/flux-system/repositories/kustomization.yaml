@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - "./bitwarden.yaml"
   - "./bjw-s.yaml"
+  - "./cilium.yaml"
   - "./external-secrets.yaml"
   - "./jetstack.yaml"
   - "./postfinance.yaml"
