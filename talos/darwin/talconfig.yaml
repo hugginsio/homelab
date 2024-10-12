@@ -28,6 +28,12 @@ nodes:
             - "siderolabs/intel-ucode"
 patches:
   - |-
+    cluster:
+      network:
+        cni:
+          name: none
+      proxy:
+        disabled: true
     machine:
       kubelet:
         extraArgs:
