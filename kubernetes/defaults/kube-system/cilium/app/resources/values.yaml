@@ -11,6 +11,11 @@ encryption:
   type: wireguard
   nodeEncryption: true
 
+envoy:
+  securityContext:
+    capabilities:
+      keepCapNetBindService: true
+
 gatewayAPI:
   enabled: true
 
@@ -50,6 +55,7 @@ securityContext:
       - IPC_LOCK
       - KILL
       - NET_ADMIN
+      - NET_BIND_SERVICE
       - NET_RAW
       - SETGID
       - SETUID
