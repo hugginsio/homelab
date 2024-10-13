@@ -26,8 +26,6 @@ spec:
   dependsOn:
     - name: redis
       namespace: database
-    - name: metallb
-      namespace: network-system
   values:
     controllers:
       main:
