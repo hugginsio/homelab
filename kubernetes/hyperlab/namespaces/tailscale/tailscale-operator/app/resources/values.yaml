@@ -4,7 +4,7 @@ operatorConfig:
   defaultTags:
     - "tag:k8s-operator"
 
-  hostname: ${CLUSTER_HOSTNAME}
+  hostname: hyperlab
 
   securityContext:
     allowPrivilegeEscalation: false

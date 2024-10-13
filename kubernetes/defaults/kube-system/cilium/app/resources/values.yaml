@@ -33,9 +33,6 @@ l2announcements:
 loadBalancer:
   algorithm: maglev
 
-operator:
-  replicas: 1
-
 securityContext:
   capabilities:
     ciliumAgent:

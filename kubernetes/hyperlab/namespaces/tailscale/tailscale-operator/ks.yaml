@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/defaults/tailscale/tailscale-operator/app
+  path: ./kubernetes/hyperlab/namespaces/tailscale/tailscale-operator/app
   prune: true
   wait: true
   sourceRef:
