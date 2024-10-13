@@ -1,0 +1,17 @@
+installCRDs: true
+
+operatorConfig:
+  defaultTags:
+    - "tag:k8s-operator"
+
+  hostname: darwin
+
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      add:
+        - NET_ADMIN
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
