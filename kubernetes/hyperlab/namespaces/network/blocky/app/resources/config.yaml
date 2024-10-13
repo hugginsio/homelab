@@ -4,20 +4,24 @@ bootstrapDns:
   - "1.1.1.1"
   - "1.0.0.1"
 upstreams:
-  strategy: strict
   groups:
     default:
       - "https://dns.cloudflare.com/dns-query"
       - "https://1.1.1.1/dns-query"
       - "https://1.0.0.1/dns-query"
+      - "https://dns.google/dns-query"
       - "1.1.1.1"
       - "1.0.0.1"
+  init:
+    strategy: failOnError
+  strategy: strict
 blocking:
   denylists:
     ads:
       # https://github.com/hagezi/dns-blocklists
-      - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/multi.txt"
+      - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/pro.txt"
       - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/tif.txt"
+      - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/anti.piracy-onlydomains.txt"
       - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/popupads.txt"
     dns:
       # https://github.com/hagezi/dns-blocklists
