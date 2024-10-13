@@ -20,6 +20,10 @@ hubble:
   ui:
     enabled: true
 
+ingressController:
+  enabled: true
+  enforceHttps: false
+
 ipam:
   mode: kubernetes
 
@@ -32,6 +36,9 @@ l2announcements:
 
 loadBalancer:
   algorithm: maglev
+
+nodeIPAM:
+  enabled: true
 
 securityContext:
   capabilities:
