@@ -6,4 +6,5 @@ metadata:
   name: cluster-settings
   namespace: flux-system
 data:
+  CLUSTER_HOSTNAME: "darwin"
   DOMAIN_PUBLIC: "huggins.io"
