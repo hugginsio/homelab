@@ -88,6 +88,8 @@ spec:
         controller: main
         enabled: true
         type: LoadBalancer
+        labels: &dnsLabel
+          kube.huggins.io/dns: "true"
         ports:
           dns-udp:
             enabled: true
@@ -103,6 +105,8 @@ spec:
         controller: main
         enabled: true
         type: LoadBalancer
+        labels:
+          *dnsLabel
         ports:
           dns-udp:
             enabled: true
