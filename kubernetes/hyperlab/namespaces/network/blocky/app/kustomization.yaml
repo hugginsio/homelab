@@ -7,6 +7,6 @@ resources:
 configMapGenerator:
   - name: blocky
     files:
-      - "./config.yaml"
+      - "./resources/config.yaml"
 configurations:
   - "./configuration-configmap.yaml"
