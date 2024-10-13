@@ -8,4 +8,3 @@ resources:
   - "./jetstack.yaml"
   - "./postfinance.yaml"
   - "./prometheus-community.yaml"
-  - "./tailscale.yaml"
