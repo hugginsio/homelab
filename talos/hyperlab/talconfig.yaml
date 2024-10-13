@@ -20,32 +20,77 @@ nodes:
     installDiskSelector:
       model: "AirDisk*"
       type: "SSD"
+    patches:
+      - &encryptMultiPatch |-
+        machine:
+          systemDiskEncryption:
+            ephemeral:
+              provider: luks2
+              keys:
+                - static:
+                    passphrase: ${ENCRYPTION_PASSPHRASE}
+                  slot: 0
+            state:
+              provider: luks2
+              keys:
+                - nodeID: {}
+                  slot: 1
   - hostname: hypr2
     controlPlane: true
     ipAddress: 10.0.1.12
     installDiskSelector:
       wwid: "naa.5001b444a8fcea74"
+    patches:
+      - |-
+        machine:
+          systemDiskEncryption:
+            ephemeral:
+              provider: luks2
+              keys:
+                - static:
+                    passphrase: ${ENCRYPTION_PASSPHRASE}
+                  slot: 0
   - hostname: hypr3
     controlPlane: true
     ipAddress: 10.0.1.13
     installDiskSelector:
       model: "AirDisk*"
       type: "SSD"
+    patches:
+      - *encryptMultiPatch
 
 controlPlane:
   nodeLabels:
+    openebs.io/engine: mayastor
     topology.kubernetes.io/region: *cluster
   schematic:
     customization:
       systemExtensions:
         officialExtensions:
           - "siderolabs/intel-ucode"
+
 patches:
   - |-
+    cluster:
+      network:
+        cni:
+          name: none
+      proxy:
+        disabled: true
     machine:
       kubelet:
         extraArgs:
           rotate-server-certificates: true
+        extraMounts:
+          - destination: /var/local/openebs
+            type: bind
+            source: /var/local/openebs
+            options:
+              - rbind
+              - rshared
+              - rw
       network:
         kubespan:
-          enabled: true
+          enabled: false
+      sysctls:
+        vm.nr_hugepages: "1024"
