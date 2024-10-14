@@ -12,12 +12,10 @@ encryption:
   nodeEncryption: true
 
 envoy:
+  enabled: true
   securityContext:
     capabilities:
       keepCapNetBindService: true
-
-gatewayAPI:
-  enabled: true
 
 hubble:
   relay:
@@ -27,6 +25,7 @@ hubble:
 
 ingressController:
   enabled: true
+  default: true
   enforceHttps: false
   loadbalancerMode: shared
 
