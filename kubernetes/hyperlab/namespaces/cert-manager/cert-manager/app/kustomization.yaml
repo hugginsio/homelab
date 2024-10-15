@@ -5,8 +5,8 @@ kind: Kustomization
 resources:
   - "./helmrelease.yaml"
 configMapGenerator:
-  - name: helm-chart-values
+  - name: cert-manager-chart-values
     files:
-      - "./values.yaml"
+      - "./resources/values.yaml"
 configurations:
   - "./configuration-configmap.yaml"
