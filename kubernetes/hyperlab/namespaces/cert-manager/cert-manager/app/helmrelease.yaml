@@ -27,4 +27,4 @@ spec:
       retries: *retries
   valuesFrom:
     - kind: ConfigMap
-      name: helm-chart-values
+      name: cert-manager-chart-values
