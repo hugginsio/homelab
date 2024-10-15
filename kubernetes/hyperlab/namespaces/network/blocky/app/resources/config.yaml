@@ -37,6 +37,9 @@ blocking:
       - ads
       - dns
       - native
+customDns:
+  mapping:
+    ${DOMAIN_PRIVATE}: 10.0.1.10
 ports:
   dns: 53
   http: 4000
