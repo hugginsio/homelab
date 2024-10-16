@@ -5,10 +5,10 @@ metadata:
   namespace: cert-manager
 spec:
   secretName: hyperlab-internal-domain-tls
-  isCA: false
 
+  commonName: "${DOMAIN_PRIVATE}"
   dnsNames:
-    - ${DOMAIN_PRIVATE}
+    - "${DOMAIN_PRIVATE}"
     - "*.${DOMAIN_PRIVATE}"
 
   issuerRef:
