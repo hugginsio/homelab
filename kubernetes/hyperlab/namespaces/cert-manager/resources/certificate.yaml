@@ -13,4 +13,4 @@ spec:
 
   issuerRef:
     name: letsencrypt-staging
-    kind: Issuer
+    kind: ClusterIssuer
