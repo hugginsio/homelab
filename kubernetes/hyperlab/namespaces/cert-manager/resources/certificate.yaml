@@ -9,7 +9,7 @@ spec:
 
   dnsNames:
     - ${DOMAIN_PRIVATE}
-    - "*${DOMAIN_PRIVATE}"
+    - "*.${DOMAIN_PRIVATE}"
 
   issuerRef:
     name: letsencrypt-staging
