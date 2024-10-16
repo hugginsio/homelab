@@ -7,3 +7,4 @@ resources:
   - "./cert-manager/ks.yaml"
   - "./resources/externalsecret.yaml"
   - "./resources/clusterissuer.yaml"
+  - "./resources/certificate.yaml"
