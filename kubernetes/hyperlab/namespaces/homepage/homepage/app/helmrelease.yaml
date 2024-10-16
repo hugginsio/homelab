@@ -34,7 +34,7 @@ spec:
       main:
         enabled: true
         hosts:
-          - host: ${DOMAIN_PRIVATE}
+          - host: "${DOMAIN_PRIVATE}"
             paths:
               - path: "/"
                 pathType: Prefix
