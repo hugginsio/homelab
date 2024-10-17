@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/hyperlab/namespaces/homepage/homepage/app
+  path: ./kubernetes/hyperlab/namespaces/home/homepage/app
   prune: true
   wait: true
   sourceRef:
