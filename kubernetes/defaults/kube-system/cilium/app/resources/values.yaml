@@ -23,6 +23,12 @@ hubble:
   ui:
     enabled: true
 
+ingressController:
+  enabled: true
+  default: true
+  enforceHttps: false
+  loadbalancerMode: shared
+
 ipam:
   mode: kubernetes
 
