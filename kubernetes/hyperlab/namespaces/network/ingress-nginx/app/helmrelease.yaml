@@ -24,5 +24,7 @@ spec:
       retries: *retries
   values:
     controller:
+      extraArgs:
+        default-ssl-certificate: "network/hyperlab-internal-domain"
       ingressClassResource:
         default: true
