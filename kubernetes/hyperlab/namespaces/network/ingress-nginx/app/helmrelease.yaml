@@ -25,6 +25,6 @@ spec:
   values:
     controller:
       extraArgs:
-        default-ssl-certificate: "network/hyperlab-internal-domain"
+        default-ssl-certificate: "network/hyperlab-internal-domain-tls"
       ingressClassResource:
         default: true
