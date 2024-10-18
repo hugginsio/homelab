@@ -1,10 +1,9 @@
----
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrepository-source-v1.json
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: metallb
+  name: ingress-nginx
   namespace: flux-system
 spec:
   interval: 1h
-  url: "https://metallb.github.io/metallb"
+  url: "https://kubernetes.github.io/ingress-nginx"
