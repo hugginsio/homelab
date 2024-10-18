@@ -2,7 +2,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: hyperlab-internal-domain
-  namespace: kube-system
+  namespace: network
 spec:
   secretName: hyperlab-internal-domain-tls
 
