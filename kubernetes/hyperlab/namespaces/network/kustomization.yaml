@@ -5,5 +5,9 @@ kind: Kustomization
 resources:
   - "./namespace.yaml"
   #
+  - "./resources/externalsecret.yaml"
+  - "./resources/clusterissuer.yaml"
+  - "./resources/certificate.yaml"
+  #
   - "./blocky/ks.yaml"
   - "./ingress-nginx/ks.yaml"
