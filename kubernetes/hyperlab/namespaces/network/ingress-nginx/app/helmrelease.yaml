@@ -26,6 +26,3 @@ spec:
     controller:
       ingressClassResource:
         default: true
-    service:
-      labels:
-        kube.huggins.io/ingress: "true"
