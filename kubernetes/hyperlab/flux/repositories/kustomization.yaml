@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - "./ingress-nginx.yaml"
   - "./jameswynn.yaml"
+  - "./openebs.yaml"
   - "./spegel.yaml"
   - "./tailscale.yaml"
