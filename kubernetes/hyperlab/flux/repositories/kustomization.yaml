@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - "./ingress-nginx.yaml"
   - "./jameswynn.yaml"
+  - "./longhorn.yaml"
   - "./spegel.yaml"
   - "./tailscale.yaml"
