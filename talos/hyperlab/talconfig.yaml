@@ -20,6 +20,10 @@ nodes:
     installDiskSelector:
       model: "AirDisk*"
       type: "SSD"
+    machineDisks:
+      - device: /dev/sdb
+        partitions:
+          - mountpoint: "/var/lib/longhorn"
     patches:
       - &encryptMultiPatch |-
         machine:
@@ -40,6 +44,10 @@ nodes:
     ipAddress: 10.0.1.12
     installDiskSelector:
       wwid: "naa.5001b444a8fcea74"
+    machineDisks:
+      - device: /dev/sda
+        partitions:
+          - mountpoint: "/var/lib/longhorn"
     patches:
       - |-
         machine:
@@ -56,18 +64,24 @@ nodes:
     installDiskSelector:
       model: "AirDisk*"
       type: "SSD"
+    machineDisks:
+      - device: /dev/sdb
+        partitions:
+          - mountpoint: "/var/lib/longhorn"
     patches:
       - *encryptMultiPatch
 
 controlPlane:
   nodeLabels:
-    openebs.io/engine: mayastor
-    topology.kubernetes.io/region: *cluster
+    topology.kubernetes.io/region: homelab
+    topology.kubernetes.io/zone: *cluster
   schematic:
     customization:
       systemExtensions:
         officialExtensions:
           - "siderolabs/intel-ucode"
+          - "siderolabs/iscsi-tools"
+          - "siderolabs/util-linux-tools"
 
 patches:
   - |-
@@ -82,15 +96,13 @@ patches:
         extraArgs:
           rotate-server-certificates: true
         extraMounts:
-          - destination: /var/local/openebs
+          - destination: /var/lib/longhorn
             type: bind
-            source: /var/local/openebs
+            source: /var/lib/longhorn
             options:
-              - rbind
+              - bind
               - rshared
               - rw
       network:
         kubespan:
           enabled: false
-      sysctls:
-        vm.nr_hugepages: "1024"
