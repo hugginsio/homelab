@@ -7,3 +7,7 @@ resources:
   ###
   - "./redis/helmrelease.yaml"
   - "./pgo/ks.yaml"
+  - "./resources/role.yaml"
+  - "./resources/serviceaccount.yaml"
+  - "./resources/rbac.yaml"
+  - "./resources/clustersecretstore.yaml"
