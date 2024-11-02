@@ -18,6 +18,9 @@ spec:
             storage: "10Gi"
   users:
     - name: hyperlab
+    - name: authelia
+      databases:
+        - authelia
   backups:
     pgbackrest:
       repos:
