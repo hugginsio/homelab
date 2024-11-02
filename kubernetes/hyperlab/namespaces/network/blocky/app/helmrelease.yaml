@@ -64,7 +64,7 @@ spec:
               requests:
                 cpu: 20m
               limits:
-                memory: 192Mi
+                memory: 256Mi
     persistence:
       configuration:
         enabled: true
