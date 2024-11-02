@@ -6,3 +6,4 @@ resources:
   - "./namespace.yaml"
   ###
   - "./redis/helmrelease.yaml"
+  - "./pgo/ks.yaml"
