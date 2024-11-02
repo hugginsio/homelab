@@ -39,8 +39,6 @@ loadBalancer:
 nodeIPAM:
   enabled: true
 
-routingMode: native
-
 securityContext:
   capabilities:
     ciliumAgent:
