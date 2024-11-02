@@ -39,6 +39,8 @@ loadBalancer:
 nodeIPAM:
   enabled: true
 
+routingMode: native
+
 securityContext:
   capabilities:
     ciliumAgent:
@@ -58,3 +60,6 @@ securityContext:
       - NET_ADMIN
       - SYS_ADMIN
       - SYS_RESOURCE
+
+socketLB:
+  hostNamespaceOnly: true
