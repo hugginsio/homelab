@@ -18,6 +18,7 @@ spec:
             storage: "10Gi"
   users:
     - name: hyperlab
+      options: SUPERUSER
     - name: authentik
       databases:
         - authentik
