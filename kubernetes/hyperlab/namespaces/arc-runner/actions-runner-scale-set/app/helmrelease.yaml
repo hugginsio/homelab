@@ -29,7 +29,7 @@ spec:
       type: dind
     controllerServiceAccount:
       name: gha-runner-scale-set-controller
-      namespace: self-hosted
+      namespace: arc-runner
     maxRunners: 5
     minRunners: 0
     nameOverride: *name
