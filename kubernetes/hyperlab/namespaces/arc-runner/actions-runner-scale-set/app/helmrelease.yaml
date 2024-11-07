@@ -25,6 +25,8 @@ spec:
       strategy: rollback
       retries: *retries
   values:
+    containerMode:
+      type: dind
     maxRunners: 5
     minRunners: 0
     nameOverride: *name
