@@ -3,7 +3,7 @@
 name: adguard_home
 services:
   adguard_home:
-    image: "adguard/adguardhome:v0.107.29"
+    image: "adguard/adguardhome:v0.107.54"
     container_name: "adguard_home"
     hostname: "adguard_home-${DOCKER_HOSTNAME}"
     restart: unless-stopped
