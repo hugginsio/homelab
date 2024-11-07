@@ -11,7 +11,8 @@
   "assigneesFromCodeOwners": true,
   "reviewersFromCodeOwners": true,
   "ignorePaths": [
-    "**/*.sops.*"
+    "**/*.sops.*",
+    "docker/**/compose.yaml"
   ],
   "flux": {
     "fileMatch": [
