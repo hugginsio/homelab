@@ -27,6 +27,9 @@ spec:
   values:
     containerMode:
       type: dind
+    controllerServiceAccount:
+      name: gha-runner-scale-set-controller
+      namespace: self-hosted
     maxRunners: 5
     minRunners: 0
     nameOverride: *name
