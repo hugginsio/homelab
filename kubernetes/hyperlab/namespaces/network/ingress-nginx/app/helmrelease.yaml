@@ -29,3 +29,5 @@ spec:
         default-ssl-certificate: "network/hyperlab-internal-domain-tls"
       ingressClassResource:
         default: true
+      service:
+        externalTrafficPolicy: Cluster
