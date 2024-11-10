@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &name authentik
+  namespace: security
+spec:
+  interval: 10m
+  releaseName: *name
+  chart:
+    spec:
+      chart: authentik
+      version: 2024.10.0
+      sourceRef:
+        kind: HelmRepository
+        name: authentik
+        namespace: flux-system
+  install:
+    remediation:
+      retries: &retries 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: *retries
+  # https://github.com/goauthentik/helm/blob/main/charts/authentik/values.yaml
+  values:
+    authentik:
+      redis:
+        host: redis.database.svc
+        db: 1
+    global:
+      envFrom:
+        - secretRef:
+            name: authentik-postgres
+        - secretRef:
+            name: authentik-misc
+    server:
+      ingress:
+        enabled: true
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/description: "Identity and SSO provider."
+          gethomepage.dev/group: Security
+          gethomepage.dev/icon: "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/authentik.svg"
+          gethomepage.dev/name: Authentik
+          gethomepage.dev/pod-selector: ""
+        ingressClassName: nginx
+        hosts:
+          - &host "id.${DOMAIN_PRIVATE}"
+        tls:
+          - hosts:
+              - *host
+        https: false
