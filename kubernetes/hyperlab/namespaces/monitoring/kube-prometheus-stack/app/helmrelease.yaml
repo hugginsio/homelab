@@ -50,10 +50,15 @@ spec:
       adminPassword: prom-operator
 
       ingress:
-        enabled: false
+        enabled: true
         ingressClassName: nginx
-        annotations: {}
-        labels: {}
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/description: "Observability and data visualization platform."
+          gethomepage.dev/group: Tools
+          gethomepage.dev/icon: "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/grafana.svg"
+          gethomepage.dev/name: "Grafana"
+          gethomepage.dev/pod-selector: ""
         hosts:
           - &host "grafana.${DOMAIN_PRIVATE}"
         path: /
