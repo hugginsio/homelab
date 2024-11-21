@@ -66,7 +66,7 @@ spec:
           api_url: "https://id.${DOMAIN_PRIVATE}/application/o/userinfo/"
           role_attribute_path: contains(groups, 'grafana-admin') && 'Admin' || contains(groups, 'grafana-editor') && 'Editor' || 'Viewer'
         server:
-          root_url: "https://grafana.{DOMAIN_PRIVATE}/"
+          root_url: "https://grafana.${DOMAIN_PRIVATE}/"
 
       extraSecretMounts:
         - name: authentik-oauth-grafana-mount
