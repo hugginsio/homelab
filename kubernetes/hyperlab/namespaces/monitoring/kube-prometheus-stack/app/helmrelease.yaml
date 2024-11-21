@@ -1,0 +1,141 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/helmrelease-helm-v2.json
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &name kube-prometheus-stack
+  namespace: monitoring
+spec:
+  interval: 10m
+  releaseName: *name
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: 66.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: flux-system
+  install:
+    crds: Skip
+    remediation:
+      retries: &retries 3
+  upgrade:
+    cleanupOnFail: true
+    crds: Skip
+    remediation:
+      retries: *retries
+  dependsOn:
+    - name: longhorn
+      namespace: "longhorn-system"
+    - name: prometheus-operator-crds
+      namespace: monitoring
+  values:
+    # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
+    crds:
+      enabled: false
+
+    defaultRules:
+      create: true
+      rules:
+        kubeProxy: false
+        windows: false
+
+    grafana:
+      enabled: true
+      defaultDashboardsEnabled: true
+      defaultDashboardsTimezone: browser
+      defaultDashboardsEditable: false
+
+      adminPassword: prom-operator
+
+      ingress:
+        enabled: false
+        ingressClassName: nginx
+        annotations: {}
+        labels: {}
+        hosts:
+          - &host "grafana.${DOMAIN_PRIVATE}"
+        path: /
+        tls:
+          - hosts:
+              - *host
+
+      persistence:
+        enabled: true
+        type: sts
+        storageClassName: "longhorn"
+        accessModes:
+          - ReadWriteOnce
+        size: 24Gi
+        finalizers:
+          - kubernetes.io/pvc-protection
+
+      prune: true
+
+    kubeApiServer:
+      enabled: true
+      serviceMonitor:
+        metricRelabelings:
+          - action: drop
+            regex: apiserver_request_duration_seconds_bucket;(0.15|0.2|0.3|0.35|0.4|0.45|0.6|0.7|0.8|0.9|1.25|1.5|1.75|2|3|3.5|4|4.5|6|7|8|9|15|25|40|50)
+            sourceLabels:
+              - __name__
+              - le
+
+    kubelet:
+      enabled: true
+      serviceMonitor:
+        cAdvisorMetricRelabelings:
+          # Drop less useful container CPU metrics.
+          - sourceLabels: [__name__]
+            action: drop
+            regex: 'container_cpu_(cfs_throttled_seconds_total|load_average_10s|system_seconds_total|user_seconds_total)'
+          # Drop less useful container / always zero filesystem metrics.
+          - sourceLabels: [__name__]
+            action: drop
+            regex: 'container_fs_(io_current|io_time_seconds_total|io_time_weighted_seconds_total|reads_merged_total|sector_reads_total|sector_writes_total|writes_merged_total)'
+          # Drop less useful / always zero container memory metrics.
+          - sourceLabels: [__name__]
+            action: drop
+            regex: 'container_memory_(mapped_file|swap)'
+          # Drop less useful container process metrics.
+          - sourceLabels: [__name__]
+            action: drop
+            regex: 'container_(file_descriptors|tasks_state|threads_max)'
+          # Drop container spec metrics that overlap with kube-state-metrics.
+          - sourceLabels: [__name__]
+            action: drop
+            regex: 'container_spec.*'
+          # Drop cgroup metrics with no pod.
+          - sourceLabels: [id, pod]
+            action: drop
+            regex: '.+;'
+
+    kubeDns:
+      enabled: false
+
+    kubeProxy:
+      enabled: false
+
+    nodeExporter:
+      enabled: true
+      operatingSystems:
+        linux:
+          enabled: true
+        aix:
+          enabled: false
+        darwin:
+          enabled: false
+
+    prometheusOperator:
+      enabled: true
+      prometheusSpec:
+        storageSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: longhorn
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 24Gi
