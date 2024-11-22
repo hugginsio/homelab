@@ -170,3 +170,7 @@ spec:
             resources:
               requests:
                 storage: 24Gi
+
+    prometheus:
+      prometheusSpec:
+        serviceMonitorSelectorNilUsesHelmValues: false
