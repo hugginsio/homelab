@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/monitoring.coreos.com/servicemonitor_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: blocky-metrics
+  namespace: network
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: blocky
+      app.kubernetes.io/service: blocky-metrics
+  namespaceSelector:
+    matchNames:
+      - network
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 10s
+      honorLabels: true
