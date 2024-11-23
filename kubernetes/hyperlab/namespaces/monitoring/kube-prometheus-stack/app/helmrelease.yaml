@@ -42,10 +42,11 @@ spec:
         windows: false
 
     grafana:
-      enabled: true
+      enabled: false
+      defaultDashboardsEditable: false
       defaultDashboardsEnabled: true
       defaultDashboardsTimezone: browser
-      defaultDashboardsEditable: false
+      forceDeployDatasources: true
 
       adminPassword: prom-operator
 
