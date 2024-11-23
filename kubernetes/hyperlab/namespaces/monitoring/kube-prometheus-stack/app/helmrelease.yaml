@@ -152,6 +152,12 @@ spec:
             gnetId: 16888
             revision: 9
             datasource: *ds
+          nginx:
+            url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/nginx.json
+            datasource: *ds
+          nginx-request-handling-performance:
+            url: https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/grafana/dashboards/request-handling-performance.json
+            datasource: *ds
           spegel:
             gnetId: 18089
             revision: 1
