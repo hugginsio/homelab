@@ -52,6 +52,10 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: true
+      resources:
+        requests:
+          cpu: 24m
+          memory: 128Mi
     defaultBackend:
       enabled: true
       image:
