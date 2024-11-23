@@ -35,7 +35,6 @@ spec:
             resources:
               requests:
                 cpu: 10m
-              limits:
                 memory: 16Mi
     service:
       redis:
