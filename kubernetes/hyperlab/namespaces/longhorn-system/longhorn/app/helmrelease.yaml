@@ -46,3 +46,6 @@ spec:
       ingressClassName: nginx
       host: "longhorn.${DOMAIN_PRIVATE}"
       tls: true
+    metrics:
+      serviceMonitor:
+        enabled: true

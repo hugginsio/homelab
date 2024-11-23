@@ -4,3 +4,6 @@ clusterResourceNamespace: "cert-manager"
 crds:
   enabled: true
   keep: true
+prometheus:
+  servicemonitor:
+    enabled: true
