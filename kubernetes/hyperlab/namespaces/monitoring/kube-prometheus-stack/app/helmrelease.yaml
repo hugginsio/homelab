@@ -112,19 +112,36 @@ spec:
             orgId: 1
             folder: ''
             type: file
-            disableDeletion: false
-            editable: true
+            disableDeletion: true
+            editable: false
             options:
               path: /var/lib/grafana/dashboards/default
+          - name: 'kubernetes'
+            orgId: 1
+            folder: ''
+            type: file
+            disableDeletion: true
+            editable: false
+            options:
+              path: /var/lib/grafana/dashboards/kubernetes
 
       dashboards:
         default:
           blocky:
-            url: "https://grafana.com/api/dashboards/14980/revisions/1/download"
-            datasource: Prometheus
+            gnetId: 13768
+            revision: 4
+            datasource: &ds Prometheus
+        kubernetes:
           cert-manager:
             url: "https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json"
-            datasource: Prometheus
+            datasource: *ds
+          external-secrets:
+            url: "https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json"
+            datasource: *ds
+          longhorn:
+            gnetId: 16888
+            revision: 9
+            datasource: *ds
 
     kubeApiServer:
       enabled: true
