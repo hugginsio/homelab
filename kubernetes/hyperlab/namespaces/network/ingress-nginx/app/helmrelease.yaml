@@ -52,3 +52,13 @@ spec:
         enabled: true
         serviceMonitor:
           enabled: true
+    defaultBackend:
+      enabled: true
+      image:
+        repository: "ghcr.io/tarampampam/error-pages"
+        tag: 3.3.0
+      extraEnvs:
+        - name: TEMPLATE_NAME
+          value: lost-in-space
+        - name: SHOW_DETAILS
+          value: "true"
