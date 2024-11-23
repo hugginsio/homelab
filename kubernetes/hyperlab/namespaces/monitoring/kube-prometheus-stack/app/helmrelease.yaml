@@ -154,7 +154,7 @@ spec:
             datasource: *ds
           spegel:
             gnetId: 18089
-            revision: 9
+            revision: 1
             datasource:
               - { name: DS_PROMETHEUS, value: Prometheus }
 
