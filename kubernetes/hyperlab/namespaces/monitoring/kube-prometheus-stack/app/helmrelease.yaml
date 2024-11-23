@@ -233,6 +233,8 @@ spec:
 
     prometheus:
       prometheusSpec:
+        retention: 30d
+        retentionSize: 23Gi
         serviceMonitorSelectorNilUsesHelmValues: false
         storageSpec:
           volumeClaimTemplate:
