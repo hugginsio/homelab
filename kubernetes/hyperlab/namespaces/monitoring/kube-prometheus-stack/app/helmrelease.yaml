@@ -112,16 +112,16 @@ spec:
             orgId: 1
             folder: ''
             type: file
-            disableDeletion: true
-            editable: false
+            disableDeletion: false
+            editable: true
             options:
               path: /var/lib/grafana/dashboards/default
           - name: 'kubernetes'
             orgId: 1
             folder: ''
             type: file
-            disableDeletion: true
-            editable: false
+            disableDeletion: false
+            editable: true
             options:
               path: /var/lib/grafana/dashboards/kubernetes
 
@@ -130,13 +130,23 @@ spec:
           blocky-metrics:
             gnetId: 13768
             revision: 4
-            datasource: &ds Prometheus
+            datasource:
+              - { name: DS_PROMETHEUS, value: Prometheus }
         kubernetes:
           cert-manager:
             url: "https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json"
-            datasource: *ds
+            datasource: &ds Prometheus
           external-secrets:
             url: "https://raw.githubusercontent.com/external-secrets/external-secrets/main/docs/snippets/dashboard.json"
+            datasource: *ds
+          flux-cluster:
+            url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
+            datasource: *ds
+          flux-control-plane:
+            url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/control-plane.json
+            datasource: *ds
+          flux-logs:
+            url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/logs.json
             datasource: *ds
           longhorn:
             gnetId: 16888
