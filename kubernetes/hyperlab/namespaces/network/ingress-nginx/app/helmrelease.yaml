@@ -62,3 +62,7 @@ spec:
           value: lost-in-space
         - name: SHOW_DETAILS
           value: "true"
+      resources:
+        requests:
+          cpu: 1m
+          memory: 12Mi
