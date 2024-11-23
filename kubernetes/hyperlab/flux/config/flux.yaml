@@ -39,13 +39,7 @@ spec:
     - patch: |
         - op: add
           path: /spec/template/spec/containers/0/args/-
-          value: --concurrent=12
-        - op: add
-          path: /spec/template/spec/containers/0/args/-
-          value: --kube-api-qps=500
-        - op: add
-          path: /spec/template/spec/containers/0/args/-
-          value: --kube-api-burst=1000
+          value: --concurrent=6
         - op: add
           path: /spec/template/spec/containers/0/args/-
           value: --requeue-dependency=5s
@@ -63,8 +57,12 @@ spec:
               containers:
                 - name: manager
                   resources:
+                    requests:
+                      cpu: 100m
+                      memory: 128Mi
                     limits:
-                      memory: 2Gi
+                      cpu:
+                      memory: 128Mi
       target:
         kind: Deployment
         name: (kustomize-controller|helm-controller|source-controller)
