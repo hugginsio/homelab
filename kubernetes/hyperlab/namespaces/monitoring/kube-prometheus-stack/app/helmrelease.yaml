@@ -81,7 +81,7 @@ spec:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/description: "Observability and data visualization platform."
-          gethomepage.dev/group: Tools
+          gethomepage.dev/group: Cluster
           gethomepage.dev/icon: "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/grafana.svg"
           gethomepage.dev/name: "Grafana"
           gethomepage.dev/pod-selector: ""

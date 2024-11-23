@@ -40,7 +40,7 @@ spec:
         annotations:
           gethomepage.dev/enabled: "true"
           gethomepage.dev/description: "Identity and SSO provider."
-          gethomepage.dev/group: Security
+          gethomepage.dev/group: Cluster
           gethomepage.dev/icon: "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/authentik.svg"
           gethomepage.dev/name: Authentik
           gethomepage.dev/pod-selector: ""
