@@ -39,6 +39,17 @@ loadBalancer:
 nodeIPAM:
   enabled: true
 
+operator:
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+
 securityContext:
   capabilities:
     ciliumAgent:
