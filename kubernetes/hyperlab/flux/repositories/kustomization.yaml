@@ -4,7 +4,6 @@ resources:
   - "./authentik.yaml"
   - "./crunchy-data.yaml"
   - "./gh-arc.yaml"
-  - "./grafana.yaml"
   - "./ingress-nginx.yaml"
   - "./jameswynn.yaml"
   - "./longhorn.yaml"

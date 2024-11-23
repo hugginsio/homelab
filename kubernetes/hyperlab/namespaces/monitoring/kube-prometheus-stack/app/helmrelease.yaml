@@ -42,13 +42,10 @@ spec:
         windows: false
 
     grafana:
-      enabled: false
+      enabled: true
       defaultDashboardsEditable: false
       defaultDashboardsEnabled: true
       defaultDashboardsTimezone: browser
-      forceDeployDatasources: true
-
-      adminPassword: prom-operator
 
       grafana.ini:
         analytics:
@@ -68,6 +65,8 @@ spec:
           role_attribute_path: contains(groups, 'grafana-admin') && 'Admin' || contains(groups, 'grafana-editor') && 'Editor' || contains(groups, 'grafana-viewer') && 'Viewer'
         server:
           root_url: "https://grafana.${DOMAIN_PRIVATE}/"
+        panels:
+          disable_sanitize_html: true
 
       extraSecretMounts:
         - name: authentik-oauth-grafana-mount
@@ -104,6 +103,15 @@ spec:
           - kubernetes.io/pvc-protection
 
       prune: true
+
+      dashboards:
+        default:
+          blocky:
+            url: "https://grafana.com/api/dashboards/14980/revisions/1/download"
+            datasource: Prometheus
+          cert-manager:
+            url: "https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json"
+            datasource: Prometheus
 
     kubeApiServer:
       enabled: true

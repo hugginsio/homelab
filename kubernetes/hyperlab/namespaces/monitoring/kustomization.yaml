@@ -8,4 +8,3 @@ resources:
   - "./resources/externalsecret.yaml"
   #
   - "./kube-prometheus-stack/ks.yaml"
-  - "./grafana-operator/ks.yaml"
