@@ -31,7 +31,7 @@ spec:
       annotations:
         gethomepage.dev/enabled: "true"
         gethomepage.dev/description: "Cloud-native distributed storage built on and for Kubernetes."
-        gethomepage.dev/group: Tools
+        gethomepage.dev/group: Cluster
         gethomepage.dev/icon: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/longhorn.svg"
         gethomepage.dev/name: "Longhorn"
         gethomepage.dev/pod-selector: ""

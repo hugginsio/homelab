@@ -2,23 +2,23 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: hubble
-    namespace: kube-system
-    annotations:
-      gethomepage.dev/enabled: "true"
-      gethomepage.dev/description: "Networking & security observability built atop Cilium."
-      gethomepage.dev/group: Tools
-      gethomepage.dev/icon: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/cilium.svg"
-      gethomepage.dev/name: "Hubble"
-      gethomepage.dev/pod-selector: ""
-      nginx.ingress.kubernetes.io/auth-url: |-
-        http://ak-outpost-authentik-embedded-outpost.security.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
-      nginx.ingress.kubernetes.io/auth-response-headers: |-
-        Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
-      nginx.ingress.kubernetes.io/auth-snippet: |-
-        proxy_set_header X-Forwarded-Host $http_host;
-      nginx.ingress.kubernetes.io/auth-signin: |-
-        https://hubble.${DOMAIN_PRIVATE}/outpost.goauthentik.io/start?rd=$scheme://$http_host$escaped_request_uri
+  name: hubble
+  namespace: kube-system
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Networking & security observability built atop Cilium."
+    gethomepage.dev/group: Cluster
+    gethomepage.dev/icon: "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/svg/cilium.svg"
+    gethomepage.dev/name: "Hubble"
+    gethomepage.dev/pod-selector: ""
+    nginx.ingress.kubernetes.io/auth-url: |-
+      http://ak-outpost-authentik-embedded-outpost.security.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
+    nginx.ingress.kubernetes.io/auth-response-headers: |-
+      Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
+    nginx.ingress.kubernetes.io/auth-snippet: |-
+      proxy_set_header X-Forwarded-Host $http_host;
+    nginx.ingress.kubernetes.io/auth-signin: |-
+      https://hubble.${DOMAIN_PRIVATE}/outpost.goauthentik.io/start?rd=$scheme://$http_host$escaped_request_uri
 spec:
   rules:
     - host: &host "hubble.${DOMAIN_PRIVATE}"
