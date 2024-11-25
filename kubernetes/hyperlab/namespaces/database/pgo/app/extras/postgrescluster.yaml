@@ -22,6 +22,9 @@ spec:
     - name: authentik
       databases:
         - authentik
+    - name: mealie
+      databases:
+        - mealie
   backups:
     pgbackrest:
       repos:
