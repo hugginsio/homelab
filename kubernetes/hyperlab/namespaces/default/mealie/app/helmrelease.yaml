@@ -1,0 +1,110 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.4.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &name mealie
+  namespace: default
+spec:
+  interval: 10m
+  releaseName: *name
+  chart:
+    spec:
+      chart: app-template
+      version: 3.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: &retries 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: *retries
+  dependsOn:
+    - name: longhorn
+      namespace: "longhorn-system"
+  values:
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 65534
+        fsGroupChangePolicy: OnRootMismatch
+        runAsGroup: 65534
+        runAsNonRoot: true
+        runAsUser: 65534
+    controllers:
+      mealie:
+        enabled: true
+        type: deployment
+        replicas: 1
+        strategy: Recreate
+        containers:
+          app:
+            image:
+              repository: "ghcr.io/mealie-recipes/mealie"
+              tag: "v2.2.0"
+            resources:
+              requests:
+                cpu: 200m
+                memory: 512Mi
+              limits:
+                memory: 512Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+              readOnlyRootFilesystem: true
+            env:
+              ALLOW_SIGNUP: "false"
+              BASE_URL: "https://{{ .Release.Name }}.${DOMAIN_PRIVATE}"
+              DB_ENGINE: postgres
+              OIDC_ADMIN_GROUP: "mealie-admins"
+              OIDC_AUTH_ENABLED: "true"
+              OIDC_AUTO_REDIRECT: "true"
+              OIDC_CLIENT_ID: "ov4JuGCDj04FLVtxlt8supn58NXBLCaOGxqZGdUd"
+              OIDC_CONFIGURATION_URL: "https://id.${DOMAIN_PRIVATE}/application/o/mealie/.well-known/openid-configuration"
+              OIDC_PROVIDER_NAME: "Huggins Cloud"
+              OIDC_REMEMBER_ME: true
+              OIDC_USER_GROUP: "mealie-users"
+              PGID: 65534
+              PUID: 65534
+              TZ: "America/Chicago"
+            envFrom:
+              - secretRef:
+                  name: mealie-postgres
+              - secretRef:
+                  name: mealie-misc
+    service:
+      app:
+        controller: mealie
+        ports:
+          http:
+            port: 9000
+    ingress:
+      app:
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/description: "Recipe management for the modern household."
+          gethomepage.dev/group: Applications
+          gethomepage.dev/icon: "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/mealie.svg"
+          gethomepage.dev/name: "Mealie"
+          gethomepage.dev/pod-selector: ""
+        hosts:
+          - host: &host "{{ .Release.Name }}.${DOMAIN_PRIVATE}"
+            paths:
+              - path: "/"
+                pathType: Prefix
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      data:
+        existingClaim: "mealie-data"
+        globalMounts:
+          - path: "/app/data"
