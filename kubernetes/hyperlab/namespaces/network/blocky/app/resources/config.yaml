@@ -37,7 +37,6 @@ blocking:
   clientGroupsBlock:
     default:
       - ads
-      - fix
       - native
 customDNS:
   mapping:
