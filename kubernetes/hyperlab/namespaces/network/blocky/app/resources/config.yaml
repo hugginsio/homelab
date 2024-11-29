@@ -16,6 +16,11 @@ upstreams:
     strategy: failOnError
   strategy: strict
 blocking:
+  allowlists:
+    fix:
+      - |-
+        # fix Cloudflare Pages subdomains
+        /.*pages.dev/
   denylists:
     ads:
       # https://github.com/hagezi/dns-blocklists
