@@ -8,7 +8,7 @@ spec:
     - cidr: "10.0.1.10/32"
   serviceSelector:
     matchLabels:
-      app.kubernetes.io/name: ingress-nginx
+      kube.huggins.io/ip-pool: ingress
 ---
 apiVersion: "cilium.io/v2alpha1"
 kind: CiliumLoadBalancerIPPool
@@ -21,4 +21,4 @@ spec:
     - cidr: "10.0.1.50/32"
   serviceSelector:
     matchLabels:
-      kube.huggins.io/dns: "true"
+      kube.huggins.io/ip-pool: dns

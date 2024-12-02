@@ -88,7 +88,7 @@ spec:
         enabled: true
         type: LoadBalancer
         labels: &dnsLabel
-          kube.huggins.io/dns: "true"
+          kube.huggins.io/ip-pool: dns
         ports:
           dns-udp:
             enabled: true
