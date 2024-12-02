@@ -30,6 +30,8 @@ spec:
       ingressClassResource:
         default: true
       service:
+        annotations:
+          lbipam.cilium.io/sharing-key: "ingress"
         externalTrafficPolicy: Cluster
       config:
         client-body-buffer-size: "100M"
