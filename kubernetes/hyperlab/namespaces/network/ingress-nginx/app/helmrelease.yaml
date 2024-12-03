@@ -31,6 +31,7 @@ spec:
         default: true
       service:
         annotations:
+          lbipam.cilium.io/sharing-cross-namespace: "default,network"
           lbipam.cilium.io/sharing-key: "ingress"
         labels:
           kube.huggins.io/ip-pool: ingress
