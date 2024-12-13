@@ -46,7 +46,7 @@ releases:
   - name: external-secrets
     namespace: secrets-toolkit
     chart: "external-secrets-charts/external-secrets"
-    version: 0.10.6
+    version: 0.11.0
     needs:
       - "kube-system/kubelet-csr-approver"
       - "secrets-toolkit/sm-operator"
