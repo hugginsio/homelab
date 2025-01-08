@@ -41,11 +41,15 @@ spec:
         kubeProxy: false
         windows: false
 
+    # https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
     grafana:
       enabled: true
       defaultDashboardsEditable: false
       defaultDashboardsEnabled: true
       defaultDashboardsTimezone: browser
+
+      plugins:
+        - "marcusolsson-json-datasource"
 
       grafana.ini:
         analytics:
