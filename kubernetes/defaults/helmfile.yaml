@@ -24,7 +24,7 @@ releases:
   - name: kubelet-csr-approver
     namespace: kube-system
     chart: "postfinance/kubelet-csr-approver"
-    version: 1.2.3
+    version: 1.2.5
     values:
       - env:
           # HACK: my DNS configuration does, on occasion, explode.
