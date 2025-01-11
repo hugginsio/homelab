@@ -117,7 +117,7 @@ spec:
               folder: ""
               type: file
               disableDeletion: false
-              editable: true
+              editable: false
               options:
                 path: /var/lib/grafana/dashboards/default
             - name: "kubernetes"
@@ -125,7 +125,7 @@ spec:
               folder: ""
               type: file
               disableDeletion: false
-              editable: true
+              editable: false
               options:
                 path: /var/lib/grafana/dashboards/kubernetes
 
@@ -169,14 +169,7 @@ spec:
               - { name: DS_PROMETHEUS, value: Prometheus }
 
     kubeApiServer:
-      enabled: true
-      serviceMonitor:
-        metricRelabelings:
-          - action: drop
-            regex: apiserver_request_duration_seconds_bucket;(0.15|0.2|0.3|0.35|0.4|0.45|0.6|0.7|0.8|0.9|1.25|1.5|1.75|2|3|3.5|4|4.5|6|7|8|9|15|25|40|50)
-            sourceLabels:
-              - __name__
-              - le
+      enabled: false
 
     kubelet:
       enabled: true
