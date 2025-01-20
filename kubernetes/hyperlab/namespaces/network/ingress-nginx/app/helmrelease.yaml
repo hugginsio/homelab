@@ -37,6 +37,7 @@ spec:
           kube.huggins.io/ip-pool: ingress
         externalTrafficPolicy: Cluster
       config:
+        annotations-risk-level: Critical
         client-body-buffer-size: "100M"
         client-header-timeout: 120
         enable-brotli: "true"
@@ -60,6 +61,8 @@ spec:
       resources:
         requests:
           cpu: 24m
+          memory: 128Mi
+        limits:
           memory: 128Mi
     defaultBackend:
       enabled: true
