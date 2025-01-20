@@ -37,7 +37,7 @@ spec:
           main:
             image:
               repository: "spx01/blocky"
-              tag: "v0.24"
+              tag: "v0.25"
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
