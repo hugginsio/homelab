@@ -4,4 +4,6 @@ kind: Kustomization
 resources:
   - "./namespace.yaml"
   ###
+  - "./resources/externalsecret.yaml"
+  ###
   - "./cert-manager/ks.yaml"
