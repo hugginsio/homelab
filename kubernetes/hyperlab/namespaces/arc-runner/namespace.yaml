@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: arc-runner
-  labels:
-    kube.huggins.io/eso: allow
