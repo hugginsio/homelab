@@ -1,4 +1,5 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/postgres-operator.crunchydata.com/postgrescluster_v1beta1.json
+
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
@@ -22,6 +23,9 @@ spec:
     - name: authentik
       databases:
         - authentik
+    - name: concourse
+      databases:
+        - concourse
     - name: mealie
       databases:
         - mealie
