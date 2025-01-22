@@ -49,3 +49,7 @@ spec:
     metrics:
       serviceMonitor:
         enabled: true
+        interval: "30s"
+    persistence:
+      defaultClassReplicaCount: 3
+      defaultDataLocality: "best-effort"
