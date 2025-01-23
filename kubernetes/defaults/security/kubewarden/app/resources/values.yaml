@@ -1,3 +1,19 @@
+auditScanner:
+  enable: true
+  policyReporter: true
+  parallelNamespaces: 1
+  parallelResources: 25
+  parallelPolicies: 4
+policy-reporter:
+  ui:
+    enabled: true
+policyServer:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+  limits:
+    cpu: ~
+    memory: 32Mi
 resources:
   controller:
     requests:
@@ -14,15 +30,9 @@ resources:
       cpu: ~
       memory: 256Mi
 replicas: 1
-auditScanner:
-  enable: true
-  policyReporter: true
-  parallelNamespaces: 1
-  parallelResources: 25
-  parallelPolicies: 4
-policy-reporter:
-  ui:
-    enabled: true
-policyServer:
-  limits: {}
-  requests: {}
+telemetry:
+  mode: sidecar
+  metrics: true
+  sidecar:
+    metrics:
+      port: 8080
