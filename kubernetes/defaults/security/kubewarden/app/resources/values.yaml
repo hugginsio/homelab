@@ -10,10 +10,10 @@ policy-reporter:
 policyServer:
   requests:
     cpu: 10m
-    memory: 32Mi
+    memory: 128Mi
   limits:
     cpu: ~
-    memory: 32Mi
+    memory: 128Mi
 resources:
   controller:
     requests:
