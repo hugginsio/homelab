@@ -8,5 +8,5 @@ configMapGenerator:
   - name: "kubewarden-values"
     files:
       - "./resources/values.yaml"
-configurations:
-  - "./configuration-configmap.yaml"
+generatorOptions:
+  disableNameSuffixHash: true
