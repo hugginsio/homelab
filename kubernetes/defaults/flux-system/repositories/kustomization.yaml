@@ -6,5 +6,6 @@ resources:
   - "./cilium.yaml"
   - "./external-secrets.yaml"
   - "./jetstack.yaml"
+  - "./kubewarden.yaml"
   - "./postfinance.yaml"
   - "./prometheus-community.yaml"

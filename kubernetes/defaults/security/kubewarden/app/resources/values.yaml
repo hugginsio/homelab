@@ -1,0 +1,28 @@
+resources:
+  controller:
+    requests:
+      cpu: 200m
+      memory: 72Mi
+    limits:
+      cpu: ~
+      memory: 72Mi
+  auditScanner:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: ~
+      memory: 256Mi
+replicas: 1
+auditScanner:
+  enable: true
+  policyReporter: true
+  parallelNamespaces: 1
+  parallelResources: 25
+  parallelPolicies: 4
+policy-reporter:
+  ui:
+    enabled: true
+policyServer:
+  limits: {}
+  requests: {}

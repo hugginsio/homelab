@@ -19,6 +19,8 @@ repositories:
     url: "https://charts.bitwarden.com/"
   - name: external-secrets-charts
     url: "https://charts.external-secrets.io"
+  - name: kubewarden
+    url: "https://charts.kubewarden.io"
 
 releases:
   - name: kubelet-csr-approver
@@ -56,3 +58,24 @@ releases:
     needs:
       - "kube-system/kubelet-csr-approver"
       - "secrets-toolkit/sm-operator"
+  - name: kubewarden-crds
+    namespace: security
+    chart: "kubewarden/kubewarden-crds"
+    version: 1.12.1
+  - name: kubewarden-controller
+    namespace: security
+    chart: "kubewarden/kubewarden-controller"
+    version: 4.0.1
+    values:
+      - "security/kubewarden/app/resources/values.yaml"
+    needs:
+      - "security/kubewarden-crds"
+  - name: "kubewarden-defaults"
+    namespace: security
+    chart: "kubewarden/kubewarden-defaults"
+    version: 2.7.1
+    values:
+      - "security/kubewarden/app/resources/values.yaml"
+    needs:
+      - "security/kubewarden-crds"
+      - "security/kubewarden-controller"
