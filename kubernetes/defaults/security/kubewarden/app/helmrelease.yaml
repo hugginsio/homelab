@@ -43,6 +43,9 @@ spec:
         kind: HelmRepository
         name: kubewarden
         namespace: flux-system
+  dependsOn:
+    - name: "kubewarden-crds"
+      namespace: security
   install:
     remediation:
       retries: &retries 3
@@ -72,6 +75,11 @@ spec:
         kind: HelmRepository
         name: kubewarden
         namespace: flux-system
+  dependsOn:
+    - name: "kubewarden-crds"
+      namespace: security
+    - name: "kubewarden-controller"
+      namespace: security
   install:
     remediation:
       retries: &retries 3
