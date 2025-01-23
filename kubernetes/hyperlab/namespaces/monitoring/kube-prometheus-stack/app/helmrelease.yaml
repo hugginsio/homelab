@@ -167,9 +167,6 @@ spec:
             revision: 1
             datasource:
               - { name: DS_PROMETHEUS, value: Prometheus }
-          kubewarden:
-            url: https://github.com/kubewarden/policy-server/releases/latest/download/kubewarden-dashboard.json
-            datasource: *ds
 
     kubeApiServer:
       enabled: false

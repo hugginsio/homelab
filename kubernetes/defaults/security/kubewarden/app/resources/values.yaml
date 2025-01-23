@@ -30,9 +30,3 @@ resources:
       cpu: ~
       memory: 256Mi
 replicas: 1
-telemetry:
-  mode: sidecar
-  metrics: true
-  sidecar:
-    metrics:
-      port: 8080
