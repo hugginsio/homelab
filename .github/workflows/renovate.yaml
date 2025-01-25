@@ -3,7 +3,7 @@ name: Renovate
 on:
   workflow_dispatch:
   schedule:
-    - cron: "15 0 * * *"
+    - cron: "0 22 * * 5"
   push:
     branches: ["main"]
     paths:
