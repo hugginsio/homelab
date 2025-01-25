@@ -5,8 +5,10 @@ resources:
   ###
   - "./external-secrets/ks.yaml"
   - "./sm-operator/ks.yaml"
+  ###
   - "./resources/bitwardensecrets.yaml"
   - "./resources/role.yaml"
   - "./resources/serviceaccount.yaml"
   - "./resources/rbac.yaml"
   - "./resources/clustersecretstore.yaml"
+  - "./resources/clustergenerator.yaml"
