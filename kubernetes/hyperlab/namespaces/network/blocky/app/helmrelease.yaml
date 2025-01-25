@@ -87,6 +87,8 @@ spec:
         controller: main
         enabled: true
         type: LoadBalancer
+        annotations: &dnsAnnotation
+          tailscale.com/expose: "true"
         labels: &dnsLabel
           kube.huggins.io/ip-pool: dns
         ports:
@@ -104,6 +106,7 @@ spec:
         controller: main
         enabled: true
         type: LoadBalancer
+        annotations: &dnsAnnotation
         labels: *dnsLabel
         ports:
           dns-udp:
