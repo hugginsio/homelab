@@ -1,0 +1,30 @@
+apiVersion: policies.kubewarden.io/v1
+kind: ClusterAdmissionPolicy
+metadata:
+  name: "container-resources-policy"
+  annotations:
+    io.kubewarden.policy.category: "best-practices"
+    io.kubewarden.policy.severity: low
+spec:
+  policyServer: default
+  module: "registry://ghcr.io/kubewarden/policies/container-resources:latest"
+  mode: monitor # TODO: update after existing workloads fixed
+  rules:
+    - apiGroups: [""]
+      apiVersions: ["v1"]
+      resources: ["pods"]
+      operations:
+        - CREATE
+        - UPDATE
+  mutating: true
+  settings:
+    cpu:
+      defaultRequest: 100m
+      defaultLimit: ~
+      maxLimit: 1000m
+    memory:
+      defaultRequest: 128MiB
+      defaultLimit: 512MiB
+      maxLimit: 2GiB
+    ignoreImages:
+      - "registry.k8s.io/kube-*"
