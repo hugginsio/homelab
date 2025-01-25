@@ -106,7 +106,7 @@ spec:
         controller: main
         enabled: true
         type: LoadBalancer
-        annotations: &dnsAnnotation
+        annotations: *dnsAnnotation
         labels: *dnsLabel
         ports:
           dns-udp:
