@@ -30,6 +30,12 @@ spec:
     registries:
       allow:
         - "docker.io"
+        - "gcr.io"
         - "ghcr.io"
+        - "oci.external-secrets.io"
+        - "quay.io"
+        - "registry.${DOMAIN_PRIVATE}"
+        - "registry.developers.crunchydata.com"
+        - "registry.k8s.io"
     tags:
       reject: ["latest"]
