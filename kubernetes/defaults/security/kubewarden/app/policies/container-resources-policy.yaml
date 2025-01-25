@@ -23,8 +23,8 @@ spec:
       defaultLimit: ~
       maxLimit: 1000m
     memory:
-      defaultRequest: 128MiB
-      defaultLimit: 512MiB
-      maxLimit: 2GiB
+      defaultRequest: 128M
+      defaultLimit: 512M
+      maxLimit: 2G
     ignoreImages:
       - "registry.k8s.io/kube-*"
