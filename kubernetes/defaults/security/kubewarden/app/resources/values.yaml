@@ -6,7 +6,7 @@ auditScanner:
   parallelPolicies: 4
 policy-reporter:
   ui:
-    enabled: true
+    enabled: false
 policyServer:
   requests:
     cpu: 10m
