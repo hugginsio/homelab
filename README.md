@@ -1,6 +1,6 @@
-# 🏚️ Homelab
+# 🏠 Homelab
 
-All my homelab related configuration and notes in one place.
+Homelab adjacent automation, configuration, and notes.
 
 - `docker`: Docker Compose stacks from each standalone node
 - `external-landing`: external webpage with VPN setup instructions
@@ -9,9 +9,10 @@ All my homelab related configuration and notes in one place.
 
 ## 🎯 Goals
 
+- Provide useful applications and services for my family.
 - Use clusters instead of multiple machines with distinct roles to increase resiliency.
+- Explore parts of infrastructure management that are taken care of by other teams at $JOB.
 - Use automation where possible to reduce setup and maintenance toil.
-- Explore parts of infrastructure management that are taken care of by other teams at work.
 
 ## 🤝🏻 Thanks
 
