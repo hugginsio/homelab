@@ -1,4 +1,3 @@
----
 # https://budimanjojo.github.io/talhelper/latest/
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/heads/master/pkg/config/schemas/talconfig.json
 
@@ -11,15 +10,14 @@ additionalMachineCertSans: *sans
 allowSchedulingOnControlPlanes: true
 
 talosVersion: "v1.8.4"
-kubernetesVersion: "v1.31.4"
+kubernetesVersion: "v1.31.5"
 
 nodes:
   - hostname: hypr1
     controlPlane: true
     ipAddress: 10.0.1.11
     installDiskSelector:
-      model: "AirDisk*"
-      type: "SSD"
+      wwid: "naa.5000000000000000"
     machineDisks:
       - device: /dev/sdb
         partitions:
@@ -62,8 +60,7 @@ nodes:
     controlPlane: true
     ipAddress: 10.0.1.13
     installDiskSelector:
-      model: "AirDisk*"
-      type: "SSD"
+      wwid: "naa.5000000000000000"
     machineDisks:
       - device: /dev/sdb
         partitions:
@@ -106,3 +103,6 @@ patches:
       network:
         kubespan:
           enabled: false
+        nameservers:
+          - 10.0.1.1
+          - 10.0.2.1
