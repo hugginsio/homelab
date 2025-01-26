@@ -52,10 +52,10 @@ spec:
                   name: "golink-ts-auth"
             resources:
               requests:
-                cpu: 100m
-                memory: 2048Mi
+                cpu: 10m
+                memory: 16Mi
               limits:
-                memory: 2048Mi
+                memory: 32Mi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
