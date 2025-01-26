@@ -26,6 +26,8 @@ spec:
   # https://longhorn.io/docs/1.7.2/advanced-resources/deploy/customizing-default-settings/#using-helm
   values:
     defaultSettings:
+      concurrentAutomaticEngineUpgradePerNodeLimit: 1
+      defaultDataLocality: "best-effort"
       defaultDataPath: "/var/lib/longhorn"
     ingress:
       enabled: true
