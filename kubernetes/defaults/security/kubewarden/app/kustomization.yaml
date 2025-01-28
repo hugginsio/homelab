@@ -8,6 +8,7 @@ resources:
   - "./policies/container-resources-policy.yaml"
   - "./policies/trusted-repos-and-tags.yaml"
   - "./policies/unique-ingress-policy.yaml"
+  - "./policies/user-group-psp.yaml"
 configMapGenerator:
   - name: "kubewarden-values"
     files:
