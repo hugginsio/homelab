@@ -12,6 +12,31 @@ provider "google" {
   region  = "us-central1"
 }
 
+resource "google_compute_network" "vpc_network" {
+  name                    = "cloudlab-gcp"
+  auto_create_subnetworks = false
+  mtu                     = 1460
+}
+
+resource "google_compute_subnetwork" "cloudlab-gcp-subnet-us-central1" {
+  name          = "cloudlab-gcp-subnet-us-central1"
+  ip_cidr_range = "10.1.1.0/24"
+  network       = google_compute_network.vpc_network.id
+  region        = "us-central1"
+}
+
+resource "google_compute_firewall" "allow-ssh-from-iap" {
+  name          = "allow-ssh-from-iap"
+  network       = google_compute_network.vpc_network.id
+  source_ranges = ["35.235.240.0/20"]
+  target_tags   = ["cloud-vm"]
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+}
+
 resource "google_compute_instance" "vm_instance" {
   name         = "cloudlab-gcp-alpha"
   machine_type = "e2-micro"
@@ -36,17 +61,4 @@ resource "google_compute_instance" "vm_instance" {
       network_tier = "STANDARD"
     }
   }
-}
-
-resource "google_compute_network" "vpc_network" {
-  name                    = "cloudlab-gcp"
-  auto_create_subnetworks = false
-  mtu                     = 1460
-}
-
-resource "google_compute_subnetwork" "cloudlab-gcp-subnet-us-central1" {
-  name          = "cloudlab-gcp-subnet-us-central1"
-  ip_cidr_range = "10.1.1.0/24"
-  network       = google_compute_network.vpc_network.id
-  region        = "us-central1"
 }
