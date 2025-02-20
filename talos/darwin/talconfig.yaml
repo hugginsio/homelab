@@ -9,38 +9,33 @@ additionalApiServerCertSans: &sans
 additionalMachineCertSans: *sans
 allowSchedulingOnControlPlanes: true
 
-talosVersion: "v1.8.0"
-kubernetesVersion: "v1.30.1"
+talosVersion: "v1.9.3"
+kubernetesVersion: "v1.32.2"
 
 nodes:
   - hostname: mini1
     controlPlane: true
     ipAddress: 10.0.1.21
     installDiskSelector:
-      type: "SSD"
       wwid: "naa.5002538500000000"
     nodeLabels:
-      topology.kubernetes.io/region: *cluster
+      topology.kubernetes.io/region: homelab
+      topology.kubernetes.io/zone: *cluster
     schematic:
       customization:
         systemExtensions:
           officialExtensions:
             - "siderolabs/intel-ucode"
+
 patches:
   - |-
-    cluster:
-      network:
-        cni:
-          name: none
-      proxy:
-        disabled: true
     machine:
-      kubelet:
-        extraArgs:
-          rotate-server-certificates: true
       network:
         kubespan:
-          enabled: true
+          enabled: false
+        nameservers:
+          - 10.0.1.1
+          - 10.0.2.1
       systemDiskEncryption:
         ephemeral:
           provider: luks2
