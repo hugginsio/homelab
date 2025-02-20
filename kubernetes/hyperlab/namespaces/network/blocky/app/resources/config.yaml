@@ -42,6 +42,7 @@ customDNS:
   mapping:
     ${DOMAIN_PRIVATE}: 10.0.1.10
     kube.hyperlab.internal: 10.0.1.11,10.0.1.12,10.0.1.13
+    kube.darwin.internal: 10.0.1.21
 ports:
   dns: 53
   http: 4000
