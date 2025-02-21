@@ -1,0 +1,12 @@
+# https://taskfile.dev
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: 3
+
+tasks:
+  bootstrap:
+    desc: "Bootstrap the cluster with CNI/CSR."
+    prompt: "Bootstrap cluster 'cluster'?"
+    cmds:
+      - "until kubectl wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 30; done"
+      - "helmfile --file bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff"
