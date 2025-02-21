@@ -4,6 +4,14 @@
 version: 3
 
 tasks:
+  bootstrap:
+    desc: "Bootstrap the first node in a Talos cluster"
+    requires:
+      vars:
+        - CLUSTER
+        - TALOS_NODE
+    cmds:
+      - "talosctl --talosconfig ./{{.CLUSTER}}/clusterconfig/talosconfig -n {{.TALOS_NODE}} -e {{.TALOS_NODE}} bootstrap"
   config:
     desc: "Generate Talos cluster config YAML files"
     requires:

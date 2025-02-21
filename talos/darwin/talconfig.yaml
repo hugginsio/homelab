@@ -9,7 +9,7 @@ additionalApiServerCertSans: &sans
 additionalMachineCertSans: *sans
 allowSchedulingOnControlPlanes: true
 
-talosVersion: "v1.9.3"
+talosVersion: "v1.9.4"
 kubernetesVersion: "v1.32.2"
 
 nodes:
@@ -23,27 +23,29 @@ nodes:
       topology.kubernetes.io/zone: *cluster
     schematic:
       customization:
+        extraKernelArgs:
+          - "talos.dashboard.disabled=1"
         systemExtensions:
           officialExtensions:
+            - "siderolabs/i915"
             - "siderolabs/intel-ucode"
-
-patches:
-  - |-
-    machine:
-      network:
-        kubespan:
-          enabled: false
-        nameservers:
-          - 10.0.1.1
-          - 10.0.2.1
-      systemDiskEncryption:
-        ephemeral:
-          provider: luks2
-          keys:
-            - nodeID: {}
-              slot: 0
-        state:
-          provider: luks2
-          keys:
-            - nodeID: {}
-              slot: 0
+            - "siderolabs/iscsi-tools"
+            - "siderolabs/util-linux-tools"
+    patches:
+      - |-
+        cluster:
+          network:
+            cni:
+              name: none
+          proxy:
+            disabled: true
+        machine:
+          kubelet:
+            extraArgs:
+              rotate-server-certificates: true
+          network:
+            kubespan:
+              enabled: false
+            nameservers:
+              - 10.0.1.1
+              - 10.0.2.1
