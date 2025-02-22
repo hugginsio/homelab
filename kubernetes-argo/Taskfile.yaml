@@ -4,9 +4,25 @@
 version: 3
 
 tasks:
-  bootstrap:
-    desc: "Bootstrap the cluster with CNI/CSR."
+  bootstrap-cni:
+    desc: "Bootstrap the cluster with CNI."
     prompt: "Bootstrap cluster 'cluster'?"
+    preconditions:
+      - "which helmfile"
+      - "which kubectl"
     cmds:
       - "until kubectl wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 30; done"
+      - "helmfile --file bootstrap/helmfile-cni.yaml apply --skip-diff-on-install --suppress-diff"
+  install-defaults:
+    desc: "Install the default applications & services."
+    preconditions:
+      - "which argocd"
+      - "which helmfile"
+      - "which kubectl"
+      - "which kustomize"
+    cmds:
       - "helmfile --file bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff"
+      - "kubectl config set-context --current --namespace=argocd"
+      - "argocd login --core"
+      - "argocd version"
+      - "kubectl config set-context --current --namespace=default"
