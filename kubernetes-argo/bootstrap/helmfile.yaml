@@ -4,7 +4,7 @@
 helmDefaults:
   wait: true
   waitForJobs: true
-  timeout: 900 # CNI can take forever on slow machines
+  timeout: 600
   force: true
 
 repositories:
@@ -12,8 +12,6 @@ repositories:
     url: "https://prometheus-community.github.io/helm-charts"
   - name: metrics-server
     url: "https://kubernetes-sigs.github.io/metrics-server/"
-  - name: cilium
-    url: "https://helm.cilium.io"
   - name: postfinance
     url: "https://postfinance.github.io/kubelet-csr-approver"
 
@@ -22,14 +20,6 @@ releases:
     namespace: default
     chart: "prometheus-community/prometheus-operator-crds"
     version: 18.0.0
-  - name: cilium
-    namespace: kube-system
-    chart: "cilium/cilium"
-    version: 1.16.2
-    values:
-      - cilium.yaml
-    needs:
-      - "default/prometheus-operator-crds"
   - name: kubelet-csr-approver
     namespace: kube-system
     chart: "postfinance/kubelet-csr-approver"
@@ -38,7 +28,6 @@ releases:
       - kubelet-csr-approver.yaml
     needs:
       - "default/prometheus-operator-crds"
-      - cilium
   - name: metrics-server
     namespace: kube-system
     chart: "metrics-server/metrics-server"
@@ -47,5 +36,9 @@ releases:
       - metrics-server.yaml
     needs:
       - "default/prometheus-operator-crds"
-      - cilium
       - kubelet-csr-approver
+  - name: argocd-core
+    namespace: argocd
+    chart: "./argocd-core/"
+    needs:
+      - "default/prometheus-operator-crds"
