@@ -21,6 +21,10 @@ nodes:
     nodeLabels:
       topology.kubernetes.io/region: homelab
       topology.kubernetes.io/zone: *cluster
+    machineDisks:
+      - device: /dev/disk/by-id/ata-APPLE_HDD_HTS541010A9E662_J88000ESKD8XDB
+        partitions:
+          - mountpoint: "/var/lib/local-path-provisioner"
     schematic:
       customization:
         extraKernelArgs:
@@ -43,6 +47,14 @@ nodes:
           kubelet:
             extraArgs:
               rotate-server-certificates: true
+            extraMounts:
+              - destination: "/var/lib/local-path-provisioner"
+                type: bind
+                source: "/var/lib/local-path-provisioner"
+                options:
+                  - bind
+                  - rshared
+                  - rw
           network:
             kubespan:
               enabled: false
