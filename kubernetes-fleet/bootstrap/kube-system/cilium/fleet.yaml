@@ -1,0 +1,12 @@
+# https://fleet.rancher.io/ref-fleet-yaml
+# yaml-language-server: $schema=https://json.schemastore.org/rancher-fleet-0.8.json
+
+defaultNamespace: kube-system
+
+helm:
+  releaseName: cilium
+  repo: "https://helm.cilium.io"
+  chart: cilium
+  version: 1.16.2
+  valuesFiles:
+    - values.yaml

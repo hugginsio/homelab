@@ -1,0 +1,12 @@
+# https://fleet.rancher.io/ref-fleet-yaml
+# yaml-language-server: $schema=https://json.schemastore.org/rancher-fleet-0.8.json
+
+defaultNamespace: cattle-fleet-system
+
+helm:
+  releaseName: fleet
+  repo: "https://rancher.github.io/fleet-helm-charts/"
+  chart: fleet
+  version: 0.11.4
+  valuesFiles:
+    - values.yaml
