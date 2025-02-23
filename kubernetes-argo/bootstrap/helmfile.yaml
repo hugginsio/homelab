@@ -45,7 +45,7 @@ releases:
       - kubelet-csr-approver
   - name: argocd-core
     namespace: argocd-system
-    chart: "./argocd-system/argocd-core/"
+    chart: "./argocd-core/"
     needs:
       - "default/prometheus-operator-crds"
       - "kube-system/kubelet-csr-approver"
