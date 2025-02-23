@@ -1,0 +1,10 @@
+# https://github.com/rancher/fleet/blob/main/charts/fleet/values.yaml
+
+bootstrap:
+  enabled: true
+  branch: "hugginsio/new-kube" # TODO: change to main
+  paths: "kubernetes-fleet/bootstrap"
+  repo: "https://github.com/hugginsio/homelab"
+
+metrics:
+  enabled: true
