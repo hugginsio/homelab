@@ -1,0 +1,14 @@
+{
+  "#": "https://zed.dev/docs/configuring-zed#settings-files",
+  "lsp": {
+    "yaml-language-server": {
+      "settings": {
+        "yaml": {
+          "schemaStore": {
+            "enable": false
+          }
+        }
+      }
+    }
+  }
+}

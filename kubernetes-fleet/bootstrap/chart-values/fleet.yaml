@@ -1,0 +1,12 @@
+# https://github.com/rancher/fleet/blob/main/charts/fleet/values.yaml
+
+bootstrap:
+  # NOTE: optionally, automatically fully bootstrap fleet on install.
+  enabled: false
+  repo: ""
+  secret: ""
+  branch: master
+  paths: ""
+
+metrics:
+  enabled: true
