@@ -2,8 +2,9 @@
 
 bootstrap:
   enabled: true
+  agentNamespace: "cattle-fleet-system"
   branch: "hugginsio/new-kube" # TODO: change to main
-  paths: "kubernetes-fleet/bootstrap"
+  paths: "kubernetes-fleet/bootstrap/"
   repo: "https://github.com/hugginsio/homelab"
 
 metrics:
