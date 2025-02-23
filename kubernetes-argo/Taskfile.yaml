@@ -22,7 +22,7 @@ tasks:
       - "which kustomize"
     cmds:
       - "helmfile --file bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff"
-      - "kubectl config set-context --current --namespace=argocd"
+      - "kubectl config set-context --current --namespace=argocd-system"
       - "argocd login --core"
       - "argocd version"
       - "kubectl config set-context --current --namespace=default"
