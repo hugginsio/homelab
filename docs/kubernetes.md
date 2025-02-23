@@ -10,7 +10,8 @@
 - [ ] Boot the Talos installer
 - [ ] Ensure disk targets are set correctly in configuration (`talosctl get disks`)
 - [ ] Run `CLUSTER=<cluster> task config` from the `talos/` directory to generate the configuration files and show the `talosctl apply-config` commands
-- [ ] Once the Talos configuration is applied, run `task bootstrap-cni` from the `kubernetes-argo/` directory to install the CNI. This will not install the CSR approver, so that error will persist through CNI initialization.
+- [ ] Once the Talos configuration is applied, run `CLUSTER=<cluster> TALOS_NODE=<ip4> task bootstrap` from the `talos/` directory to bootstrap `etcd`.
+- [ ] Run `task bootstrap-cni` from the `kubernetes-argo/` directory to install the CNI. This will not install the CSR approver, so that error will persist through CNI initialization.
 
 ### Kubernetes
 
