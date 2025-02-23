@@ -33,7 +33,7 @@ releases:
     chart: "postfinance/kubelet-csr-approver"
     version: 1.2.5
     values:
-      - "kube-system/kubelet-csr-approver.yaml"
+      - "kube-system/kubelet-csr-approver/values.yaml"
     needs:
       - "default/prometheus-operator-crds"
   - name: metrics-server
@@ -41,7 +41,7 @@ releases:
     chart: "metrics-server/metrics-server"
     version: 3.12.2
     values:
-      - "kube-system/metrics-server.yaml"
+      - "kube-system/metrics-server/values.yaml"
     needs:
       - "default/prometheus-operator-crds"
       - kubelet-csr-approver
@@ -54,7 +54,7 @@ releases:
     chart: "fleet/fleet"
     version: 0.11.4
     values:
-      - "cattle-fleet-system/fleet.yaml"
+      - "cattle-fleet-system/fleet/values.yaml"
     needs:
       - "default/prometheus-operator-crds"
       - fleet-crd
