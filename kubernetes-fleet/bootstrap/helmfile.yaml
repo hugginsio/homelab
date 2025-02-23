@@ -57,4 +57,5 @@ releases:
       - "cattle-fleet-system/fleet/values.yaml"
     needs:
       - "default/prometheus-operator-crds"
+      - "kube-system/kubelet-csr-approver"
       - fleet-crd
