@@ -17,4 +17,4 @@ releases:
     chart: "cilium/cilium"
     version: 1.16.2
     values:
-      - "chart-values/cilium.yaml"
+      - "kube-system/cilium/values.yaml"

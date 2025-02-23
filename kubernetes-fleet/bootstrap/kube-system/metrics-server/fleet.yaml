@@ -1,0 +1,12 @@
+# https://fleet.rancher.io/ref-fleet-yaml
+# yaml-language-server: $schema=https://json.schemastore.org/rancher-fleet-0.8.json
+
+namespace: kube-system
+
+helm:
+  releaseName: metrics-server
+  repo: "https://kubernetes-sigs.github.io/metrics-server/"
+  chart: metrics-server
+  version: 3.12.2
+  valuesFiles:
+    - values.yaml
