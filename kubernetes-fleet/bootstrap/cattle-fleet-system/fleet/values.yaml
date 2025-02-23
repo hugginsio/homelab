@@ -1,11 +1,7 @@
 # https://github.com/rancher/fleet/blob/main/charts/fleet/values.yaml
 
 bootstrap:
-  enabled: true
-  agentNamespace: "cattle-fleet-system"
-  branch: "hugginsio/new-kube" # TODO: change to main
-  paths: "kubernetes-fleet/bootstrap/"
-  repo: "https://github.com/hugginsio/homelab"
+  enabled: false
 
 metrics:
   enabled: true
