@@ -1,7 +1,0 @@
-# https://github.com/rancher/fleet/blob/main/charts/fleet/values.yaml
-
-bootstrap:
-  enabled: false
-
-metrics:
-  enabled: true
