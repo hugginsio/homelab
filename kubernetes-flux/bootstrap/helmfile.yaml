@@ -14,11 +14,11 @@ repositories:
     url: "https://kubernetes-sigs.github.io/metrics-server/"
   - name: postfinance
     url: "https://postfinance.github.io/kubelet-csr-approver"
+  - name: kyverno
+    url: "https://kyverno.github.io/kyverno/"
 
 # TODO: update metrics-server chart values
 # TODO: update csr-approver-chart values
-# TODO: install kubewarden
-# TODO: install kubewarden policies?
 # TODO: install tailscale operator
 
 releases:
@@ -31,7 +31,7 @@ releases:
     chart: "postfinance/kubelet-csr-approver"
     version: 1.2.5
     values:
-      - "kube-system/kubelet-csr-approver/values.yaml"
+      - "../shared/kube-system/kubelet-csr-approver/values.yaml" # TODO: revisit these values
     needs:
       - "default/prometheus-operator-crds"
   - name: metrics-server
@@ -39,13 +39,23 @@ releases:
     chart: "metrics-server/metrics-server"
     version: 3.12.2
     values:
-      - "kube-system/metrics-server/values.yaml"
+      - "../shared/kube-system/metrics-server/values.yaml" # TODO: revisit these values
     needs:
       - "default/prometheus-operator-crds"
       - kubelet-csr-approver
-  - name: argocd-core
-    namespace: argocd-system
-    chart: "./argocd-core/"
+  - name: kyverno
+    namespace: kyverno-system
+    chart: "kyverno/kyverno"
+    version: 3.3.7
     needs:
       - "default/prometheus-operator-crds"
       - "kube-system/kubelet-csr-approver"
+      - "kube-system/metrics-server"
+  - name: flux
+    chart: "./fluxcd/"
+    namespace: flux-system
+    needs:
+      - "default/prometheus-operator-crds"
+      - "kube-system/kubelet-csr-approver"
+      - "kube-system/metrics-server"
+      - "kyverno-system/kyverno"

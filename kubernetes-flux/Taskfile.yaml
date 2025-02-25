@@ -15,14 +15,32 @@ tasks:
       - "helmfile --file bootstrap/helmfile-cni.yaml apply --skip-diff-on-install --suppress-diff"
   install-defaults:
     desc: "Install the default applications & services."
+    vars:
+      AGE_KEY_FILE: '{{ default "/Users/hugginsio/.config/sops/age/keys.txt" .AGE_KEY_FILE }}'
     preconditions:
+      - "sops filestatus ./bootstrap/fluxcd/github-key.secret.sops.yaml | jq --exit-status '.encrypted'"
+      - "test -f {{.AGE_KEY_FILE}}"
+      - "which helmfile"
+      - "which kubectl"
+      - "which kustomize"
+      - "which sops"
+    cmds:
+      - "helmfile --file ./bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff"
+      - "sops --decrypt ./bootstrap/fluxcd/github-key.secret.sops.yaml | kubectl apply --server-side --filename -"
+      - "sops --decrypt ./bootstrap/fluxcd/homelab-vars.secret.sops.yaml | kubectl apply --server-side --filename -"
+      - "kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey={{.AGE_KEY_FILE}}"
+      - "kubectl apply --server-side --filename ./bootstrap/fluxcd/configmap.yaml"
+      - "kubectl apply --server-side --filename ./bootstrap/fluxcd/gitrepository.yaml"
+  link-cluster:
+    desc: "Link the cluster to a FluxCD definition."
+    vars:
+      AGE_KEY_FILE: '{{ default "/Users/hugginsio/.config/sops/age/keys.txt" .AGE_KEY_FILE }}'
+    preconditions:
+      - "sops filestatus ./{{.CLUSTER}}/flux/vars/cluster-settings.secret.sops.yaml | jq --exit-status '.encrypted'"
+      - "test -f {{.AGE_KEY_FILE}}"
       - "which argocd"
       - "which helmfile"
       - "which kubectl"
       - "which kustomize"
     cmds:
-      - "helmfile --file bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff"
-      - "kubectl config set-context --current --namespace=argocd-system"
-      - "argocd login --core"
-      - "argocd version"
-      - "kubectl config set-context --current --namespace=default"
+      - ""
