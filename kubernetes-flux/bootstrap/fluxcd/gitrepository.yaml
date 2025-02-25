@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/gitrepository-source-v1.json
+
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: homelab-shared
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  url: "https://github.com/hugginsio/homelab.git"
+  ref:
+    branch: hugginsio/new-kube # TODO
+  secretRef:
+    name: github-key
+  ignore: |-
+    /*
+    !/kubernetes-flux/shared
+    /kubernetes-flux/**/*.md
+    /kubernetes-flux/**/helmfil*.yaml
