@@ -9,7 +9,7 @@ spec:
   interval: 1h0s
   url: "https://github.com/hugginsio/homelab.git"
   ref:
-    branch: hugginsio/new-kube # TODO
+    branch: main
   secretRef:
     name: github-key
   ignore: |-
