@@ -37,7 +37,7 @@ controllers:
       app:
         image:
           repository: "ghcr.io/papra-hq/papra"
-          tag: "0.3.0-rootless@sha256:a022e106b16a8285c32762c94976fe86db02838ed80a7e98b6ed9bbc744fb9c5"
+          tag: "0.9.6-rootless@sha256:1e19d0f23b6c82cd630d66e5440837a408cd7e02e880f33565ed76333b42fa94"
         securityContext: &sc
           allowPrivilegeEscalation: false
           capabilities:
