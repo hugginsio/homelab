@@ -1,0 +1,54 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/controlplaneio-fluxcd/charts/refs/heads/main/charts/flux-operator/values.schema.json
+# https://github.com/controlplaneio-fluxcd/charts/tree/main/charts/flux-operator
+
+multitenancy:
+  enabled: false
+  defaultServiceAccount: "flux-operator"
+
+# https://fluxcd.control-plane.io/operator/fluxreport/
+reporting:
+  interval: 5m
+
+installCRDs: true
+
+# TODO: understand API priority and PriorityClass (https://kubernetes.io/docs/concepts/cluster-administration/flow-control/)
+
+apiPriority:
+  enabled: false
+  level: workload-high
+  extraServiceAccounts: []
+#    - name: kustomize-controller
+#      namespace: flux-system
+#    - name: helm-controller
+#      namespace: flux-system
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 64Mi
+  limits:
+    cpu: 1000m
+    memory: 1Gi
+
+podSecurityContext:
+  fsGroup: 65534
+  fsGroupChangePolicy: OnRootMismatch
+  runAsGroup: 65534
+  runAsNonRoot: true
+  runAsUser: 65534
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+serviceMonitor:
+  create: false
+  interval: 1m

@@ -1,0 +1,145 @@
+# https://github.com/seaweedfs/seaweedfs/blob/master/k8s/charts/seaweedfs/values.yaml
+
+global:
+  createClusterRole: true
+  registry: ""
+  repository: ""
+  imageName: "chrislusf/seaweedfs"
+  imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+  loggingLevel: 1
+  enableSecurity: false
+  masterServer: null
+  securityConfig:
+    jwtSigning:
+      volumeWrite: true
+      volumeRead: false
+      filerWrite: false
+      filerRead: false
+  automountServiceAccountToken: true
+  certificates:
+    alphacrds: false
+  monitoring:
+    enabled: true
+  enableReplication: false
+  extraEnvironmentVars:
+    WEED_CLUSTER_DEFAULT: "sw"
+    WEED_CLUSTER_SW_MASTER: "seaweedfs-master.seaweedfs:9333"
+    WEED_CLUSTER_SW_FILER: "seaweedfs-filer-client.seaweedfs:8888"
+
+master:
+  enabled: false
+volume:
+  enabled: false
+filer:
+  enabled: false
+s3:
+  enabled: false
+sftp:
+  enabled: false
+
+# All-in-one deployment configuration
+allInOne:
+  enabled: true
+  replicas: 1
+
+  idleTimeout: 30
+  dataCenter: "homelab"
+  rack: "mini"
+  whiteList: "" # Comma separated IP addresses having write permission
+  disableHttp: false # Disable HTTP requests, only gRPC operations are allowed
+  metricsPort: 9324
+  loggingOverrideLevel: null
+
+  s3:
+    enabled: true
+  sftp:
+    enabled: false
+
+  service:
+    type: ClusterIP
+
+  data:
+    type: "persistentVolumeClaim"
+    claimName: seaweedfs
+    size: "900Gi"
+
+  extraVolumes: |-
+    - name: tmp
+      emptyDir: {}
+
+  extraVolumeMounts: |-
+    - name: tmp
+      mountPath: "/tmp"
+
+  readinessProbe:
+    enabled: true
+    httpGet:
+      path: /cluster/status
+      port: 9333
+    scheme: HTTP
+    initialDelaySeconds: 10
+    periodSeconds: 15
+    successThreshold: 1
+    failureThreshold: 3
+    timeoutSeconds: 5
+
+  livenessProbe:
+    enabled: true
+    httpGet:
+      path: /cluster/status
+      port: 9333
+    scheme: HTTP
+    initialDelaySeconds: 20
+    periodSeconds: 30
+    successThreshold: 1
+    failureThreshold: 5
+    timeoutSeconds: 5
+
+  affinity: ~
+
+  nodeSelector: |
+    kubernetes.io/arch: amd64
+
+  podSecurityContext:
+    enabled: true
+    fsGroup: 65534
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
+
+  containerSecurityContext:
+    enabled: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: true
+
+  # Resource management
+  resources:
+    requests:
+      cpu: 200m
+      memory: 128Mi
+    limits:
+      cpu: ~
+      memory: 2Gi
+
+cosi:
+  enabled: false
+
+certificates:
+  commonName: "SeaweedFS CA"
+  ipAddresses: []
+  keyAlgorithm: RSA
+  keySize: 2048
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  externalCertificates:
+    # This will avoid the need to use cert-manager and will rely on providing your own external certificates and CA
+    # you will need to store your provided certificates in the secret read by the different services:
+    # seaweedfs-master-cert, seaweedfs-filer-cert, etc. Can see any statefulset definition to see secret names
+    enabled: false

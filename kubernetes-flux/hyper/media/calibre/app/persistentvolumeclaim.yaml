@@ -1,0 +1,13 @@
+# yaml-language-server: $schema# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master-standalone/persistentvolumeclaim.json
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "calibre-library"
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: longhorn

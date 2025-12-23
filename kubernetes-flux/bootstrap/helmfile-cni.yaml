@@ -1,0 +1,21 @@
+# https://helmfile.readthedocs.io/en/stable/
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile.json
+
+helmDefaults:
+  wait: true
+  waitForJobs: true
+  timeout: 900 # CNI can take forever on slow machines
+  force: true
+
+repositories:
+  - name: cilium
+    url: "https://helm.cilium.io"
+
+releases:
+  - name: cilium
+    namespace: kube-system
+    chart: "cilium/cilium"
+    version: 1.18.1
+    values:
+      # NOTE: this will get replaced by Flux later.
+      - "../mini/kube-system/cilium/app/values.yaml"

@@ -1,0 +1,81 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-3.7.2/charts/library/common/values.schema.json
+# https://bjw-s-labs.github.io/helm-charts/docs/app-template/
+
+# defaultPodOptions:
+#   securityContext:
+#     fsGroup: 1000
+#     fsGroupChangePolicy: OnRootMismatch
+#     runAsGroup: &gid 1000
+#     runAsNonRoot: false # NOTE: required for s6-overlay (maybe?)
+#     runAsUser: &uid 1000
+#     seccompProfile:
+#       type: RuntimeDefault
+
+controllers:
+  app:
+    enabled: true
+    type: statefulset
+    containers:
+      app:
+        image:
+          repository: "lscr.io/linuxserver/calibre"
+          tag: "8.4.0@sha256:ac3cf58366f282a378a35ceb12109e140ac05710cbbcbcc9393f1209d9207370"
+        securityContext: &sc
+          allowPrivilegeEscalation: true # NOTE: required for s6-overlay
+          capabilities:
+            add:
+              - "seccomp:unconfined"
+              # NOTE: required for s6-overlay
+              - CHOWN
+              - SETGID
+              - SETUID
+              - SYS_ADMIN
+            drop:
+              - ALL
+          readOnlyRootFilesystem: false # NOTE: required for s6-overlay
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            memory: 1024Mi
+        env:
+          DOCKER_MODS: "linuxserver/mods:universal-calibre"
+          PGID: 1000
+          PUID: 1000
+          S6_VERBOSITY: 2
+          TITLE: Calibre
+          TZ: ${TIMEZONE}
+          UMASK_SET: "022"
+
+service:
+  app:
+    controller: app
+    ports:
+      http:
+        port: 8080
+
+ingress:
+  app:
+    annotations:
+      tailscale.com/hostname: "calibre"
+      tailscale.com/tags: "tag:filemanager"
+    className: tailscale
+    hosts:
+      - host: &host "{{ .Release.Name }}"
+        paths:
+          - path: "/"
+            pathType: Prefix
+            service:
+              identifier: app
+              port: http
+    tls:
+      - hosts:
+          - *host
+
+persistence:
+  config:
+    type: persistentVolumeClaim
+    existingClaim: "calibre-library"
+  tmp:
+    type: emptyDir

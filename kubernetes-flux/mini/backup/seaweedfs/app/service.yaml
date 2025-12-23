@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/service-v1.json
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: seaweedfs-tailscale
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "s3-mini"
+    tailscale.com/tags: "tag:s3-mini"
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  selector:
+    app.kubernetes.io/component: seaweedfs-all-in-one
+    app.kubernetes.io/name: seaweedfs
+  ports:
+    - name: swfs-s3
+      port: 8333
+      protocol: TCP
+      targetPort: 8333

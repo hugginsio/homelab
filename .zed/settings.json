@@ -1,0 +1,19 @@
+{
+  "#": "https://zed.dev/docs/configuring-zed#settings-files",
+  "file_types": {
+    "YAML": [
+      "**/*.bu"
+    ]
+  },
+  "lsp": {
+    "yaml-language-server": {
+      "settings": {
+        "yaml": {
+          "schemaStore": {
+            "enable": false
+          }
+        }
+      }
+    }
+  }
+}

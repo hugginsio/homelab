@@ -1,0 +1,73 @@
+# https://budimanjojo.github.io/talhelper/latest/
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/tags/v3.0.36/pkg/config/schemas/talconfig.json
+
+clusterName: &cluster blade
+endpoint: https://kube.blade.internal:6443
+additionalApiServerCertSans: &sans
+  - "127.0.0.1"
+allowSchedulingOnControlPlanes: true
+
+talosVersion: "v1.11.5"
+kubernetesVersion: "v1.34.2"
+
+nodes:
+  - hostname: alpha
+    certSANs: *sans
+    controlPlane: true
+    ipAddress: 10.0.2.31
+    installDiskSelector:
+      wwid: "naa.5001b444a8fcea74"
+    nodeLabels:
+      topology.kubernetes.io/region: homelab
+      topology.kubernetes.io/zone: *cluster
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - "siderolabs/intel-ucode" # Intel microcode
+            - "siderolabs/util-linux-tools" # Selection of Linux utils
+    patches:
+      - |-
+        cluster:
+          apiServer:
+            admissionControl:
+              - name: PodSecurity
+                configuration:
+                  apiVersion: pod-security.admission.config.k8s.io/v1alpha1
+                  defaults:
+                    audit: privileged
+                    audit-version: latest
+                    enforce: privileged
+                    enforce-version: latest
+                    warn: restricted
+                    warn-version: latest
+                  exemptions:
+                    namespaces: []
+                    runtimeClasses: []
+                    usernames: []
+                  kind: PodSecurityConfiguration
+          discovery:
+            enabled: false
+          network:
+            cni:
+              # NOTE: modify this for temporary clusters
+              name: flannel
+          proxy:
+            # NOTE: modify this for temporary clusters
+            disabled: false
+        machine:
+          kubelet:
+            extraArgs:
+              rotate-server-certificates: true
+          systemDiskEncryption:
+            ephemeral:
+              provider: luks2
+              keys:
+                - static:
+                    passphrase: ${ENCRYPTION_PASSPHRASE}
+                  slot: 0
+          network:
+            kubespan:
+              enabled: false
+            nameservers:
+              - 10.0.2.1

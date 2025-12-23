@@ -1,14 +1,23 @@
 # https://pre-commit.com
 # yaml-language-server: $schema=https://json.schemastore.org/pre-commit-config.json
-
 repos:
+  - repo: https://github.com/anderseknert/pre-commit-opa
+    rev: v1.5.1
+    hooks:
+      - id: conftest-test
+        args: ["--policy", "kubernetes-flux/policy"]
+        files: kubernetes-flux/.+\.ya?ml
+  - repo: https://github.com/google/yamlfmt
+    rev: v0.16.0
+    hooks:
+      - id: yamlfmt
   - repo: local
     hooks:
       - id: prevent-bruno-env
         name: Check for private Bruno env
         entry: prevent-bruno-env
         language: fail
-        files: 'bruno/.env$'
+        files: "bruno/.env$"
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.2.0
     hooks:

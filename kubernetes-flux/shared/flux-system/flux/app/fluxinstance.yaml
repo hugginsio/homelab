@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=
+
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+  annotations:
+    fluxcd.controlplane.io/reconcile: "enabled"
+    fluxcd.controlplane.io/reconcileEvery: "1h"
+    fluxcd.controlplane.io/reconcileTimeout: "3m"
+spec:
+  distribution:
+    registry: "ghcr.io/fluxcd"
+    version: "2.7.5"
+  components:
+    - source-controller
+    - kustomize-controller
+    - helm-controller
+    # TODO: set up notifications
+    # - notification-controller
+  cluster:
+    multitenant: false
+    networkPolicy: true
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: flux
+  kustomize:
+    # TODO: copy over patches from old kustomize installation
+    patches: []

@@ -1,0 +1,14 @@
+# yaml-language-server: $schema# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master-standalone/persistentvolumeclaim.json
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: plex-files
+spec:
+  accessModes:
+    # you better mount this R/O outside this StatefulSet
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: longhorn

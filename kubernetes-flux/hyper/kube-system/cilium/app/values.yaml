@@ -1,0 +1,114 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/cilium/cilium/refs/heads/main/install/kubernetes/cilium/values.schema.json
+# https://docs.cilium.io/en/stable/
+
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: "/sys/fs/cgroup"
+
+dashboards:
+  enabled: false
+  label: grafana
+  labelValue: dashboard
+
+encryption:
+  enabled: true
+  type: wireguard
+  nodeEncryption: true
+
+envoy:
+  enabled: true
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      interval: 30s
+  securityContext:
+    capabilities:
+      keepCapNetBindService: true
+
+hubble:
+  relay:
+    enabled: true
+    prometheus:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        interval: 30s
+  metrics:
+    dashboards:
+      enabled: true
+      label: grafana
+      labelValue: dashboard
+    serviceMonitor:
+      enabled: true
+      interval: 30s
+  ui:
+    enabled: true
+    ingress:
+      enabled: true
+      className: tailscale
+      annotations:
+        tailscale.com/expose: "true"
+        tailscale.com/tags: "tag:k8s-user-console"
+      hosts: &hosts
+        - hubble-hyper
+      tls:
+        - hosts: *hosts
+
+ipam:
+  mode: kubernetes # TODO: should we deviate from default?
+
+k8sServiceHost: localhost
+k8sServicePort: 7445
+kubeProxyReplacement: true
+
+l2announcements:
+  enabled: true
+
+loadBalancer:
+  algorithm: maglev
+
+nodeIPAM:
+  enabled: true
+
+operator:
+  dashboards:
+    enabled: false
+    label: grafana
+    labelValue: dashboard
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      interval: 30s
+  replicas: 2
+
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: 30s
+
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - IPC_LOCK
+      - KILL
+      - NET_ADMIN
+      - NET_BIND_SERVICE
+      - NET_RAW
+      - SETGID
+      - SETUID
+      - SYS_ADMIN
+      - SYS_RESOURCE
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
+
+socketLB:
+  hostNamespaceOnly: true

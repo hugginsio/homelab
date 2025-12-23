@@ -1,29 +1,23 @@
 # 🏠 Homelab
 
-Homelab adjacent automation, configuration, and notes.
+This monorepo contains notes and configuration for my homelab and related cloud
+infrastructure. It allows me to provide useful applications & services while
+gaining hands-on experience with enterprise best practices including GitOps,
+infrastructure-as-code, fault tolerance, and platform security.
 
-- `docker`: Docker Compose stacks from each standalone node
-- `external-landing`: external webpage with VPN setup instructions
-- `kubernetes`: Kubernetes clusters managed with FluxCD
-- `talos`: cluster configurations for *the Kubernetes operating system*
+I use some of the following tools & technologies in support of these goals:
 
-## 🎯 Goals
+- GitOps via `FluxCD`, `Helm`, and `Kustomize`
+- IaC via `Terraform`
+- Integrated secrets management via `sops` (repository secrets) and the External Secrets Operator (for secrets sync)
+- CI automation via `GitHub Actions`, `conftest`, `pre-commit`; supported by `FluxCD`
+- Security & policy management (as code!) via `Kyverno` with network security via `Cilium`
+- Resilient stateful workloads via `Longhorn` for distributed storage
+- Magical bare-metal Kubernetes via `Talos` with full disk encryption and robust node security
 
-- Provide useful applications and services for my family.
-- Use clusters instead of multiple machines with distinct roles to increase resiliency.
-- Explore parts of infrastructure management that are taken care of by other teams at $JOB.
-- Use automation where possible to reduce setup and maintenance toil.
+## Thanks
 
-## 🤝🏻 Thanks
-
-- [@buroa/k8s-gitops](https://github.com/buroa/k8s-gitops/)
-- [@loganmarchione/k8s_homelab](https://github.com/loganmarchione/k8s_homelab/)
-- [@onedr0p/home-ops](https://github.com/onedr0p/home-ops/)
-- [k8s-at-home](https://github.com/topics/k8s-at-home)
-
-## 🔗 Links
-
-- [@whazor/k8s-at-home-search](https://kubesearch.dev)
 - [Home Operations on Discord](https://discord.gg/home-operations)
-- [HomeOps: A call for the application of Devops principles at home, too](https://www.0xf8.org/2013/12/homeops-a-call-for-the-application-of-devops-principles-at-home-too-2/)
-- [Homekube](https://homekube.org)
+- [@whazor/k8s-at-home-search](https://kubesearch.dev)
+- [@onedr0p/home-ops](https://github.com/onedr0p/home-ops/)
+- [@buroa/k8s-gitops](https://github.com/buroa/k8s-gitops/)

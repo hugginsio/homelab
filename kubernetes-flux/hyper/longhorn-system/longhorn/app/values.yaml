@@ -1,0 +1,28 @@
+# https://github.com/longhorn/charts/blob/v1.8.x/charts/longhorn/values.yaml
+
+defaultSettings:
+  concurrentAutomaticEngineUpgradePerNodeLimit: 1
+  defaultDataLocality: "best-effort"
+  defaultDataPath: "/var/mnt/data"
+
+longhornUI:
+  replicas: 1
+
+ingress:
+  enabled: true
+  ingressClassName: tailscale
+  host: longhorn-hyper
+  tls: true
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/tags: "tag:k8s-admin-console"
+
+persistence:
+  defaultClass: false
+  defaultClassReplicaCount: 3
+  defaultDataLocality: "best-effort"
+
+metrics:
+  serviceMonitor:
+    enabled: true
+    interval: "1m"

@@ -1,0 +1,3 @@
+# https://github.com/postfinance/kubelet-csr-approver/blob/main/charts/kubelet-csr-approver/values.yaml
+
+replicas: 2

@@ -1,0 +1,60 @@
+# https://github.com/kyverno/policy-reporter/blob/main/charts/policy-reporter/values.yaml
+
+podSecurityContext:
+  fsGroup: 65532
+
+securityContext:
+  runAsUser: 65532
+  runAsNonRoot: true
+  privileged: false
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+networkPolicy:
+  enabled: true
+
+metrics:
+  enabled: true
+
+workers: 2
+
+# TODO: discord or webhook
+
+redis:
+  enabled: true
+  address: "redis.cache.svc.cluster.local:6379"
+  database: 2
+
+ui:
+  enabled: true
+  podSecurityContext:
+    runAsUser: 65532
+    runAsGroup: 65532
+  securityContext:
+    runAsUser: 65532
+    runAsNonRoot: true
+    privileged: false
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
+  ingress:
+    enabled: false
+    className: tailscale
+    annotations:
+      tailscale.com/expose: "true"
+      tailscale.com/tags: "tag:k8s-user-console"
+    hosts:
+      - host: &host "kyverno-${CLUSTER_NAME}"
+        paths:
+          - path: "/"
+            pathType: Prefix
+    tls:
+      - hosts:
+          - *host

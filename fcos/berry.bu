@@ -1,0 +1,9 @@
+# https://coreos.github.io/butane/config-fcos-v1_6/
+
+variant: fcos
+version: 1.1.0
+passwd:
+  users:
+    - name: core
+      ssh_authorized_keys:
+        - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEJzp8T7Wpoa2Lo7Qv+ISvIGjlPfZAghcD182yeK2pwr kyle@huggins.io"

@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master-local/namespace-v1.json
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: auth
+  labels:
+    kube.huggins.io/eso: allow

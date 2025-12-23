@@ -1,0 +1,78 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-4.5.0/charts/library/common/values.schema.json
+# https://bjw-s-labs.github.io/helm-charts/docs/app-template/
+
+defaultPodOptions:
+  securityContext:
+    fsGroup: 65534
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
+
+controllers:
+  app:
+    enabled: true
+    type: statefulset
+    containers:
+      app:
+        image:
+          repository: "ghcr.io/pocket-id/pocket-id"
+          tag: "v1.16-distroless@sha256:db061d34e1f6ff4aeb9b8a4a654fc95b820ad8be282c8bcf298eba8d8f0f0ecb"
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
+          limits:
+            memory: 128Mi
+        env:
+          APP_NAME: "Huggins Cloud"
+          APP_URL: "https://id.${DOMAIN_PRIVATE}"
+          TRUST_PROXY: "true"
+          TZ: ${TIMEZONE}
+          UI_CONFIG_DISABLED: "true"
+          UPDATE_CHECK_DISABLED: "true"
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: "/healthz"
+                port: 1411
+service:
+  app:
+    controller: app
+    ports:
+      http:
+        port: 1411
+
+route:
+  app:
+    hostnames:
+      - "id.${DOMAIN_PRIVATE}"
+    parentRefs:
+      - name: internal
+        namespace: envoy-gateway-system
+        sectionName: default
+    rules:
+      - backendRefs:
+          - identifier: app
+            port: 1411
+
+persistence:
+  data:
+    existingClaim: "pocket-id"
+    globalMounts:
+      - path: "/app/data"
+        subPath: backend
+  var:
+    type: emptyDir
+    sizeLimit: 1Gi

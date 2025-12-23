@@ -1,0 +1,122 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/grafana.integreatly.org/grafana_v1beta1.json
+
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+spec:
+  # http://docs.grafana.org/installation/configuration/
+  config:
+    analytics:
+      check_for_updates: "false"
+    auth.generic_oauth:
+      enabled: "true"
+      name: "Huggins Cloud"
+      allow_assign_grafana_admin: "true"
+      api_url: "http://pocket-id.auth.svc.cluster.local:1411/api/oidc/userinfo"
+      auth_url: "https://id.${DOMAIN_PRIVATE}/authorize"
+      auto_login: "true"
+      client_id: "379ac800-4cd6-4229-b8ae-4c1d2c02acf1"
+      client_secret: "$${AUTH_CLIENT_SECRET}"
+      role_attribute_path: contains(groups, 'admin') && 'GrafanaAdmin' || contains(groups, 'user') && 'Viewer' || 'None'
+      role_attribute_strict: "true"
+      scopes: "openid email profile groups"
+      token_url: "http://pocket-id.auth.svc.cluster.local:1411/api/oidc/token"
+    paths:
+      data: "/var/lib/grafana/"
+      logs: "/var/log/grafana"
+      plugins: "/var/lib/grafana/plugins"
+      provisioning: "/etc/grafana/provisioning"
+    log:
+      mode: console
+    grafana_net:
+      url: https://grafana.net
+    server:
+      domain: "grafana.${DOMAIN_PRIVATE}"
+      root_url: "https://grafana.${DOMAIN_PRIVATE}/"
+  deployment:
+    spec:
+      strategy:
+        type: Recreate
+      template:
+        spec:
+          containers:
+            - name: grafana
+              env:
+                - name: AUTH_CLIENT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-secret
+                      name: grafana-oidc
+                - name: GF_SECURITY_ADMIN_USER
+                  valueFrom:
+                    secretKeyRef:
+                      key: admin-user
+                      name: grafana
+                - name: GF_SECURITY_ADMIN_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: admin-pass
+                      name: grafana
+              volumeMounts:
+                - mountPath: "/etc/grafana/provisioning/dashboards"
+                  name: provisioning-config
+                - mountPath: "/var/lib/grafana/dashboards"
+                  name: dashboards
+            - name: grafana-sidecar
+              image: "ghcr.io/kiwigrid/k8s-sidecar:1.30.6@sha256:6f798138d8c0726f51fb92dd60d2651ffbbb4bcada53169700110b66b05d62f7"
+              env:
+                - name: LABEL
+                  value: "grafana"
+                - name: LABEL_VALUE
+                  value: "dashboard"
+                - name: FOLDER
+                  value: "/var/lib/grafana/dashboards"
+                - name: NAMESPACE
+                  value: ALL
+                - name: RESOURCE
+                  value: configmap
+              volumeMounts:
+                - mountPath: "/var/lib/grafana/dashboards"
+                  name: dashboards
+          securityContext:
+            fsGroup: 65534
+            runAsGroup: 65534
+            runAsNonRoot: true
+            runAsUser: 65534
+            seccompProfile:
+              type: RuntimeDefault
+          volumes:
+            - name: grafana-data
+              persistentVolumeClaim:
+                claimName: grafana-pvc
+            - name: dashboards
+              emptyDir: {}
+            - name: provisioning-config
+              configMap:
+                name: provisioning-config
+  httpRoute:
+    spec:
+      parentRefs:
+        - name: internal
+          namespace: envoy-gateway-system
+      hostnames:
+        - "grafana.${DOMAIN_PRIVATE}"
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          backendRefs:
+            - name: grafana-service
+              namespace: monitoring
+              port: 3000
+              weight: 1
+  persistentVolumeClaim:
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: "longhorn"

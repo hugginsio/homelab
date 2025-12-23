@@ -1,0 +1,54 @@
+# https://0xerr0r.github.io/blocky/latest/configuration/
+# NOTE: this configuration is used by more than one cluster
+
+bootstrapDns:
+  - "1.1.1.1"
+  - "1.0.0.1"
+upstreams:
+  groups:
+    default:
+      - "tcp-tls:1.1.1.1:853"
+      - "tcp-tls:1.0.0.1:853"
+      - "https://dns.cloudflare.com/dns-query"
+      - "https://1.1.1.1/dns-query"
+      - "https://1.0.0.1/dns-query"
+  init:
+    strategy: failOnError
+  strategy: strict
+blocking:
+  allowlists:
+    fix:
+      - |-
+        # fix Cloudflare Pages subdomains
+        /.*pages.dev/
+  denylists:
+    ads:
+      # https://github.com/hagezi/dns-blocklists
+      - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/pro.txt"
+      - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/tif.txt"
+      - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/anti.piracy-onlydomains.txt"
+      - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/popupads.txt"
+    native:
+      # https://github.com/hagezi/dns-blocklists?tab=readme-ov-file#calling-native-tracker---broadband-tracker-of-devices-services-and-operating-systems-
+      - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/native.amazon.txt"
+      - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/native.apple.txt"
+      - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/native.tiktok.txt"
+      - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/native.winoffice.txt"
+  clientGroupsBlock:
+    default:
+      - ads
+      - native
+customDNS:
+  mapping:
+    ${DOMAIN_PRIVATE}: 10.0.2.16
+    kube.hyper.internal: 10.0.2.11,10.0.2.12,10.0.2.13
+    kube.mini.internal: 10.0.2.21
+ports:
+  dns: 53
+  http: 4000
+prometheus:
+  enable: true
+  path: "/metrics"
+redis:
+  address: "redis.cache.svc.cluster.local:6379"
+  database: 1

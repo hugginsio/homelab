@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/service-v1.json
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/tailnet-fqdn: "kv2.${TAILNET_NAME}"
+  name: kv2
+  namespace: tailscale-system
+spec:
+  externalName: pending
+  type: ExternalName

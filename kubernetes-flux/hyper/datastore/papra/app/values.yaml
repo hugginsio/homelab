@@ -1,0 +1,127 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-3.7.3/charts/library/common/values.schema.json
+# https://bjw-s-labs.github.io/helm-charts/docs/app-template/
+
+defaultPodOptions:
+  securityContext:
+    fsGroup: &id 999
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: *id
+    runAsNonRoot: true
+    runAsUser: *id
+    seccompProfile:
+      type: RuntimeDefault
+
+controllers:
+  app:
+    enabled: true
+    type: statefulset
+    initContainers:
+      init:
+        image:
+          repository: "docker.io/library/busybox"
+          tag: "1.37.0@sha256:37f7b378a29ceb4c551b1b5582e27747b855bbfaa73fa11914fe0df028dc581f"
+        command: ["sh", "-c", "mkdir -p /app/app-data/db && mkdir -p /app/app-data/documents"]
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 16Mi
+          limits:
+            memory: 32Mi
+    containers:
+      app:
+        image:
+          repository: "ghcr.io/papra-hq/papra"
+          tag: "0.3.0-rootless@sha256:a022e106b16a8285c32762c94976fe86db02838ed80a7e98b6ed9bbc744fb9c5"
+        securityContext: &sc
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          # broken container behavior when true, need to investigate further
+          readOnlyRootFilesystem: false
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          limits:
+            memory: 512Mi
+        env:
+          CLIENT_BASE_URL: "https://{{ .Release.Name }}.${DOMAIN_PRIVATE}:443"
+          SERVER_CORS_ORIGINS: "https://{{ .Release.Name }}.${DOMAIN_PRIVATE}:443"
+          TZ: ${TIMEZONE}
+      oauth:
+        enabled: false
+        image:
+          repository: "quay.io/oauth2-proxy/oauth2-proxy"
+          tag: "v7.9.0@sha256:37c1570c0427e02fc7c947ef2c04e8995b8347b7abc9fcf1dbb4e376a4b221a7"
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 256Mi
+          limits:
+            memory: 512Mi
+        env:
+          OAUTH2_PROXY_CLIENT_ID: "bb42e529-799d-44b3-b615-62908a380777"
+          OAUTH2_PROXY_CLIENT_SECRET: "TODO: add secret"
+          OAUTH2_PROXY_OIDC_ISSUER_URL: "https://id.${DOMAIN_PRIVATE}"
+          OAUTH2_PROXY_COOKIE_SECRET: "TODO: secret gen"
+          OAUTH2_PROXY_UPSTREAMS: "http://papra.documents.svc.cluster.local:1221"
+          # TODO: consider moving below to common config
+          OAUTH2_PROXY_PROVIDER: "oidc"
+          OAUTH2_PROXY_SCOPE: "openid email profile groups"
+          OAUTH2_PROXY_REVERSE_PROXY: "true"
+          OAUTH2_PROXY_EMAIL_DOMAINS: "*"
+          OAUTH2_PROXY_COOKIE_SECURE: "true"
+          OAUTH2_PROXY_HTTP_ADDRESS: "0.0.0.0:4180"
+
+service:
+  app:
+    controller: app
+    ports:
+      web:
+        port: 1221
+  auth:
+    enabled: false
+    controller: app
+    ports:
+      http:
+        port: 4180
+
+ingress:
+  app:
+    hosts:
+      - host: &host "{{ .Release.Name }}.${DOMAIN_PRIVATE}"
+        paths:
+          - path: "/"
+            pathType: Prefix
+            service:
+              identifier: app
+              port: web
+    tls:
+      - hosts:
+          - *host
+
+persistence:
+  app:
+    type: persistentVolumeClaim
+    existingClaim: "papra"
+    globalMounts:
+      - path: "/app/app-data/"
+  cache:
+    type: emptyDir
+    globalMounts:
+      - path: "/home/nonroot/.cache/"
+  tmp:
+    type: emptyDir

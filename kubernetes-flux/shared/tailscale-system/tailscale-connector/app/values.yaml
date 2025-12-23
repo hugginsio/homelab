@@ -1,0 +1,19 @@
+# https://github.com/tailscale/tailscale/blob/main/cmd/k8s-operator/deploy/chart/values.yaml
+
+installCRDs: true
+
+operatorConfig:
+  defaultTags:
+    - "tag:k8s-operator"
+
+  hostname: ${CLUSTER_NAME}
+
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      add:
+        - NET_ADMIN
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault

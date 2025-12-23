@@ -1,0 +1,6 @@
+# https://github.com/kyverno/kyverno/blob/main/charts/kyverno/values.yaml
+
+features:
+  policyExceptions:
+    enabled: true
+    namespace: "*"

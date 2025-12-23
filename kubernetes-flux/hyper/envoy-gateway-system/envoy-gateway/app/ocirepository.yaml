@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
+
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: envoyproxy-gateway
+spec:
+  interval: 1h
+  url: "oci://docker.io/envoyproxy/gateway-helm"
+  ref:
+    tag: 1.6.1
+    digest: "sha256:a89ce554ad10b951e521ac543687ce41616932b2b614121eeffda4c174d2c9dc"

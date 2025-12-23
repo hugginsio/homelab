@@ -1,0 +1,103 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-3.7.3/charts/library/common/values.schema.json
+# https://bjw-s-labs.github.io/helm-charts/docs/app-template/
+
+defaultPodOptions:
+  securityContext:
+    fsGroup: 65534
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
+
+controllers:
+  app:
+    enabled: true
+    type: statefulset
+    containers:
+      app:
+        image:
+          repository: "docker.io/itzg/minecraft-bedrock-server"
+          tag: "2025.6.0@sha256:2b02fb234a4d1dc968b0207d7fb024bf9afee52c3b0823b26e1713e32faa51e0"
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            memory: 768Mi
+        probes:
+          readiness: &probe
+            enabled: true
+            custom: true
+            spec:
+              exec:
+                command:
+                  - "mc-monitor"
+                  - "status-bedrock"
+                  - "--host"
+                  - "127.0.0.1"
+              initialDelaySeconds: 5
+          liveness: *probe
+        envFrom:
+          - secretRef:
+              name: minecraft-bedrock-users
+        env:
+          # Find more options at https://github.com/itzg/docker-minecraft-bedrock-server#server-properties
+          ALLOW_CHEATS: "true"
+          ALLOW_LIST: "true"
+          DEFAULT_PLAYER_PERMISSION_LEVEL: "visitor"
+          DIFFICULTY: "normal"
+          EULA: "TRUE"
+          GAMEMODE: "survival"
+          LEVEL_NAME: "Ptarmigan"
+          LEVEL_SEED: "-2463417289277956660"
+          LEVEL_TYPE: "DEFAULT"
+          MAX_PLAYERS: "10"
+          MAX_THREADS: "8"
+          PLAYER_IDLE_TIMEOUT: "30"
+          SERVER_NAME: "Ptarmigan"
+          TICK_DISTANCE: "4"
+          TZ: ${TIMEZONE}
+          VIEW_DISTANCE: "10"
+
+service:
+  app:
+    controller: app
+    type: LoadBalancer
+    annotations:
+      lbipam.cilium.io/ips: 10.0.1.15
+    labels:
+      kube.huggins.io/ip-pool: hyper-applications
+    ports:
+      game:
+        port: 19132
+        protocol: UDP
+  app-mesh:
+    controller: app
+    type: LoadBalancer
+    annotations:
+      tailscale.com/expose: "true"
+      tailscale.com/hostname: "minecraft-ptarmigan"
+      tailscale.com/tags: "tag:gameserver-minecraft"
+    loadBalancerClass: tailscale
+    ports:
+      game:
+        port: 19132
+        protocol: UDP
+
+persistence:
+  data:
+    type: persistentVolumeClaim
+    existingClaim: "minecraft-ptarmigan"
+  tmp:
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    storageClass: nonreplicated
+    type: persistentVolumeClaim

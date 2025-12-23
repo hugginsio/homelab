@@ -1,0 +1,9 @@
+# https://github.com/kubernetes-sigs/metrics-server/blob/master/charts/metrics-server/values.yaml
+
+metrics:
+  enabled: true
+
+serviceMonitor:
+  enabled: true
+  interval: 30s
+  # TODO: revisit these values

@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/configmap-v1.json
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homelab-vars
+  namespace: flux-system
+data:
+  DOMAIN_PUBLIC: "huggins.io"
+  TIMEZONE: "America/Chicago"

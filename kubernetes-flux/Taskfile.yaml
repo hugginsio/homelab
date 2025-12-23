@@ -1,0 +1,79 @@
+# https://taskfile.dev
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: 3
+
+tasks:
+  bootstrap-cni:
+    desc: "Bootstrap the cluster with CNI."
+    vars:
+      CONTEXT:
+        sh: "kubectl config current-context"
+    prompt: "Install CNI on '{{.CONTEXT}}'?"
+    preconditions:
+      - "which helmfile"
+      - "which kubectl"
+    cmds:
+      - "until kubectl wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 30; done"
+      - "helmfile --file bootstrap/helmfile-cni.yaml apply --skip-diff-on-install --suppress-diff"
+  install-defaults:
+    desc: "Install the default applications & services."
+    vars:
+      AGE_KEY_FILE: '{{ default "/Users/hugginsio/.config/sops/age/keys.txt" .AGE_KEY_FILE }}'
+      CONTEXT:
+        sh: "kubectl config current-context"
+      TAILSCALE_ENV_FILE: "./shared/tailscale-system/tailscale-operator/app/.env"
+    requires:
+      vars:
+        - CLUSTER
+    prompt: "Install default applications & services for cluster '{{.CLUSTER}}' on context '{{.CONTEXT}}'?"
+    preconditions:
+      - "which helmfile"
+      - "which kubectl"
+      - "which kustomize"
+      - "which sops"
+      - "sops filestatus ./shared/flux-system/flux/app/github-key.secret.sops.yaml | jq --exit-status '.encrypted'"
+      - "sops filestatus ./shared/flux-system/flux/app/homelab-vars.secret.sops.yaml | jq --exit-status '.encrypted'"
+      - "test -f {{.AGE_KEY_FILE}}"
+      - "test -f {{.TAILSCALE_ENV_FILE}}"
+    cmds:
+      - "helmfile --file ./bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff"
+      - "sops --decrypt ./shared/flux-system/flux/app/github-key.secret.sops.yaml | kubectl apply --server-side --filename -"
+      - "sops --decrypt ./shared/flux-system/flux/app/homelab-vars.secret.sops.yaml | kubectl apply --server-side --filename -"
+      - "kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey={{.AGE_KEY_FILE}}"
+      - "kubectl apply --server-side --filename ./{{.CLUSTER}}/flux-system/resources/configmap.yaml"
+      - "kubectl create namespace tailscale-system"
+      - "kubectl create secret generic operator-oauth --namespace=tailscale-system --from-env-file={{.TAILSCALE_ENV_FILE}}"
+      - "kubectl apply --server-side --filename ./shared/flux-system/flux/app/configmap.yaml"
+      - "kubectl apply --server-side --filename ./shared/flux-system/flux/app/gitrepository.yaml"
+      - "kubectl apply --server-side --filename ./shared/ks.yaml"
+  refresh-secrets:
+    desc: "Refresh bootstrap secrets from repository."
+    vars:
+      AGE_KEY_FILE: '{{ default "/Users/hugginsio/.config/sops/age/keys.txt" .AGE_KEY_FILE }}'
+    preconditions:
+      - "which kubectl"
+      - "which sops"
+      - "test -f {{.AGE_KEY_FILE}}"
+    cmds:
+      - "sops --decrypt ./shared/flux-system/flux/app/github-key.secret.sops.yaml | kubectl apply --server-side --filename -"
+      - "sops --decrypt ./shared/flux-system/flux/app/homelab-vars.secret.sops.yaml | kubectl apply --server-side --filename -"
+  link-cluster:
+    desc: "Link the cluster to a FluxCD definition."
+    vars:
+      AGE_KEY_FILE: '{{ default "/Users/hugginsio/.config/sops/age/keys.txt" .AGE_KEY_FILE }}'
+      CONTEXT:
+        sh: "kubectl config current-context"
+    requires:
+      vars:
+        - CLUSTER
+    prompt: "Link to FluxCD definition for cluster '{{.CLUSTER}}' to '{{.CONTEXT}}'?"
+    preconditions:
+      - "which kubectl"
+      - "which kustomize"
+      - "which sops"
+      - "test -f {{.AGE_KEY_FILE}}"
+      - "test -f ./{{.CLUSTER}}/flux-system/resources/configmap.yaml"
+    cmds:
+      - "kubectl apply --server-side --filename ./{{.CLUSTER}}/flux-system/resources/configmap.yaml"
+      - "kubectl apply --server-side --filename ./{{.CLUSTER}}/ks.yaml"

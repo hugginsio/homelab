@@ -1,0 +1,27 @@
+# https://github.com/kubernetes-sigs/node-feature-discovery/blob/master/deployment/helm/node-feature-discovery/values.yaml
+
+worker:
+  enable: true
+  config:
+    core:
+      featureSources: &sources
+        - cpu
+        - kernel
+        - pci
+        - storage
+        - system
+        - usb
+      labelSources: *sources
+    sources:
+      cpu:
+        cpuid:
+          attributeWhitelist:
+            - ATOMICS
+            - AVX
+            - AVX10_VERSION
+            - AVX2
+            - CPUID
+            - HTT
+            - HYBRID_CPU
+            - HYPERVISOR
+            - MPX

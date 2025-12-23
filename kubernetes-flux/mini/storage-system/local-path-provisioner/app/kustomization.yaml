@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - "./ciliumnetworkpolicy.yaml"
+  - "github.com/rancher/local-path-provisioner/deploy?ref=v0.0.32"
+namespace: storage-system
+configMapGenerator:
+  - name: local-path-config
+    namespace: local-path-storage
+    behavior: merge
+    files:
+      - config.json
+patches:
+  - patch: |-
+      - op: add
+        path: "/metadata/annotations"
+        value:
+          storageclass.kubernetes.io/is-default-class: true
+    target:
+      kind: StorageClass
+      name: local-path
+generatorOptions:
+  disableNameSuffixHash: true

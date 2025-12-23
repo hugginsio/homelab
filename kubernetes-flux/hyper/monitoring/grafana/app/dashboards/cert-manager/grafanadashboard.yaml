@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/grafana.integreatly.org/grafanadashboard_v1beta1.json
+
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: network-cert-manager
+spec:
+  instanceSelector: {}
+  folder: General
+  grafanaCom:
+    id: 11001
+    revision: 1
+  datasources:
+    - inputName: "Datasource"
+      datasourceName: Prometheus

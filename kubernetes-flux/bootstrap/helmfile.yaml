@@ -1,0 +1,57 @@
+# https://helmfile.readthedocs.io/en/stable/
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile.json
+
+helmDefaults:
+  wait: true
+  waitForJobs: true
+  timeout: 600
+  force: true
+
+repositories:
+  - name: prometheus-community
+    url: "https://prometheus-community.github.io/helm-charts"
+  - name: metrics-server
+    url: "https://kubernetes-sigs.github.io/metrics-server/"
+  - name: postfinance
+    url: "https://postfinance.github.io/kubelet-csr-approver"
+  - name: controlplaneio-fluxcd
+    url: "ghcr.io/controlplaneio-fluxcd/charts"
+    oci: true
+
+releases:
+  - name: prometheus-operator-crds
+    namespace: default
+    chart: "prometheus-community/prometheus-operator-crds"
+    version: 23.0.0
+  - name: kubelet-csr-approver
+    namespace: kube-system
+    chart: "postfinance/kubelet-csr-approver"
+    version: 1.2.11
+    values:
+      - "../shared/kube-system/kubelet-csr-approver/app/values.yaml"
+    needs:
+      - "default/prometheus-operator-crds"
+  - name: metrics-server
+    namespace: kube-system
+    chart: "metrics-server/metrics-server"
+    version: 3.13.0
+    values:
+      - "../shared/kube-system/metrics-server/app/values.yaml"
+    needs:
+      - "default/prometheus-operator-crds"
+      - kubelet-csr-approver
+  - name: flux-operator
+    namespace: flux-system
+    chart: "controlplaneio-fluxcd/flux-operator"
+    version: 0.28.0
+    values:
+      - "../shared/flux-system/flux-operator/app/values.yaml"
+    needs:
+      - "default/prometheus-operator-crds"
+      - "kube-system/kubelet-csr-approver"
+      - "kube-system/metrics-server"
+  - name: flux
+    namespace: flux-system
+    chart: "../shared/flux-system/flux/app/"
+    needs:
+      - flux-operator

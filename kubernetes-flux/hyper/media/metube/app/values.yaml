@@ -1,0 +1,100 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-4.3.0/charts/library/common/values.schema.json
+# https://bjw-s-labs.github.io/helm-charts/docs/app-template/
+
+defaultPodOptions:
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: metube
+          topologyKey: "kubernetes.io/hostname"
+  securityContext:
+    fsGroup: 65534
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
+
+controllers:
+  app:
+    enabled: true
+    type: statefulset
+    containers:
+      app:
+        image:
+          repository: "ghcr.io/alexta69/metube"
+          tag: "2025.12.05@sha256:fe87482a11a86071093438cfb53f6cdcd9c648c248bccc88f3535bd275166fc8"
+        securityContext: &sc
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            memory: 512Mi
+        env:
+          DELETE_FILE_ON_TRASHCAN: "true"
+          TZ: ${TIMEZONE}
+  cleanup:
+    enabled: true
+    type: cronjob
+    cronjob:
+      backoffLimit: 6
+      concurrencyPolicy: Forbid
+      failedJobsHistory: 3
+      schedule: "0 */1 * * *"
+      startingDeadlineSeconds: 30
+      successfulJobsHistory: 1
+      suspend: false
+    annotations:
+      kubernetes.io/description: "Deletes downloaded files that are more than an hour old."
+    containers:
+      app:
+        image:
+          repository: "docker.io/library/busybox"
+          tag: "1.37.0@sha256:d82f458899c9696cb26a7c02d5568f81c8c8223f8661bb2a7988b269c8b9051e"
+        command: ["sh", "-c", "find /downloads -type f -mmin +60"]
+        securityContext: *sc
+        resources:
+          requests:
+            cpu: 10m
+            memory: 16Mi
+          limits:
+            memory: 32Mi
+
+service:
+  app:
+    controller: app
+    ports:
+      http:
+        port: &port 8081
+
+route:
+  app:
+    hostnames:
+      - "{{ .Release.Name }}.${DOMAIN_PRIVATE}"
+    parentRefs:
+      - name: internal
+        namespace: envoy-gateway-system
+        sectionName: default
+    rules:
+      - backendRefs:
+          - identifier: app
+            port: *port
+
+persistence:
+  downloads:
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 10Gi
+    storageClass: nonreplicated
+  tmp:
+    type: emptyDir
+    sizeLimit: 1Gi

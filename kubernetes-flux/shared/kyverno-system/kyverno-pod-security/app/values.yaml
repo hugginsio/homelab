@@ -1,0 +1,10 @@
+# https://artifacthub.io/packages/helm/kyverno-policies-oci/kyverno-policies#values
+
+# Pod Security Standard profile (`baseline`, `restricted`, `privileged`, `custom`).
+podSecurityStandard: restricted
+
+# Pod Security Standard (`low`, `medium`, `high`).
+podSecuritySeverity: high
+
+# Validation failure action (`Audit`, `Enforce`).
+validationFailureAction: Audit

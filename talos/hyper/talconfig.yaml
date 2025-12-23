@@ -1,0 +1,153 @@
+# https://budimanjojo.github.io/talhelper/latest/
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/tags/v3.0.34/pkg/config/schemas/talconfig.json
+
+clusterName: &cluster hyper
+endpoint: https://kube.hyper.internal:6443
+additionalApiServerCertSans: &sans
+  - "kube.hyper.internal"
+  - "127.0.0.1"
+allowSchedulingOnControlPlanes: true
+
+talosVersion: "v1.11.3"
+kubernetesVersion: "v1.34.1"
+nodes:
+  - hostname: hypr1
+    controlPlane: true
+    ipAddress: 10.0.2.11
+    installDiskSelector:
+      wwid: "naa.5000000000000000"
+    nodeAnnotations:
+      node.kubernetes.io/instance-type: "standard"
+    userVolumes:
+      - name: data
+        provisioning:
+          diskSelector:
+            match: disk.wwid == "naa.500a0751e8896492"
+          grow: true
+          minSize: 30GiB
+        filesystem:
+          type: xfs
+        encryption:
+          # NOTE: this is not an incorrect type, despite what the schema says
+          provider: luks2
+          keys:
+            - slot: 0
+              static:
+                passphrase: ${ENCRYPTION_PASSPHRASE}
+  - hostname: hypr2
+    controlPlane: true
+    ipAddress: 10.0.2.12
+    installDiskSelector:
+      wwid: "naa.50023031101b9e22"
+    nodeAnnotations:
+      node.kubernetes.io/instance-type: "colossal"
+    userVolumes:
+      - name: data
+        provisioning:
+          diskSelector:
+            match: disk.wwid == "naa.5001b444a8fcea53" # TODO: upgrade this to a 1TB disk
+          grow: true
+          minSize: 30GiB
+        filesystem:
+          type: xfs
+        encryption:
+          # NOTE: this is not an incorrect type, despite what the schema says
+          provider: luks2
+          keys:
+            - slot: 0
+              static:
+                passphrase: ${ENCRYPTION_PASSPHRASE}
+  - hostname: hypr3
+    controlPlane: true
+    ipAddress: 10.0.2.13
+    installDiskSelector:
+      wwid: "naa.5000000000000000"
+    nodeAnnotations:
+      node.kubernetes.io/instance-type: "standard"
+    userVolumes:
+      - name: data
+        provisioning:
+          diskSelector:
+            match: disk.wwid == "naa.500a0751e68fc07f" # TODO: upgrade this to a 1TB disk
+          grow: true
+          minSize: 30GiB
+        filesystem:
+          type: xfs
+        encryption:
+          # NOTE: this is not an incorrect type, despite what the schema says
+          provider: luks2
+          keys:
+            - slot: 0
+              static:
+                passphrase: ${ENCRYPTION_PASSPHRASE}
+
+controlPlane:
+  certSANs: *sans
+  nodeLabels:
+    topology.kubernetes.io/region: homelab
+    topology.kubernetes.io/zone: *cluster
+  schematic:
+    customization:
+      # extraKernelArgs: TODO
+      systemExtensions:
+        officialExtensions:
+          # - "siderolabs/i915" # Intel iGPU
+          - "siderolabs/intel-ucode" # Intel microcode
+          - "siderolabs/iscsi-tools" # Storage tools
+          - "siderolabs/util-linux-tools" # Selection of Linux utils
+
+patches:
+  - |-
+    cluster:
+      apiServer:
+        admissionControl:
+          - name: PodSecurity
+            configuration:
+              apiVersion: pod-security.admission.config.k8s.io/v1alpha1
+              defaults:
+                audit: privileged
+                audit-version: latest
+                enforce: privileged
+                enforce-version: latest
+                warn: restricted
+                warn-version: latest
+              exemptions:
+                namespaces: []
+                runtimeClasses: []
+                usernames: []
+              kind: PodSecurityConfiguration
+      network:
+        cni:
+          # NOTE: modify this for temporary clusters
+          name: none
+      proxy:
+        # NOTE: modify this for temporary clusters
+        disabled: true
+    machine:
+      files:
+        - path: /etc/cri/conf.d/20-customization.part
+          op: create
+          content: |
+            [plugins."io.containerd.cri.v1.images"]
+              discard_unpacked_layers = false
+      kubelet:
+        extraArgs:
+          rotate-server-certificates: true
+      # TODO: migrate to volume config https://budimanjojo.github.io/talhelper/latest/reference/configuration/#nodeconfigs
+      systemDiskEncryption:
+        ephemeral:
+          provider: luks2
+          keys:
+            - static:
+                passphrase: ${ENCRYPTION_PASSPHRASE}
+              slot: 0
+        state:
+          provider: luks2
+          keys:
+            - nodeID: {}
+              slot: 1
+      network:
+        kubespan:
+          enabled: false
+        nameservers:
+          - 10.0.2.1

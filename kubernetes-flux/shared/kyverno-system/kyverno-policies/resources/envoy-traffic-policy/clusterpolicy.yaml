@@ -1,0 +1,23 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: envoy-traffic-policy
+  annotations:
+    policies.kyverno.io/title: "Enforce Envoy Service externalTrafficPolicy=Cluster"
+    policies.kyverno.io/severity: medium
+spec:
+  background: true
+  validationFailureAction: audit
+  rules:
+    - name: set-external-trafficpolicy-cluster
+      match:
+        resources:
+          kinds:
+            - Service
+          selector:
+            matchLabels:
+              gateway.envoyproxy.io/owning-gateway-namespace: envoy-gateway-system
+      mutate:
+        patchStrategicMerge:
+          spec:
+            externalTrafficPolicy: Cluster

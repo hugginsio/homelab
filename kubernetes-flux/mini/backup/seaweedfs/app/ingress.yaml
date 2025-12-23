@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master/ingress.json
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: seaweedfs-ui
+  annotations:
+    tailscale.com/hostname: "s3-mini-ui"
+    tailscale.com/tags: "tag:k8s-user-console,tag:s3-mini"
+spec:
+  ingressClassName: tailscale
+  rules:
+    - host: "s3-mini-ui"
+      http:
+        paths:
+          - path: "/"
+            pathType: Prefix
+            backend:
+              service:
+                name: seaweedfs-all-in-one
+                port:
+                  number: 8080
+  tls:
+    - hosts:
+        - "s3-mini-ui"

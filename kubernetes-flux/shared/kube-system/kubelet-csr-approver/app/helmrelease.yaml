@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/helmrelease-helm-v2.json
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &name kubelet-csr-approver
+  namespace: kube-system
+spec:
+  interval: 1h
+  releaseName: *name
+  chart:
+    spec:
+      chart: kubelet-csr-approver
+      version: 1.2.12
+      sourceRef:
+        kind: HelmRepository
+        name: postfinance
+        namespace: kube-system
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: &retries 3
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      retries: *retries
+  valuesFrom:
+    - kind: ConfigMap
+      name: kubelet-csr-approver-chart-values

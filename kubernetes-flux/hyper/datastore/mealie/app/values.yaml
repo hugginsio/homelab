@@ -1,0 +1,73 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-4.5.0/charts/library/common/values.schema.json
+# https://bjw-s-labs.github.io/helm-charts/docs/app-template/
+
+defaultPodOptions:
+  securityContext:
+    fsGroup: 65534
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
+
+controllers:
+  app:
+    enabled: true
+    type: statefulset
+    containers:
+      app:
+        image:
+          repository: "docker.io/library/nginx"
+          tag: "1.29.1@sha256:d5f28ef21aabddd098f3dbc21fe5b7a7d7a184720bc07da0b6c9b9820e97f25e"
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
+          limits:
+            memory: 128Mi
+        env:
+          TZ: ${TIMEZONE}
+
+service:
+  app:
+    controller: app
+    type: ClusterIP
+    ports:
+      http:
+        enabled: true
+        port: 80
+
+route:
+  app:
+    hostnames:
+      - "{{ .Release.Name }}.${DOMAIN_PRIVATE}"
+    parentRefs:
+      - name: internal
+        namespace: envoy-gateway-system
+        sectionName: default
+    rules:
+      - backendRefs:
+          - identifier: app
+            port: 80
+
+persistence:
+  tmp:
+    type: emptyDir
+    sizeLimit: 1Gi
+  cache:
+    type: emptyDir
+    sizeLimit: 1Gi
+    globalMounts:
+      - path: "/var/cache/nginx"
+  run:
+    type: emptyDir
+    sizeLimit: 1Gi
+    globalMounts:
+      - path: "/var/run"

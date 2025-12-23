@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/gitrepository-source-v1.json
+
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: homelab
+  namespace: flux-system
+spec:
+  interval: 1h0s
+  url: "https://github.com/hugginsio/homelab.git"
+  ref:
+    branch: hugginsio/new-kube # TODO
+  secretRef:
+    name: github-key
+  ignore: |-
+    /*
+    !/kubernetes-flux/
+    /kubernetes-flux/*/ks.yaml
+    /kubernetes-flux/Taskfile.yaml
+    /kubernetes-flux/bootstrap/
+    /kubernetes-flux/policy/
+    /kubernetes-flux/shared/**/*.md
+    /kubernetes-flux/shared/**/helmfil*.yaml
+
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/gitrepository-source-v1.json
+
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: homelab-staging
+  namespace: flux-system
+spec:
+  interval: 1h0s
+  url: "https://github.com/hugginsio/homelab-staging.git"
+  ref:
+    branch: main
+  secretRef:
+    name: github-key
+  ignore: |-
+    /*
+    !/kubernetes-flux/
+    /kubernetes-flux/*/ks.yaml
+    /kubernetes-flux/Taskfile.yaml
+    /kubernetes-flux/bootstrap/
+    /kubernetes-flux/policy/
+    /kubernetes-flux/shared/**/*.md
+    /kubernetes-flux/shared/**/helmfil*.yaml

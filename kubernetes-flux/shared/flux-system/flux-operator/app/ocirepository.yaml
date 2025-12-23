@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
+
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: controlplaneio-fluxcd
+spec:
+  interval: 1h
+  url: "oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator"
+  ref:
+    tag: 0.36.0
+    digest: "sha256:33018bdc4b5e4a72d8683df2b96effa03aadef910220db9b4922736646f5087f"

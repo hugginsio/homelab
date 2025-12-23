@@ -1,0 +1,78 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-3.7.3/charts/library/common/values.schema.json
+# https://bjw-s-labs.github.io/helm-charts/docs/app-template/
+
+defaultPodOptions:
+  securityContext:
+    fsGroup: 65534
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
+
+controllers:
+  app:
+    enabled: true
+    type: statefulset
+    containers:
+      app:
+        image:
+          repository: "docker.io/filebrowser/filebrowser"
+          tag: "v2.32.0@sha256:593478e3c24c5ea9f5d7478dc549965b7bc7030707291006ce8d0b6162d3454b"
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            memory: 256Mi
+        env:
+          FB_DATABASE: "/config/filebrowser.db"
+          FB_LOG: stdout
+          FB_NOAUTH: true
+          FB_ROOT: "/data"
+          TZ: ${TIMEZONE}
+
+service:
+  app:
+    controller: app
+    ports:
+      http:
+        port: 80
+
+ingress:
+  app:
+    annotations:
+      tailscale.com/hostname: "plex-files"
+      tailscale.com/tags: "tag:filemanager"
+    className: tailscale
+    hosts:
+      - host: &host plex-files
+        paths:
+          - path: "/"
+            pathType: Prefix
+            service:
+              identifier: app
+              port: http
+    tls:
+      - hosts:
+          - *host
+
+persistence:
+  config:
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    storageClass: longhorn
+    type: persistentVolumeClaim
+  data:
+    type: persistentVolumeClaim
+    existingClaim: "plex-files"
+    globalMounts:
+      - path: "/data"
+        readOnly: false

@@ -1,0 +1,5 @@
+# https://github.com/external-secrets/external-secrets/blob/main/deploy/charts/external-secrets/values.yaml
+# yaml-language-server: $schema=https://raw.githubusercontent.com/external-secrets/external-secrets/refs/heads/main/deploy/charts/external-secrets/values.schema.json
+
+serviceMonitor:
+  enabled: true
