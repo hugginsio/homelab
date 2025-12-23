@@ -43,7 +43,7 @@ releases:
   - name: flux-operator
     namespace: flux-system
     chart: "controlplaneio-fluxcd/flux-operator"
-    version: 0.28.0
+    version: 0.38.1
     values:
       - "../shared/flux-system/flux-operator/app/values.yaml"
     needs:
