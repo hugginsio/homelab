@@ -15,7 +15,7 @@ jobs:
       run:
         working-directory: "./external-landing"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Lint
         uses: actions/setup-node@v3
         with:
