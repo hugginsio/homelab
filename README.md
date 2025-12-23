@@ -5,10 +5,10 @@ infrastructure. It allows me to provide useful applications & services while
 gaining hands-on experience with enterprise best practices including GitOps,
 infrastructure-as-code, fault tolerance, and platform security.
 
-I use some of the following tools & technologies in support of these goals:
+I use the following tools & technologies in support of these goals:
 
 - GitOps via `FluxCD`, `Helm`, and `Kustomize`
-- IaC via `Terraform`
+- IaC via `OpenTofu` (previously, I used `Terraform`)
 - Integrated secrets management via `sops` (repository secrets) and the External Secrets Operator (for secrets sync)
 - CI automation via `GitHub Actions`, `conftest`, `pre-commit`; supported by `FluxCD`
 - Security & policy management (as code!) via `Kyverno` with network security via `Cilium`
