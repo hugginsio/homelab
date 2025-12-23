@@ -19,7 +19,7 @@ controllers:
       app:
         image:
           repository: "ghcr.io/home-operations/plex"
-          tag: "1.41.6@sha256:37d36646471fb905a0080daaaa1f09ad3370b06149ed5f94dad73ead591cad0e"
+          tag: "1.42.2@sha256:9ad8a3506e1d8ebda873a668603c1a2c10e6887969564561be669efd65ae8871"
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
