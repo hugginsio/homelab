@@ -59,7 +59,7 @@ controllers:
         enabled: false
         image:
           repository: "quay.io/oauth2-proxy/oauth2-proxy"
-          tag: "v7.9.0@sha256:37c1570c0427e02fc7c947ef2c04e8995b8347b7abc9fcf1dbb4e376a4b221a7"
+          tag: "v7.13.0@sha256:56e3daedf765c7a1eea6e366fbe684be7d3084830ade14b6174570d3c7960954"
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
