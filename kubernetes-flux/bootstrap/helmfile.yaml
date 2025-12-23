@@ -22,7 +22,7 @@ releases:
   - name: prometheus-operator-crds
     namespace: default
     chart: "prometheus-community/prometheus-operator-crds"
-    version: 23.0.0
+    version: 25.0.1
   - name: kubelet-csr-approver
     namespace: kube-system
     chart: "postfinance/kubelet-csr-approver"
