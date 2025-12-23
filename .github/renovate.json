@@ -15,22 +15,22 @@
   "reviewersFromCodeOwners": true,
   "ignorePaths": [
     "**/*.sops.*",
-    "docker/**/compose.yaml"
+    "docker/"
   ],
   "flux": {
     "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
+      "(^|/)kubernetes-flux/.+\\.ya?ml$"
     ]
   },
   "helm-values": {
     "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml$"
+      "(^|/)kubernetes-flux/.+\\.ya?ml$"
     ]
   },
   "kubernetes": {
     "fileMatch": [
       "(^|/)talos/.+\\.ya?ml$",
-      "(^|/)kubernetes/.+\\.ya?ml$"
+      "(^|/)kubernetes-flux/.+\\.ya?ml$"
     ]
   }
 }
