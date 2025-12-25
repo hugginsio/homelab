@@ -2,19 +2,26 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.opentofu.org/hashicorp/google" {
-  version     = "6.21.0"
-  constraints = "6.21.0"
+  version     = "7.14.1"
+  constraints = "7.14.1"
   hashes = [
-    "h1:tVsdVwQI3pXBdjc5gZIiH3Yi2pTvZd3gRTU5XfS+Gxg=",
-    "zh:253fb7401f3cbc3a534dfd4e2217c5368a047cb19a6906663885d649ce908be5",
-    "zh:37fc56ca7739f3f6d7864e59cb9fe497324158d94e9af0c600137b122707c835",
-    "zh:5b42c8b594b2cc965a7c1c3a045cf3d14cb2711f5e9804b4d9583326f4facd1c",
-    "zh:7d82e318be528028a53995476120c5f4f9967eb26cd687b142b259a49e511f9f",
-    "zh:8659589a7e8c85d1374983abd1dcdfc5d3de1bb4a8f6810607ecc0cb16470ef0",
-    "zh:a74ca1923f94b3630b27008878179cd28704dbd201561b8b9254eba60d672f64",
-    "zh:d6ea01e88cc8e84e4dd73e54be4a7d34a67fe7cc3585ce94b2185e7d9f187f9d",
-    "zh:debcd9e4e2124310c32037dc867e6a8adc9d62e324a2e99eb3c6311f72c82ef5",
-    "zh:e582036f9b5a319776e036c26b76b33357764e940f6b8dd0838881f38dd69f04",
-    "zh:f8d68eedee5e9b61e396de7d9930e8d551496c03591fa94899965813c6fb531f",
+    "h1:3423EbI/kflqlx6rOdAsEUCNjL3SczaFtfrxeF4sxJE=",
+    "h1:FhtQ1/yQypKMPAn09RqI12qrpC1etoR0Pc7AtSEryOk=",
+    "h1:G/pvNbxN+voMTSrCAzr+P+wKioNqAMF7OCJgerz9ojw=",
+    "h1:QOEMVb8MFgbxK8t9W6nYUfRcEc9+KuSYdqlDgO1NI3I=",
+    "h1:W0eJOGh2u52zyaUz729KvZbvlLsvS10WE3U+IyAzRs8=",
+    "h1:WGl9OSAMjHnufCuMML6Vzp2STXURfZzJ5hZSGEQDOIc=",
+    "h1:Ytesb/LKGdjqYhmAOi1vVjpRAz/BlzaWICHWg19+eAE=",
+    "h1:nqxxSEXp0VBCDdGSTzSaPvGq+D3WyRjCdVQTd5SHyvA=",
+    "h1:pgPC/AD9h4DTuZaZvxu2CGR7hxosiqGTYPrjeaNwOHk=",
+    "zh:5233b90da945c52b4f3072407cc5251dfbd09be479b9d935af664cac8e4ab22b",
+    "zh:8c7f09a60903488b3c0e64ffafad66f1af8c267ab3c0810176f03f8264f91fe6",
+    "zh:944816270ddb0e9d556c1741fab405da881d5f86daf84571642230aaaf74028d",
+    "zh:99a4b73e6f375d27e15b5d851067ef6080a3252f98135ddd4d318596f1f837ac",
+    "zh:99ce5131147bf32fb201728bdb4fbdccaba80e7bf888265595819414f311995a",
+    "zh:b1bba519c96c906e717f0ff3b26368b712181bdf6f11808d5b857e003d3acc88",
+    "zh:d11ea5ba3a21222f37a697b07201791c2ce89114c7462d9e6e9f71b631651064",
+    "zh:d756b3fa2e19507878442e661c322062745804bedde0327b0cc169a72827a0a1",
+    "zh:ef2eac11035e5c490dc71783f5dc330be9c10d71a67a1f6c23e2b360abebafb3",
   ]
 }
