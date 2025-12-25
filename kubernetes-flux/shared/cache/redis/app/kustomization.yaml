@@ -7,3 +7,9 @@ resources:
   - "./persistentvolumeclaim.yaml"
   ##
   - "./helmrelease.yaml"
+configMapGenerator:
+  - name: redis-chart-values
+    files:
+      - values.yaml
+generatorOptions:
+  disableNameSuffixHash: true

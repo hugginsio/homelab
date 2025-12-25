@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-4.5.0/charts/library/common/values.schema.json
+# https://bjw-s-labs.github.io/helm-charts/docs/app-template/
+
+defaultPodOptions:
+  securityContext:
+    fsGroup: 65532
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 65532
+    runAsNonRoot: true
+    runAsUser: 65532
+    seccompProfile:
+      type: RuntimeDefault
+
+controllers:
+  app:
+    containers:
+      redis:
+        image:
+          repository: "redis"
+          tag: "8.2.1"
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 16Mi
+          limits:
+            memory: 64Mi
+
+service:
+  redis:
+    controller: app
+    ports:
+      redis:
+        enabled: true
+        port: 6379
+
+persistence:
+  data:
+    existingClaim: redis
+    globalMounts:
+      - path: "/data"
