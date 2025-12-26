@@ -3,6 +3,10 @@
   "extends": [
     "config:recommended",
     "docker:enableMajor",
+    "github>home-operations/renovate-config:semanticCommits.json5",
+    "github>hugginsio/homelab//.renovate/autoMerge",
+    "github>hugginsio/homelab//.renovate/changelogs",
+    "github>hugginsio/homelab//.renovate/customManagers",
     "helpers:pinGitHubActionDigests",
     "replacements:k8s-registry-move"
   ],
@@ -11,7 +15,6 @@
     "prIgnoreNotification"
   ],
   "rebaseWhen": "conflicted",
-  "assigneesFromCodeOwners": true,
   "reviewersFromCodeOwners": true,
   "ignorePaths": [
     "**/*.sops.*",
@@ -29,8 +32,8 @@
   },
   "kubernetes": {
     "fileMatch": [
-      "(^|/)talos/.+\\.ya?ml$",
-      "(^|/)kubernetes-flux/.+\\.ya?ml$"
+      "(^|/)kubernetes-flux/.+\\.ya?ml$",
+      "(^|/)talos/.+\\.ya?ml$"
     ]
   }
 }
