@@ -124,6 +124,13 @@ patches:
         # NOTE: modify this for temporary clusters
         disabled: true
     machine:
+      features:
+        kubernetesTalosAPIAccess:
+          allowedKubernetesNamespaces:
+            - "system-upgrade"
+          allowedRoles:
+            - "os:admin"
+          enabled: true
       files:
         - path: /etc/cri/conf.d/20-customization.part
           op: create

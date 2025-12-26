@@ -75,6 +75,13 @@ nodes:
             # NOTE: modify this for temporary clusters
             disabled: true
         machine:
+          features:
+            kubernetesTalosAPIAccess:
+              allowedKubernetesNamespaces:
+                - "system-upgrade"
+              allowedRoles:
+                - "os:admin"
+              enabled: true
           kubelet:
             extraArgs:
               rotate-server-certificates: true

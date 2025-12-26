@@ -1,0 +1,10 @@
+# https://github.com/home-operations/tuppr/blob/main/charts/tuppr/values.yaml
+
+monitoring:
+  serviceMonitor:
+    enabled: true
+    interval: 60s
+
+webhook:
+  certManager:
+    enabled: false

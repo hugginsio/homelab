@@ -3,12 +3,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 # TODO: fix this
+# NOTE: I do not remember what I wanted myself to fix here
 resources:
   - "./namespace.yaml"
   ###
   - "./flux-operator/ks.yaml"
   ###
   - "./sources/bjw-s/helmrepository.yaml"
+  - "./sources/home-operations/helmrepository.yaml"
   - "./sources/jetstack/helmrepository.yaml"
   - "./sources/prometheus-community/helmrepository.yaml"
   ###
