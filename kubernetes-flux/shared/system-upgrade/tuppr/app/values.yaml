@@ -4,3 +4,7 @@ monitoring:
   serviceMonitor:
     enabled: true
     interval: 60s
+
+securityContext:
+  seccompProfile:
+    type: RuntimeDefault
