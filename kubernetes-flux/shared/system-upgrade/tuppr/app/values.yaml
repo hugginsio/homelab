@@ -4,7 +4,3 @@ monitoring:
   serviceMonitor:
     enabled: true
     interval: 60s
-
-webhook:
-  certManager:
-    enabled: false
