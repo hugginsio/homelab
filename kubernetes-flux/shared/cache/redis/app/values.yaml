@@ -17,7 +17,7 @@ controllers:
       redis:
         image:
           repository: "redis"
-          tag: "8.2.1"
+          tag: "8.4.0"
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
