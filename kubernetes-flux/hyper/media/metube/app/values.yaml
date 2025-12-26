@@ -26,7 +26,7 @@ controllers:
       app:
         image:
           repository: "ghcr.io/alexta69/metube"
-          tag: "2025.12.14@sha256:9a2e1292c574dd1c2a2b51ead3e23fd143e071a38d0dc8d2f81ffcb4d265ba11"
+          tag: "2025.12.26@sha256:cdd71831e2568a55dfa0212d7eabb6882ee91ac152fefe9d718e62a72e220d3a"
         securityContext: &sc
           allowPrivilegeEscalation: false
           capabilities:
