@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes-flux/hyper/cert-manager/cert-manager/app
+  path: ./kubernetes-flux/shared/cert-manager/cert-manager/app
   prune: true
   wait: true
   sourceRef:
