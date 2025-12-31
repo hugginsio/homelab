@@ -21,19 +21,18 @@
     "docker/"
   ],
   "flux": {
-    "fileMatch": [
-      "(^|/)kubernetes-flux/.+\\.ya?ml$"
+    "managerFilePatterns": [
+      "/(^|/)kubernetes-flux/.+\\.ya?ml$/"
     ]
   },
   "helm-values": {
-    "fileMatch": [
-      "(^|/)kubernetes-flux/.+\\.ya?ml$"
+    "managerFilePatterns": [
+      "/(^|/)kubernetes-flux/.+\\.ya?ml$/"
     ]
   },
   "kubernetes": {
-    "fileMatch": [
-      "(^|/)kubernetes-flux/.+\\.ya?ml$",
-      "(^|/)talos/.+\\.ya?ml$"
+    "managerFilePatterns": [
+      "/(^|/)kubernetes-flux/.+\\.ya?ml$/"
     ]
   }
 }

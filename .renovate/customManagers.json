@@ -5,10 +5,10 @@
       "customType": "regex",
       "description": "Process annotated dependencies",
       "managerFilePatterns": [
-        "(^|\\/)kubernetes-flux\\/.+\\.ya?ml$"
+        "/(^|/)kubernetes-flux/.+\\.ya?ml$/"
       ],
       "matchStrings": [
-        "#\\s*renovate:\\s*datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)"
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+(:\\s|=)(&\\S+\\s)?(?<currentValue>\\S+)"
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
     },
@@ -16,7 +16,7 @@
       "customType": "regex",
       "description": "Process OCI dependencies",
       "managerFilePatterns": [
-        "/\\.yaml(?:\\.j2)?$/"
+        "/(^|/)kubernetes-flux/.+\\.ya?ml$/"
       ],
       "matchStrings": [
         "oci://(?<depName>[^:]+):(?<currentValue>\\S+)"
