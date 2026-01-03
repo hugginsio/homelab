@@ -1,24 +1,26 @@
 # https://budimanjojo.github.io/talhelper/latest/
-# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/tags/v3.0.36/pkg/config/schemas/talconfig.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/tags/v3.0.44/pkg/config/schemas/talconfig.json
 
 clusterName: &cluster blade
 endpoint: https://kube.blade.internal:6443
 additionalApiServerCertSans: &sans
+  - "kube.blade.internal"
   - "127.0.0.1"
 allowSchedulingOnControlPlanes: true
 
-talosVersion: "v1.11.5"
+talosVersion: "v1.11.6"
 kubernetesVersion: "v1.34.2"
 
 nodes:
-  - hostname: alpha
+  - hostname: one
     certSANs: *sans
     controlPlane: true
     ipAddress: 10.0.2.31
     installDiskSelector:
       wwid: "naa.5001b444a8fcea74"
     nodeLabels:
-      topology.kubernetes.io/region: homelab
+      topology.kubernetes.io/instance-type: standard
+      topology.kubernetes.io/region: arkansas
       topology.kubernetes.io/zone: *cluster
     schematic:
       customization:
@@ -51,10 +53,10 @@ nodes:
           network:
             cni:
               # NOTE: modify this for temporary clusters
-              name: flannel
+              name: none
           proxy:
             # NOTE: modify this for temporary clusters
-            disabled: false
+            disabled: true
         machine:
           features:
             kubernetesTalosAPIAccess:

@@ -41,6 +41,7 @@ blocking:
 customDNS:
   mapping:
     ${DOMAIN_PRIVATE}: 10.0.2.16
+    kube.blade.internal: 10.0.2.31
     kube.hyper.internal: 10.0.2.11,10.0.2.12,10.0.2.13
     kube.mini.internal: 10.0.2.21
 ports:
