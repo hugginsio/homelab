@@ -38,13 +38,17 @@ tasks:
       - "test -f {{.TAILSCALE_ENV_FILE}}"
     cmds:
       - "helmfile --file ./bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff"
+      # Tailscale Operator
+      - "kubectl create namespace tailscale-system"
+      - "kubectl create secret generic operator-oauth --namespace=tailscale-system --from-env-file={{.TAILSCALE_ENV_FILE}}"
+      # FluxCD
+      - "kubectl apply --server-side --filename ./{{.CLUSTER}}/flux-system/resources/configmap.yaml"
       - "sops --decrypt ./shared/flux-system/flux/app/github-key.secret.sops.yaml | kubectl apply --server-side --filename -"
       - "sops --decrypt ./shared/flux-system/flux/app/homelab-vars.secret.sops.yaml | kubectl apply --server-side --filename -"
       - "kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey={{.AGE_KEY_FILE}}"
-      - "kubectl apply --server-side --filename ./{{.CLUSTER}}/flux-system/resources/configmap.yaml"
-      - "kubectl create namespace tailscale-system"
-      - "kubectl create secret generic operator-oauth --namespace=tailscale-system --from-env-file={{.TAILSCALE_ENV_FILE}}"
       - "kubectl apply --server-side --filename ./shared/flux-system/flux/app/configmap.yaml"
+      - "kubectl apply --server-side --filename ./shared/flux-system/flux/app/fluxinstance.yaml"
+      - "kubectl wait --for condition=established --timeout=60s crd/gitrepositories.source.toolkit.fluxcd.io"
       - "kubectl apply --server-side --filename ./shared/flux-system/flux/app/gitrepository.yaml"
       - "kubectl apply --server-side --filename ./shared/ks.yaml"
   refresh-secrets:

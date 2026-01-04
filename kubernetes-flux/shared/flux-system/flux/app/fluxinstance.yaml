@@ -1,9 +1,10 @@
-# yaml-language-server: $schema=
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/fluxcd.controlplane.io/fluxinstance_v1.json
 
 apiVersion: fluxcd.controlplane.io/v1
 kind: FluxInstance
 metadata:
   name: flux
+  namespace: flux-system
   annotations:
     fluxcd.controlplane.io/reconcile: "enabled"
     fluxcd.controlplane.io/reconcileEvery: "1h"

@@ -37,10 +37,4 @@ releases:
       - "../shared/flux-system/flux-operator/app/values.yaml"
     needs:
       - "default/prometheus-operator-crds"
-      - "kube-system/kubelet-csr-approver"
       - "kube-system/metrics-server"
-  - name: flux
-    namespace: flux-system
-    chart: "../shared/flux-system/flux/app/"
-    needs:
-      - flux-operator
