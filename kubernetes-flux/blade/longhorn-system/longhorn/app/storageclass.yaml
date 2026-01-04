@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/master-standalone/storageclass.json
+
+kind: StorageClass
+apiVersion: "storage.k8s.io/v1"
+metadata:
+  name: nonreplicated
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: "driver.longhorn.io"
+allowVolumeExpansion: true
+parameters:
+  numberOfReplicas: "1"
+  dataLocality: "best-effort"
