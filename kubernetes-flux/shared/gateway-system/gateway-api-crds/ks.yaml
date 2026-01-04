@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app gateway-api-crds
+  namespace: flux-system
+spec:
+  targetNamespace: monitoring
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *app
+  path: ./kubernetes-flux/shared/gateway-system/gateway-api-crds/app
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+    namespace: flux-system
+  interval: 1h
+  retryInterval: 1m
+  timeout: 5m
