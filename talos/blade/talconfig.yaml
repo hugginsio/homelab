@@ -11,72 +11,104 @@ allowSchedulingOnControlPlanes: true
 talosVersion: "v1.11.6"
 kubernetesVersion: "v1.34.2"
 
+controlPlane:
+  certSANs: *sans
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - "siderolabs/intel-ucode" # Intel microcode
+          - "siderolabs/iscsi-tools" # Storage tools
+          - "siderolabs/util-linux-tools" # Selection of Linux utils
+  machineSpec:
+    secureboot: false
+  nameservers:
+    - 10.0.2.1
+  volumes:
+    - name: EPHEMERAL
+      encryption:
+        provider: luks2
+        keys:
+          - slot: 1
+            lockToState: true
+            static:
+              passphrase: ${ENCRYPTION_PASSPHRASE}
+              # - name: STATE
+              # NOTE: these things don't have a TPM. I'm cooked.
+
 nodes:
   - hostname: one
     certSANs: *sans
     controlPlane: true
     ipAddress: 10.0.2.31
     installDiskSelector:
-      wwid: "naa.5001b444a8fcea74"
+      serial: "0x8b3378d0"
     nodeLabels:
       topology.kubernetes.io/instance-type: standard
       topology.kubernetes.io/region: arkansas
       topology.kubernetes.io/zone: *cluster
-    schematic:
-      customization:
-        systemExtensions:
-          officialExtensions:
-            - "siderolabs/intel-ucode" # Intel microcode
-            - "siderolabs/util-linux-tools" # Selection of Linux utils
-    patches:
-      - |-
-        cluster:
-          apiServer:
-            admissionControl:
-              - name: PodSecurity
-                configuration:
-                  apiVersion: pod-security.admission.config.k8s.io/v1alpha1
-                  defaults:
-                    audit: privileged
-                    audit-version: latest
-                    enforce: privileged
-                    enforce-version: latest
-                    warn: restricted
-                    warn-version: latest
-                  exemptions:
-                    namespaces: []
-                    runtimeClasses: []
-                    usernames: []
-                  kind: PodSecurityConfiguration
-          discovery:
-            enabled: false
-          network:
-            cni:
-              # NOTE: modify this for temporary clusters
-              name: none
-          proxy:
-            # NOTE: modify this for temporary clusters
-            disabled: true
-        machine:
-          features:
-            kubernetesTalosAPIAccess:
-              allowedKubernetesNamespaces:
-                - "system-upgrade"
-              allowedRoles:
-                - "os:admin"
-              enabled: true
-          kubelet:
-            extraArgs:
-              rotate-server-certificates: true
-          systemDiskEncryption:
-            ephemeral:
-              provider: luks2
-              keys:
-                - static:
-                    passphrase: ${ENCRYPTION_PASSPHRASE}
-                  slot: 0
-          network:
-            kubespan:
-              enabled: false
-            nameservers:
-              - 10.0.2.1
+    userVolumes:
+      - name: data
+        provisioning:
+          diskSelector:
+            match: disk.wwid == "naa.500a0751e9c8903a"
+          grow: true
+          minSize: 100GiB
+        encryption:
+          provider: luks2
+          keys:
+            - slot: 1
+              lockToState: true
+              static:
+                passphrase: ${ENCRYPTION_PASSPHRASE}
+
+patches:
+  - |-
+    cluster:
+      apiServer:
+        admissionControl:
+          - name: PodSecurity
+            configuration:
+              apiVersion: pod-security.admission.config.k8s.io/v1alpha1
+              defaults:
+                audit: privileged
+                audit-version: latest
+                enforce: privileged
+                enforce-version: latest
+                warn: restricted
+                warn-version: latest
+              exemptions:
+                namespaces: []
+                runtimeClasses: []
+                usernames: []
+              kind: PodSecurityConfiguration
+      network:
+        cni:
+          # NOTE: modify this for temporary clusters
+          name: none
+      proxy:
+        # NOTE: modify this for temporary clusters
+        disabled: true
+    machine:
+      features:
+        kubernetesTalosAPIAccess:
+          allowedKubernetesNamespaces:
+            - "system-upgrade"
+          allowedRoles:
+            - "os:admin"
+          enabled: true
+      files:
+        - path: /etc/cri/conf.d/20-customization.part
+          op: create
+          content: |
+            [plugins."io.containerd.cri.v1.images"]
+              discard_unpacked_layers = false
+      kubelet:
+        extraArgs:
+          # NOTE: modify this for temporary clusters
+          rotate-server-certificates: true
+      network:
+        kubespan:
+          enabled: false
+        nameservers:
+          - 10.0.2.1

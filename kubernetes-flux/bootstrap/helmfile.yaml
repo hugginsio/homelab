@@ -12,8 +12,6 @@ repositories:
     url: "https://prometheus-community.github.io/helm-charts"
   - name: metrics-server
     url: "https://kubernetes-sigs.github.io/metrics-server/"
-  - name: postfinance
-    url: "https://postfinance.github.io/kubelet-csr-approver"
   - name: controlplaneio-fluxcd
     url: "ghcr.io/controlplaneio-fluxcd/charts"
     oci: true
@@ -23,14 +21,6 @@ releases:
     namespace: default
     chart: "prometheus-community/prometheus-operator-crds"
     version: 25.0.1
-  - name: kubelet-csr-approver
-    namespace: kube-system
-    chart: "postfinance/kubelet-csr-approver"
-    version: 1.2.12
-    values:
-      - "../shared/kube-system/kubelet-csr-approver/app/values.yaml"
-    needs:
-      - "default/prometheus-operator-crds"
   - name: metrics-server
     namespace: kube-system
     chart: "metrics-server/metrics-server"
@@ -39,7 +29,6 @@ releases:
       - "../shared/kube-system/metrics-server/app/values.yaml"
     needs:
       - "default/prometheus-operator-crds"
-      - kubelet-csr-approver
   - name: flux-operator
     namespace: flux-system
     chart: "controlplaneio-fluxcd/flux-operator"

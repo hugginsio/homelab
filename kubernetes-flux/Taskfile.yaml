@@ -4,18 +4,18 @@
 version: 3
 
 tasks:
-  bootstrap-cni:
-    desc: "Bootstrap the cluster with CNI."
+  bootstrap-cni-csr:
+    desc: "Bootstrap the cluster with CNI & CSR."
     vars:
       CONTEXT:
         sh: "kubectl config current-context"
-    prompt: "Install CNI on '{{.CONTEXT}}'?"
+    prompt: "Install CNI & CSR on '{{.CONTEXT}}'?"
     preconditions:
       - "which helmfile"
       - "which kubectl"
     cmds:
       - "until kubectl wait nodes --for=condition=Ready=False --all --timeout=10m; do sleep 30; done"
-      - "helmfile --file bootstrap/helmfile-cni.yaml apply --skip-diff-on-install --suppress-diff"
+      - "helmfile --file bootstrap/helmfile-cni-csr.yaml apply --skip-diff-on-install --suppress-diff"
   install-defaults:
     desc: "Install the default applications & services."
     vars:
