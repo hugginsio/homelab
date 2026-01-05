@@ -9,6 +9,3 @@ spec:
     - cidr: "10.0.2.30/32"
     - start: "10.0.2.36"
       stop: "10.0.2.39"
-  serviceSelector:
-    matchLabels:
-      kube.huggins.io/ip-pool: *name
