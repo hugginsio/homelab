@@ -4,6 +4,7 @@ defaultSettings:
   concurrentAutomaticEngineUpgradePerNodeLimit: 1
   defaultDataLocality: "best-effort"
   defaultDataPath: "/var/mnt/data"
+  storageReservedPercentageForDefaultDisk: 10
 
 longhornUI:
   replicas: 1
