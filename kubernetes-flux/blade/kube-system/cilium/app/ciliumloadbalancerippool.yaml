@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/cilium.io/ciliumloadbalancerippool_v2alpha1.json
+
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: &name blade
+spec:
+  blocks:
+    - cidr: "10.0.2.30/32"
+    - start: "10.0.2.36"
+      stop: "10.0.2.39"
+  serviceSelector:
+    matchLabels:
+      kube.huggins.io/ip-pool: *name

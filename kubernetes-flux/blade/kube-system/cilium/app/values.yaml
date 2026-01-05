@@ -16,6 +16,9 @@ k8sServiceHost: localhost
 k8sServicePort: 7445
 kubeProxyReplacement: true
 
+l2announcements:
+  enabled: true
+
 operator:
   replicas: 1 # TODO: remove once additional nodes set up
 

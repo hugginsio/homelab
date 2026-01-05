@@ -5,6 +5,8 @@ kind: Kustomization
 resources:
   - "./helmrepository.yaml"
   - "./helmrelease.yaml"
+  - "./ciliuml2announcementpolicy.yaml"
+  - "./ciliumloadbalancerippool.yaml"
 generatorOptions:
   disableNameSuffixHash: true
 configMapGenerator:
