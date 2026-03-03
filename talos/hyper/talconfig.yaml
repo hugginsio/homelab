@@ -1,5 +1,5 @@
 # https://budimanjojo.github.io/talhelper/latest/
-# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/tags/v3.0.34/pkg/config/schemas/talconfig.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/tags/v3.1.5/pkg/config/schemas/talconfig.json
 
 clusterName: &cluster hyper
 endpoint: https://kube.hyper.internal:6443
