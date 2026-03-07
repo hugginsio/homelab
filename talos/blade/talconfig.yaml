@@ -8,13 +8,15 @@ additionalApiServerCertSans: &sans
   - "127.0.0.1"
 allowSchedulingOnControlPlanes: true
 
-talosVersion: "v1.11.6"
-kubernetesVersion: "v1.34.2"
+talosVersion: "v1.12.4"
+kubernetesVersion: "v1.35.2"
 
 controlPlane:
   certSANs: *sans
   schematic:
     customization:
+      extraKernelArgs:
+        - "talos.dashboard.disabled=1"
       systemExtensions:
         officialExtensions:
           - "siderolabs/intel-ucode" # Intel microcode
@@ -44,7 +46,7 @@ nodes:
     installDiskSelector:
       serial: "0x8b3378d0"
     nodeLabels:
-      topology.kubernetes.io/instance-type: standard
+      topology.kubernetes.io/instance-type: smol
       topology.kubernetes.io/region: arkansas
       topology.kubernetes.io/zone: *cluster
     userVolumes:
@@ -52,6 +54,54 @@ nodes:
         provisioning:
           diskSelector:
             match: disk.wwid == "naa.500a0751e9c8903a"
+          grow: true
+          minSize: 100GiB
+        encryption:
+          provider: luks2
+          keys:
+            - slot: 1
+              lockToState: true
+              static:
+                passphrase: ${ENCRYPTION_PASSPHRASE}
+  - hostname: two
+    certSANs: *sans
+    controlPlane: true
+    ipAddress: 10.0.2.32
+    installDiskSelector:
+      serial: "0x3bb80c00"
+    nodeLabels:
+      topology.kubernetes.io/instance-type: smol
+      topology.kubernetes.io/region: arkansas
+      topology.kubernetes.io/zone: *cluster
+    userVolumes:
+      - name: data
+        provisioning:
+          diskSelector:
+            match: disk.wwid == "naa.500a0751e8896492"
+          grow: true
+          minSize: 100GiB
+        encryption:
+          provider: luks2
+          keys:
+            - slot: 1
+              lockToState: true
+              static:
+                passphrase: ${ENCRYPTION_PASSPHRASE}
+  - hostname: three
+    certSANs: *sans
+    controlPlane: true
+    ipAddress: 10.0.2.33
+    installDiskSelector:
+      serial: "0xcbf921d0"
+    nodeLabels:
+      topology.kubernetes.io/instance-type: smol
+      topology.kubernetes.io/region: arkansas
+      topology.kubernetes.io/zone: *cluster
+    userVolumes:
+      - name: data
+        provisioning:
+          diskSelector:
+            match: disk.wwid == "naa.500a0751e68fc07f"
           grow: true
           minSize: 100GiB
         encryption:
@@ -110,5 +160,3 @@ patches:
       network:
         kubespan:
           enabled: false
-        nameservers:
-          - 10.0.2.1
