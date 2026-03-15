@@ -81,3 +81,23 @@ tasks:
     cmds:
       - "kubectl apply --server-side --filename ./{{.CLUSTER}}/flux-system/resources/configmap.yaml"
       - "kubectl apply --server-side --filename ./{{.CLUSTER}}/ks.yaml"
+  kind-up:
+    desc: "Start the local validation cluster via Kind"
+    preconditions:
+      - "test -f ./kind-config.yaml"
+      - "which helm"
+      - "which kind"
+    cmds:
+      - "kind create cluster --config=kind-config.yaml"
+      - "kubectl cluster-info --context kind-homelab"
+      - "helm repo add cilium https://helm.cilium.io/ || true"
+      - "helm install cilium cilium/cilium --version 1.19.1 --namespace kube-system --set image.pullPolicy=IfNotPresent --set ipam.mode=kubernetes --set operator.replicas=1"
+      - "kubectl rollout status --namespace kube-system deployment/cilium-operator"
+      - "kubectl rollout status --namespace kube-system daemonset/cilium-envoy"
+      - "kubectl rollout status --namespace kube-system deployment/coredns"
+  kind-down:
+    desc: "Delete the local validation cluster via Kind"
+    preconditions:
+      - "which kind"
+    cmds:
+      - "kind delete cluster --name homelab"
