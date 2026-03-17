@@ -28,14 +28,15 @@ tasks:
         - CLUSTER
     prompt: "Install default applications & services for cluster '{{.CLUSTER}}' on context '{{.CONTEXT}}'?"
     preconditions:
+      - "test -f ./{{.CLUSTER}}/flux-system/resources/configmap.yaml"
+      - "test -f {{.AGE_KEY_FILE}}"
+      - "test -f {{.TAILSCALE_ENV_FILE}}"
       - "which helmfile"
       - "which kubectl"
       - "which kustomize"
       - "which sops"
       - "sops filestatus ./shared/flux-system/flux/app/github-key.secret.sops.yaml | jq --exit-status '.encrypted'"
       - "sops filestatus ./shared/flux-system/flux/app/homelab-vars.secret.sops.yaml | jq --exit-status '.encrypted'"
-      - "test -f {{.AGE_KEY_FILE}}"
-      - "test -f {{.TAILSCALE_ENV_FILE}}"
     cmds:
       - "helmfile --file ./bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff"
       # Tailscale Operator
@@ -48,6 +49,8 @@ tasks:
       - "kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey={{.AGE_KEY_FILE}}"
       - "kubectl apply --server-side --filename ./shared/flux-system/flux/app/configmap.yaml"
       - "kubectl apply --server-side --filename ./shared/flux-system/flux/app/fluxinstance.yaml"
+      - "echo 'Waiting for propagation...'"
+      - "sleep 3s"
       - "kubectl wait --for condition=established --timeout=60s crd/gitrepositories.source.toolkit.fluxcd.io"
       - "kubectl apply --server-side --filename ./shared/flux-system/flux/app/gitrepository.yaml"
       - "kubectl apply --server-side --filename ./shared/ks.yaml"
@@ -90,11 +93,15 @@ tasks:
     cmds:
       - "kind create cluster --config=kind-config.yaml"
       - "kubectl cluster-info --context kind-homelab"
-      - "helm repo add cilium https://helm.cilium.io/ || true"
+      # We manually handle installing Cilium and the CSR approver due to the unique configuration. See bootstrap/helmfile.yaml for the "real" cluster setup.
+      - "helm repo add cilium https://helm.cilium.io || true"
       - "helm install cilium cilium/cilium --version 1.19.1 --namespace kube-system --set image.pullPolicy=IfNotPresent --set ipam.mode=kubernetes --set operator.replicas=1"
+      - "helm repo add postfinance https://postfinance.github.io/kubelet-csr-approver || true"
+      - "helm install kubelet-csr-approver postfinance/kubelet-csr-approver --version 1.2.12 --namespace kube-system"
       - "kubectl rollout status --namespace kube-system deployment/cilium-operator"
       - "kubectl rollout status --namespace kube-system daemonset/cilium-envoy"
       - "kubectl rollout status --namespace kube-system deployment/coredns"
+      - "echo 'Consider running `CLUSTER=kind task install-defaults` next.'"
   kind-down:
     desc: "Delete the local validation cluster via Kind"
     preconditions:
