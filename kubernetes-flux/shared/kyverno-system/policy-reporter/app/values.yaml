@@ -1,5 +1,8 @@
 # https://github.com/kyverno/policy-reporter/blob/main/charts/policy-reporter/values.yaml
 
+podLabels:
+  kube.huggins.io/redis-database: 2
+
 podSecurityContext:
   fsGroup: 65532
 
