@@ -95,7 +95,7 @@ tasks:
       - "kubectl cluster-info --context kind-homelab"
       # We manually handle installing Cilium and the CSR approver due to the unique configuration. See bootstrap/helmfile.yaml for the "real" cluster setup.
       - "helm repo add cilium https://helm.cilium.io || true"
-      - "helm install cilium cilium/cilium --version 1.19.1 --namespace kube-system --set image.pullPolicy=IfNotPresent --set ipam.mode=kubernetes --set operator.replicas=1"
+      - "helm install cilium cilium/cilium --version 1.19.1 --namespace kube-system --values ./kind/kube-system/cilium/app/values.yaml"
       - "helm repo add postfinance https://postfinance.github.io/kubelet-csr-approver || true"
       - "helm install kubelet-csr-approver postfinance/kubelet-csr-approver --version 1.2.12 --namespace kube-system"
       - "kubectl rollout status --namespace kube-system deployment/cilium-operator"
