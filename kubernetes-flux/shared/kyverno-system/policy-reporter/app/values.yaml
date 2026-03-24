@@ -1,10 +1,18 @@
 # https://github.com/kyverno/policy-reporter/blob/main/charts/policy-reporter/values.yaml
 
 podLabels:
-  kube.huggins.io/redis-database: 2
+  kube.huggins.io/cache-db: "2"
 
 podSecurityContext:
   fsGroup: 65532
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+  limits:
+    cpu: 100m
+    memory: 64Mi
 
 securityContext:
   runAsUser: 65532
@@ -16,19 +24,16 @@ securityContext:
     drop:
       - ALL
 
-networkPolicy:
-  enabled: true
-
 metrics:
   enabled: true
 
-workers: 2
+workers: 1
 
-# TODO: discord or webhook
+# TODO: integrate with FOC
 
 redis:
   enabled: true
-  address: "redis.cache.svc.cluster.local:6379"
+  address: "valkey.cache.svc.cluster.local:6379"
   database: 2
 
 ui:
