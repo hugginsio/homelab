@@ -25,6 +25,8 @@ controllers:
     enabled: true
     type: deployment
     replicas: 2
+    labels:
+      kube.huggins.io/redis-database: "1"
     containers:
       app:
         image:

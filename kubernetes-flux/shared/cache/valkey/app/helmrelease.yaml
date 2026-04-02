@@ -3,28 +3,25 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &name kubelet-csr-approver
-  namespace: kube-system
+  name: &name valkey
 spec:
-  interval: 1h
+  interval: 24h
   releaseName: *name
   chart:
     spec:
-      chart: kubelet-csr-approver
-      version: 1.2.13
+      chart: valkey
+      version: 0.9.3
       sourceRef:
         kind: HelmRepository
-        name: postfinance
-        namespace: kube-system
+        name: *name
+        namespace: cache
   install:
-    crds: CreateReplace
     remediation:
       retries: &retries 3
   upgrade:
     cleanupOnFail: true
-    crds: CreateReplace
     remediation:
       retries: *retries
   valuesFrom:
     - kind: ConfigMap
-      name: kubelet-csr-approver-chart-values
+      name: valkey-chart-values

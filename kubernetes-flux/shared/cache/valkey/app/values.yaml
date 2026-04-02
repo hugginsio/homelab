@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/valkey-io/valkey-helm/refs/heads/main/valkey/values.schema.json
+# https://github.com/valkey-io/valkey-helm/tree/main/valkey
+
+serviceAccount:
+  create: false
+
+podSecurityContext:
+  fsGroup: 65532
+  runAsUser: 65532
+  runAsGroup: 65532
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+
+resources: &res
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 50m
+    memory: 64Mi
+
+initResources: *res
+
+replica:
+  enabled: false
+
+# TODO: enable metrics
+metrics:
+  enabled: false
+
+  service:
+    enabled: false
+
+  serviceMonitor:
+    enabled: false
+    interval: 1m
+
+  podMonitor:
+    enabled: false
+    port: metrics
+    interval: 1m
+
+    # TODO: revisit prometheus rule

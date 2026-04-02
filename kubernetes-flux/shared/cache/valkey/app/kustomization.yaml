@@ -6,9 +6,9 @@ resources:
   - "./helmrepository.yaml"
   - "./ciliumnetworkpolicy.yaml"
   - "./helmrelease.yaml"
-generatorOptions:
-  disableNameSuffixHash: true
 configMapGenerator:
-  - name: policy-reporter-chart-values
+  - name: valkey-chart-values
     files:
       - values.yaml
+generatorOptions:
+  disableNameSuffixHash: true

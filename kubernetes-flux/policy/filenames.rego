@@ -5,9 +5,11 @@ import rego.v1
 # Resources of a kind should have a matching filename.
 # Unless:
 #   - The kind is Secret
+#   - The kind is Cluster (Kind)
 #   - The kind is a Flux Kustomization
 deny contains msg if {
 	not startswith(input.apiVersion, "kustomize.toolkit.fluxcd.io")
+	not startswith(input.apiVersion, "kind.x-k8s.io")
 	kind := lower(input.kind)
 	not kind == "secret"
 	not kind == lower(split(data.conftest.file.name, ".")[0])
