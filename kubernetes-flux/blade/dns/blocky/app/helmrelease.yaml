@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.5.0
+      version: 4.6.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -22,9 +22,6 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: *retries
-  dependsOn:
-    - name: redis
-      namespace: cache
   valuesFrom:
     - kind: ConfigMap
       name: blocky-chart-values

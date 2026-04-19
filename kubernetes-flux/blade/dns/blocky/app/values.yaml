@@ -11,6 +11,7 @@ defaultPodOptions:
                 app.kubernetes.io/name: blocky
             topologyKey: "kubernetes.io/hostname"
           weight: 100
+  automountServiceAccountToken: false
   securityContext:
     fsGroup: 65534
     fsGroupChangePolicy: OnRootMismatch
@@ -19,14 +20,13 @@ defaultPodOptions:
     runAsUser: 65534
     seccompProfile:
       type: RuntimeDefault
-
 controllers:
   app:
     enabled: true
     type: deployment
-    replicas: 2
+    replicas: 3
     labels:
-      kube.huggins.io/redis-database: "1"
+      kube.huggins.io/cache-db: "1"
     containers:
       app:
         image:
@@ -42,9 +42,10 @@ controllers:
           readOnlyRootFilesystem: true
         resources:
           requests:
-            cpu: 20m
+            cpu: 100m
             memory: 128Mi
           limits:
+            cpu: 1000m
             memory: 256Mi
         env:
           - name: BLOCKY_CONFIG_FILE
@@ -59,7 +60,7 @@ controllers:
                   - "/app/blocky"
                   - "healthcheck"
               initialDelaySeconds: 5
-
+    strategy: RollingUpdate
 service:
   metrics:
     controller: app
@@ -87,7 +88,6 @@ service:
         port: 53
         protocol: TCP
         targetPort: 53
-
 serviceMonitor:
   app:
     enabled: true
@@ -97,7 +97,6 @@ serviceMonitor:
         scheme: http
         path: "/metrics"
         interval: 10s
-
 persistence:
   configuration:
     type: configMap
