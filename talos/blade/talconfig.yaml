@@ -2,13 +2,13 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/tags/v3.1.5/pkg/config/schemas/talconfig.json
 
 clusterName: &cluster blade
-endpoint: https://kube.blade.internal:6443
+endpoint: https://kube.blade.lab.home.arpa:6443
 additionalApiServerCertSans: &sans
-  - "kube.blade.internal"
   - "127.0.0.1"
+  - "kube.blade.lab.home.arpa"
 allowSchedulingOnControlPlanes: true
 
-talosVersion: "v1.12.4"
+talosVersion: "v1.12.5"
 kubernetesVersion: "v1.35.2"
 
 controlPlane:
@@ -111,7 +111,6 @@ nodes:
               lockToState: true
               static:
                 passphrase: ${ENCRYPTION_PASSPHRASE}
-
 patches:
   - |-
     cluster:
