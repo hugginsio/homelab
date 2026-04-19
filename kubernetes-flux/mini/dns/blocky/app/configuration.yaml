@@ -41,9 +41,10 @@ blocking:
 customDNS:
   mapping:
     ${DOMAIN_PRIVATE}: 10.0.2.16
-    kube.blade.internal: 10.0.2.31
+    kube.blade.lab.home.arpa: 10.0.2.31,10.0.2.32,10.0.2.33
     kube.hyper.internal: 10.0.2.11,10.0.2.12,10.0.2.13
     kube.mini.internal: 10.0.2.21
+    kube.mini.lab.home.arpa: 10.0.2.21
 ports:
   dns: 53
   http: 4000
