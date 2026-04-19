@@ -28,8 +28,8 @@ blocking:
       - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/anti.piracy-onlydomains.txt"
       - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/fake.txt"
       - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/nsfw.txt"
-    dns:
-      - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/doh-vpn-proxy-bypass.txt"
+    dns: []
+    # - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/wildcard/doh-vpn-proxy-bypass.txt"
     native:
       # https://github.com/hagezi/dns-blocklists?tab=readme-ov-file#calling-native-tracker---broadband-tracker-of-devices-services-and-operating-systems-
       - "https://cdn.jsdelivr.net/gh/hagezi/dns-blocklists@latest/hosts/native.amazon.txt"
@@ -43,8 +43,9 @@ blocking:
 customDNS:
   mapping:
     ${DOMAIN_PRIVATE}: 10.0.2.30
-    kube.blade.internal: 10.0.2.31
+    kube.blade.lab.home.arpa: 10.0.2.31,10.0.2.32,10.0.2.33
     kube.mini.internal: 10.0.2.21
+    kube.mini.lab.home.arpa: 10.0.2.21
 ports:
   dns: 53
   http: 4000
@@ -52,5 +53,5 @@ prometheus:
   enable: true
   path: "/metrics"
 redis:
-  address: "redis.cache.svc.cluster.local:6379"
+  address: "valkey.cache.svc.cluster.local:6379"
   database: 1
