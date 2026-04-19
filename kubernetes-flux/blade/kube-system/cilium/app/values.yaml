@@ -20,7 +20,7 @@ l2announcements:
   enabled: true
 
 operator:
-  replicas: 1 # TODO: remove once additional nodes set up
+  replicas: 2
 
 securityContext:
   capabilities:
