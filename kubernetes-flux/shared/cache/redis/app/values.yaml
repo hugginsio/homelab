@@ -2,6 +2,7 @@
 # https://bjw-s-labs.github.io/helm-charts/docs/app-template/
 
 defaultPodOptions:
+  automountServiceAccountToken: false
   securityContext:
     fsGroup: 65532
     fsGroupChangePolicy: OnRootMismatch
@@ -41,6 +42,4 @@ service:
 
 persistence:
   data:
-    existingClaim: redis
-    globalMounts:
-      - path: "/data"
+    type: emptyDir
