@@ -1,0 +1,47 @@
+# https://github.com/grafana/grafana-operator/blob/master/deploy/helm/grafana-operator/values.yaml
+
+replicas: 1
+enforceCacheLabels: "safe"
+maxConcurrentReconciles: 1
+isOpenShift: false
+logging:
+  encoder: json
+  level: info
+  time: iso8601
+
+metricsService:
+  type: ClusterIP
+  metricsPort: 9090
+  pprofPort: 8888
+
+podSecurityContext:
+  enabled: true
+  fsGroup: 65534
+  fsGroupChangePolicy: OnRootMismatch
+  runAsGroup: 65534
+  runAsNonRoot: true
+  runAsUser: 65534
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+# -- grafana operator container resources
+resources: {}
+
+serviceMonitor:
+  enabled: true
+  interval: 1m
+
+dashboard:
+  enabled: true
+  labels:
+    grafana: dashboard
