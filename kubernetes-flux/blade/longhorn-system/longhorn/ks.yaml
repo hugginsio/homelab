@@ -3,13 +3,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app longhorn
+  name: longhorn-system-longhorn
   namespace: flux-system
 spec:
   targetNamespace: longhorn-system
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
+      app.kubernetes.io/name: longhorn
   path: ./kubernetes-flux/blade/longhorn-system/longhorn/app
   prune: true
   wait: true
@@ -17,6 +17,6 @@ spec:
     kind: GitRepository
     name: homelab
     namespace: flux-system
-  interval: 1h
+  interval: 24h
   retryInterval: 1m
   timeout: 5m

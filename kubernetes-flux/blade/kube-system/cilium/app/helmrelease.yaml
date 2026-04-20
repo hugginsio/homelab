@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: &name cilium
 spec:
-  interval: 1h
+  interval: 24h
   releaseName: *name
   chart:
     spec:

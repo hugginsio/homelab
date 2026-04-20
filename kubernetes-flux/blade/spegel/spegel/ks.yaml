@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app dns-blocky
+  name: spegel-spegel
   namespace: flux-system
 spec:
-  targetNamespace: dns
+  targetNamespace: spegel
   commonMetadata:
     labels:
-      app.kubernetes.io/name: blocky
-  path: ./kubernetes-flux/blade/dns/blocky/app
+      app.kubernetes.io/name: spegel
+  path: ./kubernetes-flux/blade/spegel/spegel/app
   prune: true
   wait: true
   sourceRef:

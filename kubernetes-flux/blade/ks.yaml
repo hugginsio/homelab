@@ -5,7 +5,7 @@ metadata:
   name: cluster-blade
   namespace: flux-system
 spec:
-  interval: 60m0s
+  interval: 24h
   path: ./kubernetes-flux/blade/
   prune: true
   sourceRef:

@@ -3,7 +3,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: longhorn
+  name: spegel
 spec:
   interval: 24h
-  url: "https://charts.longhorn.io"
+  type: oci
+  url: "oci://ghcr.io/spegel-org/helm-charts"

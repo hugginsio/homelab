@@ -9,7 +9,7 @@ spec:
   targetNamespace: gateway-system
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
+      app.kubernetes.io/name: gateway-blade
   path: ./kubernetes-flux/blade/gateway-system/gateway-blade/resources
   prune: true
   wait: true
@@ -17,6 +17,6 @@ spec:
     kind: GitRepository
     name: homelab
     namespace: flux-system
-  interval: 1h
+  interval: 24h
   retryInterval: 1m
   timeout: 5m

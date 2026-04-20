@@ -1,0 +1,20 @@
+# https://github.com/spegel-org/spegel/blob/main/charts/spegel/values.yaml
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 64Mi
+  limits:
+    memory: 128Mi
+
+grafanaDashboard:
+  enabled: true
+  sidecarLabel: "grafana"
+  sidecarLabelValue: "dashboard"
+
+spegel:
+  containerdRegistryConfigPath: /etc/cri/conf.d/hosts
+
+serviceMonitor:
+  enabled: true
+  interval: 1m
