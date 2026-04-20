@@ -11,7 +11,7 @@ longhornUI:
 
 persistence:
   defaultClass: false
-  defaultClassReplicaCount: 1 # TODO: update once other nodes arrive
+  defaultClassReplicaCount: 2
   defaultDataLocality: "best-effort"
 
 metrics:
