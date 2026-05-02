@@ -1,15 +1,14 @@
 # https://budimanjojo.github.io/talhelper/latest/
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/tags/v3.1.5/pkg/config/schemas/talconfig.json
 
-clusterName: &cluster blade
+clusterName: blade
 endpoint: https://kube.blade.lab.home.arpa:6443
 additionalApiServerCertSans: &sans
-  - "127.0.0.1"
   - "kube.blade.lab.home.arpa"
 allowSchedulingOnControlPlanes: true
 
-talosVersion: "v1.12.5"
-kubernetesVersion: "v1.35.2"
+talosVersion: "v1.13.0"
+kubernetesVersion: "v1.36.0"
 
 controlPlane:
   certSANs: *sans
@@ -48,7 +47,6 @@ nodes:
     nodeLabels:
       topology.kubernetes.io/instance-type: smol
       topology.kubernetes.io/region: arkansas
-      topology.kubernetes.io/zone: *cluster
     userVolumes:
       - name: data
         provisioning:
@@ -72,7 +70,6 @@ nodes:
     nodeLabels:
       topology.kubernetes.io/instance-type: smol
       topology.kubernetes.io/region: arkansas
-      topology.kubernetes.io/zone: *cluster
     userVolumes:
       - name: data
         provisioning:
@@ -96,7 +93,6 @@ nodes:
     nodeLabels:
       topology.kubernetes.io/instance-type: smol
       topology.kubernetes.io/region: arkansas
-      topology.kubernetes.io/zone: *cluster
     userVolumes:
       - name: data
         provisioning:
