@@ -6,12 +6,12 @@ metadata:
   name: &app policy-reporter
   namespace: &ns kyverno-system
 spec:
-  interval: 1h
+  interval: 3h
   releaseName: *app
   chart:
     spec:
       chart: *app
-      version: 3.7.3
+      version: 3.7.4
       sourceRef:
         kind: HelmRepository
         name: policy-reporter

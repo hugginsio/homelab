@@ -6,7 +6,7 @@ metadata:
   name: &name golink
   namespace: default
 spec:
-  interval: 1h
+  interval: 3h
   releaseName: *name
   chart:
     spec:

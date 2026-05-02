@@ -6,6 +6,6 @@ metadata:
   name: home-operations
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 99h
   type: oci
   url: "oci://ghcr.io/home-operations/charts"

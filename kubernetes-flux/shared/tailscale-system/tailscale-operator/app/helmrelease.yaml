@@ -6,12 +6,12 @@ metadata:
   name: &app tailscale-operator
   namespace: &ns tailscale-system
 spec:
-  interval: 1h
+  interval: 3h
   releaseName: *app
   chart:
     spec:
       chart: *app
-      version: 1.92.4
+      version: 1.96.5
       sourceRef:
         kind: HelmRepository
         name: tailscale

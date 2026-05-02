@@ -6,12 +6,12 @@ metadata:
   name: &app kyverno-pod-security
   namespace: &ns kyverno-system
 spec:
-  interval: 1h
+  interval: 3h
   releaseName: *app
   chart:
     spec:
       chart: kyverno-policies
-      version: 3.6.1
+      version: 3.8.0
       sourceRef:
         kind: HelmRepository
         name: kyverno

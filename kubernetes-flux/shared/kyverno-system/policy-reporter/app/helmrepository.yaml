@@ -6,5 +6,5 @@ metadata:
   name: policy-reporter
   namespace: kyverno-system
 spec:
-  interval: 1h
+  interval: 99h
   url: "https://kyverno.github.io/policy-reporter"

@@ -6,7 +6,7 @@ metadata:
   name: homelab
   namespace: flux-system
 spec:
-  interval: 1h0s
+  interval: 99h
   url: "https://github.com/hugginsio/homelab.git"
   ref:
     branch: main
@@ -31,7 +31,7 @@ metadata:
   name: homelab-staging
   namespace: flux-system
 spec:
-  interval: 1h0s
+  interval: 99h
   url: "https://github.com/hugginsio/homelab-staging.git"
   ref:
     branch: main

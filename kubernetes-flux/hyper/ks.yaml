@@ -5,7 +5,7 @@ metadata:
   name: cluster-hyper
   namespace: flux-system
 spec:
-  interval: 60m0s
+  interval: 3h
   path: ./kubernetes-flux/hyper/
   prune: true
   sourceRef:

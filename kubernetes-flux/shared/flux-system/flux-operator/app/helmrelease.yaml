@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: &name flux-operator
 spec:
-  interval: 1h
+  interval: 3h
   releaseName: *name
   chartRef:
     kind: OCIRepository

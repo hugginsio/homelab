@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: &name spegel
 spec:
-  interval: 24h
+  interval: 3h
   releaseName: *name
   chart:
     spec:

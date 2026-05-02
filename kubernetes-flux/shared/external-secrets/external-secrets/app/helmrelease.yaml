@@ -6,19 +6,16 @@ metadata:
   name: &name external-secrets
   namespace: *name
 spec:
-  interval: 1h
+  interval: 3h
   releaseName: *name
   chart:
     spec:
       chart: *name
-      version: 1.2.0
+      version: 2.4.1
       sourceRef:
         kind: HelmRepository
         name: *name
         namespace: *name
-  dependsOn:
-    - name: tailscale-operator
-      namespace: tailscale-system
   install:
     crds: CreateReplace
     remediation:

@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: &name metube
 spec:
-  interval: 1h
+  interval: 3h
   releaseName: *name
   chart:
     spec:

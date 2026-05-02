@@ -6,12 +6,12 @@ metadata:
   name: &app kyverno
   namespace: &ns kyverno-system
 spec:
-  interval: 1h
+  interval: 3h
   releaseName: *app
   chart:
     spec:
       chart: *app
-      version: 3.7.1
+      version: 3.8.0
       sourceRef:
         kind: HelmRepository
         name: kyverno

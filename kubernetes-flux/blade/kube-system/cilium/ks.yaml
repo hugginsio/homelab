@@ -17,6 +17,6 @@ spec:
     kind: GitRepository
     name: homelab
     namespace: flux-system
-  interval: 24h
+  interval: 3h
   retryInterval: 1m
   timeout: 10m

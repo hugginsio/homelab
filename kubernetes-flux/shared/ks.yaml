@@ -5,7 +5,7 @@ metadata:
   name: cluster-shared
   namespace: flux-system
 spec:
-  interval: 1h0s
+  interval: 3h
   path: ./kubernetes-flux/shared/
   prune: true
   sourceRef:

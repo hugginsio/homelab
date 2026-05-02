@@ -8,12 +8,11 @@ import rego.v1
 #   - The kind is Cluster (Kind)
 #   - The kind is a Flux Kustomization
 deny contains msg if {
-	not startswith(input.apiVersion, "kustomize.toolkit.fluxcd.io")
-	not startswith(input.apiVersion, "kind.x-k8s.io")
-	kind := lower(input.kind)
-	not kind == "secret"
-	not kind == lower(split(data.conftest.file.name, ".")[0])
-	msg := sprintf("filename should be '%s'", [kind])
+	not is_flux_kustomization
+	not is_kind_cluster
+	not resource_kind == "secret"
+	not resource_kind == file_base
+	msg := sprintf("filename should be '%s'", [resource_kind])
 }
 
 # Secrets should be named appropriately.
@@ -23,10 +22,10 @@ deny contains msg if {
 	msg := "filename should end with 'secret.sops.yaml'"
 }
 
-# Flux Kustomizations should be named ks.yaml
+# Flux Kustomizations should be named ks.yaml.
 deny contains msg if {
-	startswith(input.apiVersion, "kustomize.toolkit.fluxcd.io")
-	lower(input.kind) == "kustomization"
-	not lower(split(data.conftest.file.name, ".")[0]) == "ks"
+	is_flux_kustomization
+	resource_kind == "kustomization"
+	not file_base == "ks"
 	msg := "filename should be `ks.yaml`"
 }

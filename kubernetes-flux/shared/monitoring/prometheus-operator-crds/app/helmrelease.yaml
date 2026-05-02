@@ -5,12 +5,12 @@ kind: HelmRelease
 metadata:
   name: &name prometheus-operator-crds
 spec:
-  interval: 1h
+  interval: 3h
   releaseName: *name
   chart:
     spec:
       chart: *name
-      version: 25.0.1
+      version: 28.0.1
       sourceRef:
         kind: HelmRepository
         name: prometheus-community

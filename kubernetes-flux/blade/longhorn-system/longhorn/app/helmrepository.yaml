@@ -5,5 +5,5 @@ kind: HelmRepository
 metadata:
   name: longhorn
 spec:
-  interval: 24h
+  interval: 99h
   url: "https://charts.longhorn.io"

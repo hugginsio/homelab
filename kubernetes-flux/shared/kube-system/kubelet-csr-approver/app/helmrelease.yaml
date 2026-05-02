@@ -6,12 +6,12 @@ metadata:
   name: &name kubelet-csr-approver
   namespace: kube-system
 spec:
-  interval: 1h
+  interval: 3h
   releaseName: *name
   chart:
     spec:
       chart: kubelet-csr-approver
-      version: 1.2.13
+      version: 1.2.14
       sourceRef:
         kind: HelmRepository
         name: postfinance
