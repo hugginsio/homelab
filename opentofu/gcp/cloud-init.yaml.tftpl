@@ -1,0 +1,30 @@
+#cloud-config
+
+write_files:
+- path: /etc/systemd/system/kv2.service
+  permissions: "0644"
+  owner: root
+  content: |
+    [Unit]
+    Description=kv2
+    After=gcr-online.target docker.socket
+    Wants=gcr-online.target docker.socket
+
+    [Service]
+    Restart=always
+    ExecStartPre=/bin/sh -c '/usr/bin/docker rm -f kv2 2>/dev/null || true'
+    ExecStart=/usr/bin/docker run \
+      --name=kv2 \
+      --env KV2_CLOUD_STORAGE=${kv2_cloud_storage} \
+      --env KV2_PRIVATE_KEY=${kv2_private_key} \
+      --env KV2_PUBLIC_KEY=${kv2_public_key} \
+      --env KV2_TS_AUTHKEY=${kv2_ts_authkey} \
+      --env KV2_NO_TLS=true \
+      --volume /mnt/stateful_partition/kv2db:/root/.config/kv2 \
+      --volume /mnt/stateful_partition/tsnet-server:/root/.config/tsnet-server \
+      ghcr.io/hugginsio/kv2:v0.11.6
+    ExecStop=/usr/bin/docker stop kv2
+
+runcmd:
+- systemctl daemon-reload
+- systemctl start kv2.service

@@ -2,7 +2,7 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "7.14.1"
+      version = "7.30.0"
     }
   }
 }
@@ -87,20 +87,32 @@ resource "google_project_iam_member" "object_user" {
 }
 
 resource "google_compute_instance" "kv2" {
-  name         = "kv2-host"
-  machine_type = "e2-micro"
-  zone         = "us-central1-a"
+  name                      = "kv2-host"
+  machine_type              = "e2-micro"
+  zone                      = "us-central1-a"
+  allow_stopping_for_update = true
 
   service_account {
-    email  = google_service_account.kv2.email
-    scopes = ["cloud-platform"]
+    email = google_service_account.kv2.email
+    scopes = [
+      "cloud-platform" # overly permissive, but required for secrets access (evidently)
+    ]
+  }
+
+  metadata = {
+    user-data = templatefile("${path.module}/cloud-init.yaml.tftpl", {
+      kv2_cloud_storage = var.kv2_cloud_storage
+      kv2_private_key   = var.kv2_private_key
+      kv2_public_key    = var.kv2_public_key
+      kv2_ts_authkey    = var.kv2_ts_authkey
+    })
   }
 
   boot_disk {
     auto_delete = true
 
     initialize_params {
-      image = "projects/cos-cloud/global/images/cos-117-18613-164-38"
+      image = "projects/cos-cloud/global/images/cos-stable-121-18867-381-81"
       size  = 10
       type  = "pd-standard"
     }
