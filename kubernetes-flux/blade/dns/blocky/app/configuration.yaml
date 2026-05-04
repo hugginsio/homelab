@@ -44,7 +44,6 @@ customDNS:
   mapping:
     ${DOMAIN_PRIVATE}: 10.0.2.30
     kube.blade.lab.home.arpa: 10.0.2.31,10.0.2.32,10.0.2.33
-    kube.mini.internal: 10.0.2.21
     kube.mini.lab.home.arpa: 10.0.2.21
 ports:
   dns: 53

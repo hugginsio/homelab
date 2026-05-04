@@ -2,6 +2,7 @@
 # https://bjw-s-labs.github.io/helm-charts/docs/app-template/
 
 defaultPodOptions:
+  automountServiceAccountToken: false
   securityContext:
     fsGroup: 65534
     fsGroupChangePolicy: OnRootMismatch
@@ -17,12 +18,12 @@ controllers:
     type: deployment
     replicas: 2
     labels:
-      kube.huggins.io/redis-database: "1"
+      kube.huggins.io/cache-db: "1"
     containers:
       app:
         image:
           repository: "ghcr.io/0xerr0r/blocky"
-          tag: "v0.28.2@sha256:5f84a54e4ee950c4ab21db905b7497476ece2f4e1a376d23ab8c4855cabddcba"
+          tag: "v0.29.0@sha256:a6d99f323d3036a99a3767a52ad612f4d8f3f31167492bfc14d4ea57b24cdfd0"
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -50,7 +51,6 @@ controllers:
                   - "/app/blocky"
                   - "healthcheck"
               initialDelaySeconds: 5
-
 service:
   metrics:
     controller: app
@@ -78,7 +78,6 @@ service:
         port: 53
         protocol: TCP
         targetPort: 53
-
 persistence:
   configuration:
     type: configMap
