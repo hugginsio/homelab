@@ -2,25 +2,26 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/tags/v3.1.5/pkg/config/schemas/talconfig.json
 
 clusterName: &cluster mini
-endpoint: https://kube.mini.internal:6443
+endpoint: https://kube.mini.lab.home.arpa:6443
 additionalApiServerCertSans: &sans
-  - "kube.mini.internal"
-  - "127.0.0.1"
+  - "kube.mini.lab.home.arpa"
 allowSchedulingOnControlPlanes: true
 
-talosVersion: "v1.11.3"
-kubernetesVersion: "v1.34.1"
+talosVersion: "v1.13.0"
+kubernetesVersion: "v1.36.0"
 
 nodes:
   - hostname: mini1
     certSANs: *sans
     controlPlane: true
     ipAddress: 10.0.2.21
+    nameservers:
+      - 10.0.2.1
     installDiskSelector:
       wwid: "naa.5001b444a8fcea74"
     nodeLabels:
-      topology.kubernetes.io/region: homelab
-      topology.kubernetes.io/zone: *cluster
+      topology.kubernetes.io/instance-type: old
+      topology.kubernetes.io/region: arkansas
     userVolumes:
       - name: data
         provisioning:
@@ -95,5 +96,3 @@ nodes:
           network:
             kubespan:
               enabled: false
-            nameservers:
-              - 10.0.2.1
