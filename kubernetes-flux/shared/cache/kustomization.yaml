@@ -5,5 +5,4 @@ kind: Kustomization
 resources:
   - "./namespace.yaml"
   ###
-  - "./redis/ks.yaml" # TODO: deprecated; remove after all workloads migrated
   - "./valkey/ks.yaml"

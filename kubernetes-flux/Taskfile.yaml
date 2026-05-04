@@ -50,7 +50,7 @@ tasks:
       - "kubectl apply --server-side --filename ./shared/flux-system/flux/app/configmap.yaml"
       - "kubectl apply --server-side --filename ./shared/flux-system/flux/app/fluxinstance.yaml"
       - "echo 'Waiting for propagation...'"
-      - "sleep 3s"
+      - "sleep 30s"
       - "kubectl wait --for condition=established --timeout=60s crd/gitrepositories.source.toolkit.fluxcd.io"
       - "kubectl apply --server-side --filename ./shared/flux-system/flux/app/gitrepository.yaml"
       - "kubectl apply --server-side --filename ./shared/ks.yaml"
