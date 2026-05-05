@@ -1,0 +1,8 @@
+# https://github.com/backube/volsync/blob/main/helm/volsync/values.yaml
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 64Mi
+  limits:
+    memory: 1Gi
