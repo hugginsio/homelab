@@ -1,7 +1,7 @@
 # https://budimanjojo.github.io/talhelper/latest/
 # yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/tags/v3.1.5/pkg/config/schemas/talconfig.json
 
-clusterName: &cluster mini
+clusterName: mini
 endpoint: https://kube.mini.lab.home.arpa:6443
 additionalApiServerCertSans: &sans
   - "kube.mini.lab.home.arpa"

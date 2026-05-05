@@ -1,11 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/tuppr.home-operations.com/talosupgrade_v1alpha1.json
+
 apiVersion: tuppr.home-operations.com/v1alpha1
 kind: TalosUpgrade
 metadata:
-  name: cluster
+  name: mini
 spec:
   talos:
-    # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-    version: v1.11.6
-
+    version: v1.13.0
   policy:
-    debug: true
+    rebootMode: powercycle
+  maintenance:
+    windows:
+      - start: "0 7 * * 6"
+        duration: "1h"
+        timezone: "America/Chicago"

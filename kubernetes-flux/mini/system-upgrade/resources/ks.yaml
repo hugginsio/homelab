@@ -3,14 +3,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app system-upgrade-resources
+  name: system-upgrade-resources
   namespace: flux-system
 spec:
   targetNamespace: system-upgrade
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  path: ./kubernetes-flux/mini/system-upgrade/resources/resources
+  path: ./kubernetes-flux/blade/system-upgrade/resources/resources
   prune: true
   wait: true
   sourceRef:
@@ -20,5 +17,3 @@ spec:
   interval: 3h
   retryInterval: 1m
   timeout: 5m
-  dependsOn:
-    - name: system-upgrade-tuppr
