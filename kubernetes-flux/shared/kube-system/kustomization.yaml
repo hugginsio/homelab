@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - "./kubelet-csr-approver/ks.yaml"
   - "./metrics-server/ks.yaml"
+  - "./external-snapshotter-crds/ks.yaml"
   ###
   - "./security-resources/ks.yaml"
