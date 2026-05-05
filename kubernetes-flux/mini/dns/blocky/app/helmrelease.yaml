@@ -22,9 +22,6 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: *retries
-  dependsOn:
-    - name: redis
-      namespace: cache
   valuesFrom:
     - kind: ConfigMap
       name: blocky-chart-values
