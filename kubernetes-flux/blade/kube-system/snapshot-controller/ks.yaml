@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app external-snapshotter-crds
+  name: &app kube-system-snapshot-controller
   namespace: flux-system
 spec:
   targetNamespace: kube-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes-flux/shared/kube-system/external-snapshotter-crds/app
+  path: ./kubernetes-flux/blade/kube-system/snapshot-controller/app
   prune: true
   wait: true
   sourceRef:
@@ -20,3 +20,5 @@ spec:
   interval: 3h
   retryInterval: 1m
   timeout: 5m
+  dependsOn:
+    - name: external-snapshotter-crds
