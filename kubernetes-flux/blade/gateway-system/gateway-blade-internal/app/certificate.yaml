@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/cert-manager.io/certificate_v1.json
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: homelab-internal
+spec:
+  commonName: "${DOMAIN_PRIVATE}"
+  dnsNames:
+    - "${DOMAIN_PRIVATE}"
+    - "*.${DOMAIN_PRIVATE}"
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  secretName: homelab-internal-tls
