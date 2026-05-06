@@ -6,3 +6,4 @@ resources:
   - "./namespace.yaml"
   ###
   - "./longhorn/ks.yaml"
+  - "./resources/ks.yaml"
