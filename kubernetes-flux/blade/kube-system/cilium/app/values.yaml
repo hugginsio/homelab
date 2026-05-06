@@ -7,7 +7,7 @@ cgroup:
   hostRoot: "/sys/fs/cgroup"
 
 gatewayAPI:
-  enabled: false # TEMP
+  enabled: true
 
 hubble:
   relay:

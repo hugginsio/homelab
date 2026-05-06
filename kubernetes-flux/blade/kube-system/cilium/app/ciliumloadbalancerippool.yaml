@@ -3,7 +3,7 @@
 apiVersion: "cilium.io/v2alpha1"
 kind: CiliumLoadBalancerIPPool
 metadata:
-  name: &name blade
+  name: blade
 spec:
   blocks:
     - cidr: "10.0.2.30/32"
