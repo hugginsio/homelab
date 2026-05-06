@@ -24,7 +24,7 @@ controllers:
   app:
     enabled: true
     type: deployment
-    replicas: 3
+    replicas: 2
     labels:
       kube.huggins.io/cache-db: "1"
     containers:
@@ -61,7 +61,7 @@ controllers:
               initialDelaySeconds: 30
     strategy: RollingUpdate
     rollingUpdate:
-      surge: 3
+      surge: 2
 service:
   metrics:
     controller: app
