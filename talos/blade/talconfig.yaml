@@ -127,6 +127,26 @@ patches:
                 runtimeClasses: []
                 usernames: []
               kind: PodSecurityConfiguration
+        extraArgs: # https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/
+          max-mutating-requests-inflight: "100"
+          max-requests-inflight: "200"
+        resources:
+          requests:
+            cpu: 200m
+            memory: 1024Mi
+          limits:
+            memory: 1024Mi
+      controllerManager:
+        extraArgs: # https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/
+          concurrent-deployment-syncs: "3"
+          concurrent-replicaset-syncs: "3"
+          kube-api-burst: "20"
+          kube-api-qps: "15"
+      etcd:
+        extraArgs: # https://etcd.io/docs/v3.6/op-guide/configuration/
+          auto-compaction-mode: periodic
+          auto-compaction-retention: 10m
+          snapshot-count: "5000"
       network:
         cni:
           # NOTE: modify this for temporary clusters
@@ -134,6 +154,10 @@ patches:
       proxy:
         # NOTE: modify this for temporary clusters
         disabled: true
+      scheduler:
+        extraArgs: # https://kubernetes.io/docs/reference/command-line-tools-reference/kube-scheduler/
+          kube-api-burst: "20"
+          kube-api-qps: "15"
     machine:
       features:
         kubernetesTalosAPIAccess:
