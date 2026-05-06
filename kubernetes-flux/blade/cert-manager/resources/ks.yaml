@@ -3,14 +3,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app cert-manager-resources
+  name: cert-manager-resources
   namespace: flux-system
 spec:
   targetNamespace: cert-manager
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  path: ./kubernetes-flux/hyper/cert-manager/resources/resources
+  path: ./kubernetes-flux/blade/cert-manager/resources/resources
   prune: true
   wait: true
   sourceRef:
