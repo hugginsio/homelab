@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.0.0/charts/library/common/values.schema.json
+# https://bjw-s-labs.github.io/helm-charts/docs/app-template/
+
+defaultPodOptions:
+  automountServiceAccountToken: false
+  hostUsers: false
+controllers:
+  app:
+    enabled: true
+    type: deployment
+    containers:
+      app:
+        image:
+          repository: "ghcr.io/evan-buss/opds-proxy"
+          tag: "0.3.3@sha256:e2b4cb2ecda61efc28b2b2f02c6298efcb2e68f947ab3e196921d2939272f138"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            memory: 512Mi
+        securityContext:
+          readOnlyRootFilesystem: true
+    strategy: RollingUpdate
+    rollingUpdate:
+      surge: 1
+service:
+  app:
+    controller: app
+    ports:
+      http:
+        port: 8080
+route:
+  app:
+    hostnames:
+      - "opds.${DOMAIN_PRIVATE}"
+    parentRefs:
+      - name: blade-internal
+        namespace: gateway-system
+        sectionName: default
+    rules:
+      - backendRefs:
+          - identifier: app
+persistence:
+  configuration:
+    type: configMap
+    name: opds-proxy
+    globalMounts:
+      - path: "/config.yml"
+        subPath: "configuration.yaml"
+        readOnly: true
+  tmp:
+    type: emptyDir

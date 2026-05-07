@@ -1,0 +1,7 @@
+# https://github.com/evan-buss/opds-proxy
+
+feeds:
+  - name: "Project Gutenberg"
+    url: "https://www.gutenberg.org/ebooks/search.opds/"
+  - name: Huggins eLibrary
+    url: "http://calibre-opds.media.svc.cluster.local:8081/opds"
