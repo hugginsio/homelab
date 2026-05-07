@@ -28,6 +28,11 @@ service:
     ports:
       http:
         port: 8080
+  opds:
+    controller: app
+    ports:
+      http:
+        port: 8081
 route:
   app:
     hostnames:
