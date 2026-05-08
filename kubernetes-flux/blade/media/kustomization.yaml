@@ -6,4 +6,3 @@ resources:
   - "./namespace.yaml"
   ###
   - "./calibre/ks.yaml"
-  - "./opds-proxy/ks.yaml"
