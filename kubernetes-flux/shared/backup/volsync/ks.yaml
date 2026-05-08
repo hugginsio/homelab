@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: volsync
-  path: ./kubernetes-flux/blade/backup/volsync/app
+  path: ./kubernetes-flux/shared/backup/volsync/app
   prune: true
   wait: true
   sourceRef:
