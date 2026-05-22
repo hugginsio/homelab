@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gateway-system-cloudflare-gateway
+  namespace: flux-system
+spec:
+  targetNamespace: gateway-system
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: cloudflare-gateway
+  path: ./kubernetes-flux/blade/gateway-system/cloudflare-gateway/app
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+    namespace: flux-system
+  interval: 3h
+  retryInterval: 1m
+  timeout: 10m

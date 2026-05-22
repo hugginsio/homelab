@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - "./externalsecret.yaml"
+  - "https://github.com/pl4nty/cloudflare-kubernetes-gateway/config/default/?ref=v0.8.2"
+  - "https://github.com/pl4nty/cloudflare-kubernetes-gateway/config/prometheus/?ref=v0.8.2"
+generatorOptions:
+  disableNameSuffixHash: true
