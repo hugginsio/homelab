@@ -145,8 +145,8 @@ patches:
       etcd:
         extraArgs: # https://etcd.io/docs/v3.6/op-guide/configuration/
           auto-compaction-mode: periodic
-          auto-compaction-retention: 10m
-          snapshot-count: "5000"
+          auto-compaction-retention: 1h
+          snapshot-count: "10000"
       network:
         cni:
           # NOTE: modify this for temporary clusters
