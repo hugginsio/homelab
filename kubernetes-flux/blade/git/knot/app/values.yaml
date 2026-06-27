@@ -18,7 +18,7 @@ controllers:
       app:
         image:
           repository: "atcr.io/tangled.org/knot"
-          tag: "v1.14.1-alpha@sha256:ec8f86f35a8045591bf6111807658f5a3f156b727c9e26e6fbf378dd6a2975b7"
+          tag: "v1.15.0-alpha@sha256:f990c2bb646eef032280c570d19325d4f0e94ac506b0b943c75459d0dc9957cc"
         securityContext:
           allowPrivilegeEscalation: true
           capabilities:
@@ -67,6 +67,16 @@ route:
       - backendRefs:
           - identifier: app
             port: 5555
+  app-external:
+    hostnames:
+      - "knot.huggins.dev"
+    parentRefs:
+      - name: blade-huggins-dev
+        namespace: gateway-system
+    rules:
+      - backendRefs:
+          - identifier: app
+            port: 5555
 persistence:
   data:
     accessMode: ReadWriteOnce
@@ -77,7 +87,7 @@ persistence:
         subPath: ssh
       - path: "/home/git/"
         subPath: git
-    size: 10Gi
+    size: 20Gi
     storageClass: longhorn
   tmp:
     type: emptyDir
