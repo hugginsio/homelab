@@ -19,7 +19,7 @@ controllers:
       init:
         image:
           repository: "docker.io/library/busybox"
-          tag: "1.37.0@sha256:d80cd694d3e9467884fcb94b8ca1e20437d8a501096cdf367a5a1918a34fc2fd"
+          tag: "1.37.0@sha256:9532d8c39891ca2ecde4d30d7710e01fb739c87a8b9299685c63704296b16028"
         command: ["sh", "-c", "mkdir -p /app/app-data/db && mkdir -p /app/app-data/documents"]
         securityContext:
           allowPrivilegeEscalation: false
