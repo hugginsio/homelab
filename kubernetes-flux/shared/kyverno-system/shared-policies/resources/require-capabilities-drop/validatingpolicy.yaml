@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/policies.kyverno.io/validatingpolicy_v1.json
+
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  annotations:
+    policies.kyverno.io/description: Requires all capabilities to be dropped when user namespaces are not enabled.
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/title: Require capabilities drop ALL without user namespaces.
+  name: require-capabilities-drop
+spec:
+  autogen:
+    validatingAdmissionPolicy:
+      enabled: true
+    podControllers:
+      controllers:
+        - cronjobs
+        - deployments
+        - jobs
+        - statefulsets
+  matchConstraints:
+    resourceRules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pods
+  validationActions:
+    - Audit
+  variables:
+    - name: userNamespaces
+      expression: "object.spec.?hostUsers.orValue(true) == false"
+    - name: allContainers
+      expression: "object.spec.containers + object.spec.?initContainers.orValue([])"
+  validations:
+    - expression: >-
+        variables.userNamespaces || variables.allContainers.all(c,
+          has(c.securityContext) &&
+          has(c.securityContext.capabilities) &&
+          has(c.securityContext.capabilities.drop) &&
+          c.securityContext.capabilities.drop.exists(cap, cap == 'ALL'))
+      message: "Containers must drop ALL capabilities when hostUsers is not false."
