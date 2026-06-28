@@ -4,5 +4,15 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - "./require-capabilities-drop/validatingpolicy.yaml"
+  - "./require-explicit-image-tags/validatingpolicy.yaml"
   - "./require-not-really-root/validatingpolicy.yaml"
+  - "./require-readonly-rootfs/validatingpolicy.yaml"
   - "./require-resource-config/validatingpolicy.yaml"
+  - "./require-seccomp/validatingpolicy.yaml"
+  - "./restrict-capabilities-add/validatingpolicy.yaml"
+  - "./restrict-default-namespace/validatingpolicy.yaml"
+  - "./restrict-host-namespaces/validatingpolicy.yaml"
+  - "./restrict-host-ports/validatingpolicy.yaml"
+  - "./restrict-privilege-escalation/validatingpolicy.yaml"
+  - "./restrict-privileged/validatingpolicy.yaml"
+  - "./restrict-serviceaccount-token-automount/validatingpolicy.yaml"

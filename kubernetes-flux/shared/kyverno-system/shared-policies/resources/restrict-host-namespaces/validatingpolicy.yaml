@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/policies.kyverno.io/validatingpolicy_v1.json
+
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  annotations:
+    policies.kyverno.io/description: Restrict pods from sharing host PID, IPC, and network namespaces.
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/title: Restrict host namespaces.
+  name: restrict-host-namespaces
+spec:
+  autogen:
+    validatingAdmissionPolicy:
+      enabled: true
+    podControllers:
+      controllers:
+        - cronjobs
+        - deployments
+        - jobs
+        - statefulsets
+  matchConstraints:
+    resourceRules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pods
+  validationActions:
+    - Audit
+  validations:
+    - expression: "object.spec.?hostPID.orValue(false) == false"
+      message: "Containers must not enable hostPID."
+    - expression: "object.spec.?hostIPC.orValue(false) == false"
+      message: "Containers must not enable hostIPC."
+    - expression: "object.spec.?hostNetwork.orValue(false) == false"
+      message: "Containers must not enable hostNetwork."

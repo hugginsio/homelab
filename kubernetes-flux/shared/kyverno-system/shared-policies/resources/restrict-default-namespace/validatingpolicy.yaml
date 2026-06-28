@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/policies.kyverno.io/validatingpolicy_v1.json
+
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  annotations:
+    policies.kyverno.io/description: Restrict pods from being created in the default namespace.
+    policies.kyverno.io/severity: high
+    policies.kyverno.io/title: Restrict default namespace.
+  name: restrict-default-namespace
+spec:
+  autogen:
+    validatingAdmissionPolicy:
+      enabled: true
+    podControllers:
+      controllers:
+        - cronjobs
+        - deployments
+        - jobs
+        - statefulsets
+  matchConstraints:
+    resourceRules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pods
+  validationActions:
+    - Deny
+  validations:
+    - expression: "object.metadata.namespace != 'default'"
+      message: "Containers must not use the default namespace."

@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/policies.kyverno.io/validatingpolicy_v1.json
+
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  annotations:
+    policies.kyverno.io/description: Requires all containers to have a seccomp profile set to RuntimeDefault or Localhost.
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/title: Require seccomp profile.
+  name: require-seccomp
+spec:
+  autogen:
+    validatingAdmissionPolicy:
+      enabled: true
+    podControllers:
+      controllers:
+        - cronjobs
+        - deployments
+        - jobs
+        - statefulsets
+  matchConstraints:
+    resourceRules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pods
+  validationActions:
+    - Audit
+  variables:
+    - name: allContainers
+      expression: "object.spec.containers + object.spec.?initContainers.orValue([])"
+    - name: validSeccompTypes
+      expression: "['RuntimeDefault', 'Localhost']"
+  validations:
+    - expression: >-
+        variables.allContainers.all(c,
+          object.spec.?securityContext.?seccompProfile.?type.orValue('') in variables.validSeccompTypes ||
+          c.?securityContext.?seccompProfile.?type.orValue('') in variables.validSeccompTypes)
+      message: Containers must have explicit seccomp profile of RuntimeDefault or Localhost.
