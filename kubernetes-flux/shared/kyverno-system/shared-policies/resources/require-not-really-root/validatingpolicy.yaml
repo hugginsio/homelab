@@ -1,0 +1,46 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/policies.kyverno.io/validatingpolicy_v1.json
+
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  annotations:
+    policies.kyverno.io/description: This policy validates all containers run as non-root, either directly or via user namespaces.
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/title: Require non-root user OR user namespaces.
+  name: require-not-really-root
+spec:
+  autogen:
+    validatingAdmissionPolicy:
+      enabled: true
+    podControllers:
+      controllers:
+        - cronjobs
+        - deployments
+        - jobs
+        - statefulsets
+  matchConstraints:
+    resourceRules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pods
+  validationActions:
+    - Audit
+  variables:
+    - name: userNamespaces
+      expression: "object.spec.?hostUsers.orValue(true) == false"
+    - name: allContainers
+      expression: "object.spec.containers + object.spec.?initContainers.orValue([])"
+  validations:
+    - expression: "variables.userNamespaces || object.spec.?securityContext.?runAsNonRoot.orValue(false) == true"
+      message: "Containers cannot run as true root. Disable hostUsers or set runAsNonRoot."
+    - expression: >-
+        variables.userNamespaces || (object.spec.?securityContext.?fsGroup.orValue(0) == 65534 &&
+         object.spec.?securityContext.?runAsGroup.orValue(0) == 65534 &&
+         object.spec.?securityContext.?runAsUser.orValue(0) == 65534)
+      message: "Containers using hostUsers must run as nobody. Set fsGroup/runAsGroup/runAsUser to 65534."
