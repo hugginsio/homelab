@@ -1,15 +1,16 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app kyverno-pod-security
+  name: kyverno-system-shared-policies
   namespace: flux-system
 spec:
   targetNamespace: kyverno-system
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
-  path: ./kubernetes-flux/shared/kyverno-system/kyverno-pod-security/app
+      app.kubernetes.io/name: shared-policies
+  path: ./kubernetes-flux/shared/kyverno-system/shared-policies/resources
   prune: true
   wait: true
   sourceRef:
@@ -19,5 +20,3 @@ spec:
   interval: 3h
   retryInterval: 1m
   timeout: 5m
-  dependsOn:
-    - name: kyverno

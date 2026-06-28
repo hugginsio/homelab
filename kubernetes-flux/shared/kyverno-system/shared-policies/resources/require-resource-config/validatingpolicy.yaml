@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/policies.kyverno.io/validatingpolicy_v1.json
+
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  annotations:
+    policies.kyverno.io/description: This policy validates all containers set CPU requests, memory requests, and memory limits.
+    policies.kyverno.io/severity: medium
+    policies.kyverno.io/title: Require Requests and Limits
+  name: require-resource-config
+spec:
+  autogen:
+    validatingAdmissionPolicy:
+      enabled: true
+    podControllers:
+      controllers:
+        - cronjobs
+        - deployments
+        - jobs
+        - statefulsets
+  matchConstraints:
+    resourceRules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pods
+  validationActions:
+    - Audit
+  variables:
+    - expression: object.spec.containers + object.spec.?initContainers.orValue([]) + object.spec.?ephemeralContainers.orValue([])
+      name: allContainers
+  validations:
+    - expression: "variables.allContainers.all(c, has(c.resources) && has(c.resources.requests) && 'cpu' in c.resources.requests)"
+      message: CPU request is required for all containers.
+    - expression: "variables.allContainers.all(c, has(c.resources) && has(c.resources.requests) && 'memory' in c.resources.requests)"
+      message: Memory request is required for all containers.
+    - expression: "variables.allContainers.all(c, has(c.resources) && has(c.resources.limits) && 'memory' in c.resources.limits)"
+      message: Memory limit is required for all containers.
