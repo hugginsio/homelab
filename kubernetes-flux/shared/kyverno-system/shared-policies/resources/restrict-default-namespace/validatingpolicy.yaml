@@ -12,23 +12,24 @@ spec:
   autogen:
     validatingAdmissionPolicy:
       enabled: true
-    podControllers:
-      controllers:
-        - cronjobs
-        - deployments
-        - jobs
-        - statefulsets
   matchConstraints:
     resourceRules:
       - apiGroups:
           - ""
+          - "apps"
+          - "batch"
         apiVersions:
           - v1
         operations:
           - CREATE
           - UPDATE
         resources:
+          - cronjobs
+          - daemonsets
+          - deployments
+          - jobs
           - pods
+          - statefulsets
   validationActions:
     - Deny
   validations:
