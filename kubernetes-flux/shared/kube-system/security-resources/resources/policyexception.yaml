@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/refs/heads/main/kyverno.io/policyexception_v2.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kyverno.io/policyexception_v2.json
 
 apiVersion: kyverno.io/v2
 kind: PolicyException
