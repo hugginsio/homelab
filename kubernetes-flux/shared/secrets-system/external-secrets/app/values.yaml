@@ -3,3 +3,14 @@
 
 serviceMonitor:
   enabled: true
+
+hostNetwork: false
+hostUsers: false
+
+webhook:
+  hostNetwork: false
+  hostUsers: false
+
+certController:
+  hostNetwork: false
+  hostUsers: false
