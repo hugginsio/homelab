@@ -4,7 +4,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: &name external-secrets
-  namespace: *name
 spec:
   interval: 3h
   releaseName: *name
@@ -15,7 +14,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: *name
-        namespace: *name
   install:
     crds: CreateReplace
     remediation:

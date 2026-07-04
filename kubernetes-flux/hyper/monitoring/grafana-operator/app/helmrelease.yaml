@@ -25,7 +25,7 @@ spec:
     - name: longhorn
       namespace: longhorn-system
     - name: external-secrets
-      namespace: external-secrets
+      namespace: secrets-system
   valuesFrom:
     - kind: ConfigMap
       name: grafana-operator-chart-values

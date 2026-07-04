@@ -5,4 +5,4 @@ kind: Namespace
 metadata:
   name: auth
   labels:
-    kube.huggins.io/eso: allow
+    secrets.huggins.dev/kv2: enable
