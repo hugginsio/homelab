@@ -29,3 +29,10 @@ deny contains msg if {
 	not file_base == "ks"
 	msg := "filename should be `ks.yaml`"
 }
+
+# Flux Kustomizations must not have pruning enabled (see: the data loss incident of 2026).
+deny contains msg if {
+	is_flux_kustomization
+	input.spec.prune != false
+	msg := "spec.prune must be `false`"
+}

@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/helmrelease-helm-v2.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
 
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -11,7 +11,7 @@ spec:
   chart:
     spec:
       chart: *app
-      version: 1.96.5
+      version: 1.98.4
       sourceRef:
         kind: HelmRepository
         name: tailscale

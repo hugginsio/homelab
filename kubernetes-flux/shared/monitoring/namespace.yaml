@@ -5,4 +5,4 @@ kind: Namespace
 metadata:
   name: monitoring
   labels:
-    secrets.huggins.dev/kv2: enable
+    secrets.huggins.dev/op: enable

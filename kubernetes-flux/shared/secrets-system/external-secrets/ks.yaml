@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: external-secrets
   path: ./kubernetes-flux/shared/secrets-system/external-secrets/app
-  prune: true
+  prune: false
   wait: true
   sourceRef:
     kind: GitRepository

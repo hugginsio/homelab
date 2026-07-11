@@ -1,0 +1,5 @@
+# https://github.com/rajsinghtech/garage-operator/blob/main/charts/garage-operator/values.yaml
+
+resources:
+  limits:
+    cpu: ~

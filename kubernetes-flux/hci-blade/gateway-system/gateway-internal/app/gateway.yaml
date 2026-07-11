@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.networking.k8s.io/gateway_v1.json
+
+apiVersion: "gateway.networking.k8s.io/v1"
+kind: Gateway
+metadata:
+  name: domain-internal
+spec:
+  gatewayClassName: cilium
+  addresses:
+    - type: IPAddress
+      value: "10.0.2.30"
+  listeners:
+    - name: default
+      protocol: HTTPS
+      port: 443
+      hostname: "*.${DOMAIN_INTERNAL}"
+      allowedRoutes:
+        namespaces:
+          from: All
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: domain-internal-tls

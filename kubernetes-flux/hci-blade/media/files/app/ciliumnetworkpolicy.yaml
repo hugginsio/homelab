@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: files
+  namespace: media
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: files
+  ingress:
+    - fromEntities:
+        - host
+        - ingress
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchPattern: "${SUBDOMAIN_IDP}.${DOMAIN_INTERNAL}"
+      toPorts:
+        - ports:
+            - port: "443"

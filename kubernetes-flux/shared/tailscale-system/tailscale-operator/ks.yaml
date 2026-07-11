@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   path: ./kubernetes-flux/shared/tailscale-system/tailscale-operator/app
-  prune: true
+  prune: false
   wait: true
   sourceRef:
     kind: GitRepository
@@ -19,3 +19,5 @@ spec:
   interval: 3h
   retryInterval: 1m
   timeout: 5m
+  dependsOn:
+    - name: secrets-system-external-secrets

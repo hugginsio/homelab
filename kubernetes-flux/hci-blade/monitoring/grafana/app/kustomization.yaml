@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - "./secret.sops.yaml"
+  - "./externalsecret.yaml"
+  - "./clusterrole.yaml"
+  - "./clusterrolebinding.yaml"
+  - "./ciliumnetworkpolicy.yaml"
+  - "./configmap.yaml"
+  ###
+  - "./grafana.yaml"
+  ### Datasources
+  - "./datasources/prometheus/grafanadatasource.yaml"
+  - "./datasources/victoriametrics/grafanadatasource.yaml"
+  ### Dashboards
+  - "./dashboards/blocky/grafanadashboard.yaml"
+  - "./dashboards/cert-manager/grafanadashboard.yaml"
+  - "./dashboards/kubernetes-apiserver/grafanadashboard.yaml"
+  - "./dashboards/kubernetes-global/grafanadashboard.yaml"
+  - "./dashboards/longhorn/grafanadashboard.yaml"
+  - "./dashboards/vms/grafanadashboard.yaml"
+generatorOptions:
+  disableNameSuffixHash: true

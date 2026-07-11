@@ -1,0 +1,113 @@
+# https://budimanjojo.github.io/talhelper/latest/
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/tags/v3.1.5/pkg/config/schemas/talconfig.json
+
+clusterName: hci-sting
+endpoint: https://10.0.0.254:6443
+additionalApiServerCertSans: &sans
+  - "10.0.0.254"
+  - "100.99.212.84"
+allowSchedulingOnControlPlanes: true
+domain: cluster.internal
+
+talosVersion: "v1.11.6"
+kubernetesVersion: "v1.34.1"
+
+nodes:
+  - hostname: alpha
+    certSANs: *sans
+    controlPlane: true
+    extensionServices:
+      - name: tailscale
+        environment:
+          - "TS_AUTHKEY: ${TS_AUTHKEY}"
+    ipAddress: 10.0.0.254
+    nameservers:
+      - 1.1.1.1
+    installDiskSelector:
+      wwid: "naa.5000000000000000"
+    nodeLabels:
+      topology.kubernetes.io/instance-type: honeybee
+      topology.kubernetes.io/region: parents
+    userVolumes:
+      - name: data
+        provisioning:
+          diskSelector:
+            match: "'/dev/disk/by-id/ata-ST5000LM000-2AN170_WCJ6BDXK' in disk.symlinks"
+          grow: true
+          minSize: 3TiB
+        filesystem:
+          type: ext4
+        encryption:
+          # NOTE: this is not an incorrect type, despite what the schema says
+          provider: luks2
+          keys:
+            - slot: 0
+              static:
+                passphrase: ${ENCRYPTION_PASSPHRASE}
+    schematic:
+      customization:
+        extraKernelArgs:
+          - "talos.dashboard.disabled=1"
+        systemExtensions:
+          officialExtensions:
+            - "siderolabs/intel-ucode" # Intel microcode
+            - "siderolabs/tailscale" # Well, it's Tailscale!
+            - "siderolabs/util-linux-tools" # Selection of Linux utils
+    patches:
+      - |-
+        cluster:
+          apiServer:
+            admissionControl:
+              - name: PodSecurity
+                configuration:
+                  apiVersion: pod-security.admission.config.k8s.io/v1alpha1
+                  defaults:
+                    audit: privileged
+                    audit-version: latest
+                    enforce: privileged
+                    enforce-version: latest
+                    warn: restricted
+                    warn-version: latest
+                  exemptions:
+                    namespaces: []
+                    runtimeClasses: []
+                    usernames: []
+                  kind: PodSecurityConfiguration
+            resources:
+              requests:
+                cpu: 200m
+                memory: 512Mi
+              limits:
+                memory: 1024Mi
+          discovery:
+            enabled: false
+          network:
+            cni:
+              # NOTE: modify this for temporary clusters
+              name: none
+          proxy:
+            # NOTE: modify this for temporary clusters
+            disabled: true
+        machine:
+          features:
+            kubernetesTalosAPIAccess:
+              allowedKubernetesNamespaces:
+                - "system-upgrade"
+              allowedRoles:
+                - "os:admin"
+              enabled: true
+          kubelet:
+            extraArgs:
+              rotate-server-certificates: true
+          systemDiskEncryption:
+            ephemeral:
+              provider: luks2
+              keys:
+                - static:
+                    passphrase: ${ENCRYPTION_PASSPHRASE}
+                  slot: 0
+          network:
+            kubespan:
+              enabled: false
+          sysctls:
+            user.max_user_namespaces: "11255"

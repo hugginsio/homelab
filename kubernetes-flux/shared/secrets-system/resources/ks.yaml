@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/part-of: *app
   path: ./kubernetes-flux/shared/secrets-system/resources/resources
-  prune: true
+  prune: false
   wait: true
   sourceRef:
     kind: GitRepository
