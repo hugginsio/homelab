@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/helmrelease-helm-v2.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/helm.toolkit.fluxcd.io/helmrelease_v2.json
 
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: *name
-      version: v1.20.2
+      version: v1.21.0
       sourceRef:
         kind: HelmRepository
         name: jetstack

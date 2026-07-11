@@ -3,6 +3,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  # before upgrades, check https://docs.cilium.io/en/stable/network/servicemesh/gateway-api/gateway-api/
   - "https://github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.4.1"
 generatorOptions:
   disableNameSuffixHash: true

@@ -1,0 +1,45 @@
+server:
+  cacheDir: "/tmp"
+  database: "/data/database.db"
+  disableUpdateCheck: true
+  port: 80
+  sources:
+    - name: "Books"
+      path: "/mnt/books"
+      config:
+        defaultEnabled: true
+        defaultUserScope: "/"
+        private: true
+    - name: "Movies"
+      path: "/mnt/movies"
+      config:
+        defaultEnabled: true
+        defaultUserScope: "/"
+        private: true
+    - name: "Music"
+      path: "/mnt/music"
+      config:
+        defaultEnabled: true
+        defaultUserScope: "/"
+        private: true
+    - name: "TV"
+      path: "/mnt/tv"
+      config:
+        defaultEnabled: true
+        defaultUserScope: "/"
+        private: true
+
+auth:
+  methods:
+    password:
+      enabled: false
+    oidc:
+      enabled: true
+      createUser: true
+      issuerUrl: "https://${SUBDOMAIN_IDP}.${DOMAIN_INTERNAL}"
+      scopes: "openid email profile groups"
+      userIdentifier: "preferred_username"
+      adminGroup: "hci_admins"
+
+frontend:
+  name: "Media Files"

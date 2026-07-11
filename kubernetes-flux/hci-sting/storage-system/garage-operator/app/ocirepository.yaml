@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/source.toolkit.fluxcd.io/ocirepository_v1.json
+
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: garage-operator
+spec:
+  interval: 99h
+  url: "oci://ghcr.io/rajsinghtech/charts/garage-operator"
+  ref:
+    tag: 0.6.28
+    digest: "sha256:52e7e66658bc03479a758e4f5abdf103820a954b958cac62df1ef87b479829d4"

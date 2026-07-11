@@ -22,7 +22,7 @@ tasks:
       AGE_KEY_FILE: '{{ default "/Users/hugginsio/.config/sops/age/keys.txt" .AGE_KEY_FILE }}'
       CONTEXT:
         sh: "kubectl config current-context"
-      TAILSCALE_ENV_FILE: "./shared/tailscale-system/tailscale-operator/app/.env"
+      OP_ENV_FILE: "./shared/secrets-system/resources/resources/op/.env"
     requires:
       vars:
         - CLUSTER
@@ -30,22 +30,22 @@ tasks:
     preconditions:
       - "test -f ./{{.CLUSTER}}/flux-system/resources/configmap.yaml"
       - "test -f {{.AGE_KEY_FILE}}"
-      - "test -f {{.TAILSCALE_ENV_FILE}}"
+      - "test -f {{.OP_ENV_FILE}}"
       - "which helmfile"
       - "which kubectl"
       - "which kustomize"
       - "which sops"
       - "sops filestatus ./shared/flux-system/flux/app/github-key.secret.sops.yaml | jq --exit-status '.encrypted'"
-      - "sops filestatus ./shared/flux-system/flux/app/homelab-vars.secret.sops.yaml | jq --exit-status '.encrypted'"
+      - "sops filestatus ./shared/flux-system/flux/app/cluster-vars.secret.sops.yaml | jq --exit-status '.encrypted'"
     cmds:
       - "helmfile --file ./bootstrap/helmfile.yaml apply --skip-diff-on-install --suppress-diff"
-      # Tailscale Operator
-      - "kubectl create namespace tailscale-system"
-      - "kubectl create secret generic operator-oauth --namespace=tailscale-system --from-env-file={{.TAILSCALE_ENV_FILE}}"
+      # 1Password
+      - "kubectl create namespace secrets-system"
+      - "kubectl create secret generic op-token --namespace=secrets-system --from-env-file={{.OP_ENV_FILE}}"
       # FluxCD
       - "kubectl apply --server-side --filename ./{{.CLUSTER}}/flux-system/resources/configmap.yaml"
       - "sops --decrypt ./shared/flux-system/flux/app/github-key.secret.sops.yaml | kubectl apply --server-side --filename -"
-      - "sops --decrypt ./shared/flux-system/flux/app/homelab-vars.secret.sops.yaml | kubectl apply --server-side --filename -"
+      - "sops --decrypt ./shared/flux-system/flux/app/cluster-vars.secret.sops.yaml | kubectl apply --server-side --filename -"
       - "kubectl create secret generic sops-age --namespace=flux-system --from-file=age.agekey={{.AGE_KEY_FILE}}"
       - "kubectl apply --server-side --filename ./shared/flux-system/flux/app/configmap.yaml"
       - "kubectl apply --server-side --filename ./shared/flux-system/flux/app/fluxinstance.yaml"
@@ -64,7 +64,7 @@ tasks:
       - "test -f {{.AGE_KEY_FILE}}"
     cmds:
       - "sops --decrypt ./shared/flux-system/flux/app/github-key.secret.sops.yaml | kubectl apply --server-side --filename -"
-      - "sops --decrypt ./shared/flux-system/flux/app/homelab-vars.secret.sops.yaml | kubectl apply --server-side --filename -"
+      - "sops --decrypt ./shared/flux-system/flux/app/cluster-vars.secret.sops.yaml | kubectl apply --server-side --filename -"
   link-cluster:
     desc: "Link the cluster to a FluxCD definition."
     vars:

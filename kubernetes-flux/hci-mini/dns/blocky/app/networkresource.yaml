@@ -1,0 +1,12 @@
+apiVersion: netbird.io/v1alpha1
+kind: NetworkResource
+metadata:
+  name: blocky
+spec:
+  networkRouterRef:
+    name: mini
+    namespace: netbird-system
+  serviceRef:
+    name: blocky-resolver-nb
+  groups:
+    - name: All

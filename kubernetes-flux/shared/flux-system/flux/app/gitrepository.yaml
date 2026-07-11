@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/gitrepository-source-v1.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/source.toolkit.fluxcd.io/gitrepository_v1.json
 
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
@@ -21,9 +21,11 @@ spec:
     /kubernetes-flux/bootstrap/
     /kubernetes-flux/policy/
     /kubernetes-flux/shared/**/*.md
+  sparseCheckout:
+    - kubernetes-flux
 
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/gitrepository-source-v1.json
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/source.toolkit.fluxcd.io/gitrepository_v1.json
 
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
@@ -46,3 +48,5 @@ spec:
     /kubernetes-flux/policy/
     /kubernetes-flux/shared/**/*.md
     /kubernetes-flux/shared/**/helmfil*.yaml
+  sparseCheckout:
+    - kubernetes-flux

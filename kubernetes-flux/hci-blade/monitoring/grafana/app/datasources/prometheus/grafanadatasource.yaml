@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadatasource_v1beta1.json
+
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: prometheus
+spec:
+  instanceSelector: {}
+  datasource:
+    name: Prometheus
+    type: prometheus
+    url: "http://vms-server.monitoring.svc.cluster.internal:8428"
+    access: proxy
+    isDefault: true

@@ -1,0 +1,118 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.0.1/charts/library/common/values.schema.json
+# https://bjw-s-labs.github.io/helm-charts/docs/app-template/
+
+defaultPodOptions:
+  automountServiceAccountToken: false
+  hostUsers: true # incompatible with RWX
+  securityContext:
+    fsGroup: 65534
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
+
+controllers:
+  app:
+    enabled: true
+    type: statefulset
+    containers:
+      app:
+        image:
+          repository: "ghcr.io/gtsteffaniak/filebrowser"
+          tag: "1.4-stable@sha256:2cd949cd06c058576773c5b8400c854478a64c4f364b1e2bea275819847f099b"
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            memory: 512Mi
+        envFrom:
+          - secretRef:
+              name: files-oidc
+        env:
+          TZ: ${TIMEZONE}
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              initialDelaySeconds: 10
+              httpGet:
+                path: "/health"
+                port: 80
+
+service:
+  app:
+    controller: app
+    ports:
+      http:
+        port: 80
+
+route:
+  app:
+    hostnames:
+      - "media.files.${DOMAIN_INTERNAL}"
+    parentRefs:
+      - name: domain-internal
+        namespace: gateway-system
+        sectionName: default
+    rules:
+      - backendRefs:
+          - identifier: app
+            port: http
+
+persistence:
+  configuration:
+    type: configMap
+    name: files-config
+    globalMounts:
+      - path: "/home/filebrowser/data/config.yaml"
+        subPath: "config.yaml"
+        readOnly: true
+  data:
+    accessMode: ReadWriteOnce
+    size: 5Gi
+    storageClass: longhorn
+    type: persistentVolumeClaim
+  books:
+    accessMode: ReadWriteMany
+    size: 25Gi
+    storageClass: longhorn
+    type: persistentVolumeClaim
+    globalMounts:
+      - path: "/mnt/books"
+        readOnly: false
+  movies:
+    accessMode: ReadWriteMany
+    size: 100Gi
+    storageClass: longhorn
+    type: persistentVolumeClaim
+    globalMounts:
+      - path: "/mnt/movies"
+        readOnly: false
+  music:
+    accessMode: ReadWriteMany
+    size: 50Gi
+    storageClass: longhorn
+    type: persistentVolumeClaim
+    globalMounts:
+      - path: "/mnt/music"
+        readOnly: false
+  tv:
+    accessMode: ReadWriteMany
+    size: 100Gi
+    storageClass: longhorn
+    type: persistentVolumeClaim
+    globalMounts:
+      - path: "/mnt/tv"
+        readOnly: false
+  tmp:
+    type: emptyDir

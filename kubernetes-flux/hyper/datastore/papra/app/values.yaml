@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-3.7.3/charts/library/common/values.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.0.1/charts/library/common/values.schema.json
 # https://bjw-s-labs.github.io/helm-charts/docs/app-template/
 
 defaultPodOptions:
@@ -52,8 +52,8 @@ controllers:
           limits:
             memory: 512Mi
         env:
-          CLIENT_BASE_URL: "https://{{ .Release.Name }}.${DOMAIN_PRIVATE}:443"
-          SERVER_CORS_ORIGINS: "https://{{ .Release.Name }}.${DOMAIN_PRIVATE}:443"
+          CLIENT_BASE_URL: "https://{{ .Release.Name }}.${DOMAIN_INTERNAL}:443"
+          SERVER_CORS_ORIGINS: "https://{{ .Release.Name }}.${DOMAIN_INTERNAL}:443"
           TZ: ${TIMEZONE}
       oauth:
         enabled: false
@@ -75,7 +75,7 @@ controllers:
         env:
           OAUTH2_PROXY_CLIENT_ID: "bb42e529-799d-44b3-b615-62908a380777"
           OAUTH2_PROXY_CLIENT_SECRET: "TODO: add secret"
-          OAUTH2_PROXY_OIDC_ISSUER_URL: "https://id.${DOMAIN_PRIVATE}"
+          OAUTH2_PROXY_OIDC_ISSUER_URL: "https://id.${DOMAIN_INTERNAL}"
           OAUTH2_PROXY_COOKIE_SECRET: "TODO: secret gen"
           OAUTH2_PROXY_UPSTREAMS: "http://papra.documents.svc.cluster.local:1221"
           # TODO: consider moving below to common config
@@ -102,7 +102,7 @@ service:
 ingress:
   app:
     hosts:
-      - host: &host "{{ .Release.Name }}.${DOMAIN_PRIVATE}"
+      - host: &host "{{ .Release.Name }}.${DOMAIN_INTERNAL}"
         paths:
           - path: "/"
             pathType: Prefix

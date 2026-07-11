@@ -6,7 +6,7 @@ operatorConfig:
   defaultTags:
     - "tag:k8s-operator"
 
-  hostname: ${CLUSTER_NAME}
+  hostname: "${CLUSTER_NAME}-operator"
 
   securityContext:
     allowPrivilegeEscalation: false

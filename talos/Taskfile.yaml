@@ -20,6 +20,25 @@ tasks:
     cmds:
       - "talhelper genconfig --no-gitignore"
       - "talhelper gencommand apply -o ./{{.CLUSTER}}/clusterconfig --extra-flags --insecure"
+  talosconfig:
+    desc: "Merge Talos cluster config with local config"
+    requires:
+      vars:
+        - CLUSTER
+    dir: "./{{.CLUSTER}}"
+    cmds:
+      - "talosctl config merge ./clusterconfig/talosconfig"
+      - "talosctl config contexts"
+  kubeconfig:
+    desc: "Merge Talos cluster config with local config"
+    requires:
+      vars:
+        - CLUSTER
+        - TALOS_NODE
+    dir: "./{{.CLUSTER}}"
+    cmds:
+      - "talosctl kubeconfig --talosconfig ./clusterconfig/talosconfig -n {{.TALOS_NODE}}"
+      - "kubectl config get-contexts"
   reset:
     desc: "Reset a particular node"
     requires:

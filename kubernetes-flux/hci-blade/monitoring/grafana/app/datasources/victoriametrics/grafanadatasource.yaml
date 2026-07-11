@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadatasource_v1beta1.json
+
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDatasource
+metadata:
+  name: victoriametrics
+spec:
+  instanceSelector: {}
+  datasource:
+    name: VictoriaMetrics
+    type: victoriametrics-metrics-datasource
+    url: "http://vms-server.monitoring.svc.cluster.internal:8428"
+    access: proxy
+    isDefault: true
+  plugins:
+    # https://grafana.com/grafana/plugins/victoriametrics-metrics-datasource/
+    - name: victoriametrics-metrics-datasource
+      version: 0.25.2

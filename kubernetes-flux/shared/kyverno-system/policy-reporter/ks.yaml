@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   path: ./kubernetes-flux/shared/kyverno-system/policy-reporter/app
-  prune: true
+  prune: false
   wait: true
   sourceRef:
     kind: GitRepository

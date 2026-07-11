@@ -3,15 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app valkey
+  name: cache-valkey
   namespace: flux-system
 spec:
   targetNamespace: cache
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
+      app.kubernetes.io/name: valkey
   path: ./kubernetes-flux/shared/cache/valkey/app
-  prune: true
+  prune: false
   wait: true
   sourceRef:
     kind: GitRepository
