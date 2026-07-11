@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: metube
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: metube
+  ingress:
+    - fromEntities:
+        - ingress
+      toPorts:
+        - ports:
+            - port: "8081"
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchPattern: "**.googlevideo.com"
+        - matchPattern: "**.youtube.com"
+        - matchPattern: "**.ytimg.com"
+      toPorts:
+        - ports:
+            - port: "443"

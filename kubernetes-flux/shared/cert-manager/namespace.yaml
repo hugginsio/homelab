@@ -6,3 +6,4 @@ metadata:
   name: cert-manager
   labels:
     secrets.huggins.dev/kv2: enable
+    secrets.huggins.dev/op: enable

@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kube-system-cilium
+  namespace: flux-system
+spec:
+  targetNamespace: kube-system
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: cilium
+  path: ./kubernetes-flux/hci-blade/kube-system/cilium/app
+  prune: true
+  wait: true
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+    namespace: flux-system
+  interval: 3h
+  retryInterval: 1m
+  timeout: 10m
+  dependsOn:
+    - name: longhorn-system-longhorn

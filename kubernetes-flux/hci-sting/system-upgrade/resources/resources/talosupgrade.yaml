@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/tuppr.home-operations.com/talosupgrade_v1alpha1.json
+
+apiVersion: tuppr.home-operations.com/v1alpha1
+kind: TalosUpgrade
+metadata:
+  name: sting
+spec:
+  talos:
+    version: v1.13.6
+  policy:
+    rebootMode: powercycle
+  maintenance:
+    windows:
+      - start: "0 7 * * 6"
+        duration: "1h"
+        timezone: "America/Chicago"

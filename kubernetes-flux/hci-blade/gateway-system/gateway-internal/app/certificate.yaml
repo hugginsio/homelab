@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cert-manager.io/certificate_v1.json
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: domain-internal
+spec:
+  commonName: "${DOMAIN_INTERNAL}"
+  dnsNames:
+    - "${DOMAIN_INTERNAL}"
+    - "*.${DOMAIN_INTERNAL}"
+    - "*.files.${DOMAIN_INTERNAL}"
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  secretName: domain-internal-tls

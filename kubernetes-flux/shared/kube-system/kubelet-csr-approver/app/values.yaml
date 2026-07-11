@@ -1,3 +1,12 @@
 # https://github.com/postfinance/kubelet-csr-approver/blob/main/charts/kubelet-csr-approver/values.yaml
 
+global:
+  clusterDomain: cluster.internal
+
+bypassDnsResolution: true
+
+providerIpPrefixes:
+  - "10.0.0.254/32"
+  - "10.0.2.0/24"
+
 replicas: 2

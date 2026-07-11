@@ -19,13 +19,13 @@ spec:
   postBuild:
     substituteFrom:
       - kind: ConfigMap
-        name: cluster-vars
+        name: hci-vars
         optional: false
       - kind: ConfigMap
-        name: homelab-vars
+        name: cluster-vars
         optional: false
       - kind: Secret
-        name: homelab-vars
+        name: cluster-vars
         optional: false
   patches:
     - patch: |-
@@ -41,11 +41,11 @@ spec:
           postBuild:
             substituteFrom:
               - kind: ConfigMap
-                name: cluster-vars
+                name: hci-vars
               - kind: ConfigMap
-                name: homelab-vars
+                name: cluster-vars
               - kind: Secret
-                name: homelab-vars
+                name: cluster-vars
       target:
         group: kustomize.toolkit.fluxcd.io
         version: v1

@@ -10,9 +10,9 @@ hostUsers: false
 resources:
   requests:
     cpu: 10m
-    memory: 64Mi
-  limits:
     memory: 128Mi
+  limits:
+    memory: 256Mi
 
 webhook:
   hostNetwork: false
@@ -20,9 +20,9 @@ webhook:
   resources:
     requests:
       cpu: 10m
-      memory: 32Mi
+      memory: 96Mi
     limits:
-      memory: 64Mi
+      memory: 96Mi
 
 certController:
   hostNetwork: false
@@ -30,6 +30,6 @@ certController:
   resources:
     requests:
       cpu: 10m
-      memory: 64Mi
+      memory: 96Mi
     limits:
-      memory: 128Mi
+      memory: 96Mi

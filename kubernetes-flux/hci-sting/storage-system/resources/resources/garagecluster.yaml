@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/garage.rajsingh.info/garagecluster_v1beta2.json
+
+apiVersion: garage.rajsingh.info/v1beta2
+kind: GarageCluster
+metadata:
+  name: garage
+spec:
+  image: "dxflrs/garage:v2.3.0@sha256:866bd13ed2038ba7e7190e840482bc27234c4afaf77be8cfa439ae088c1e4690"
+  replication:
+    factor: 1
+  storage:
+    layoutPolicy: Auto
+    replicas: 1
+    metadata:
+      size: 50Gi
+    data:
+      size: 4900Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 1Gi
+      limits:
+        memory: 1Gi
+  network:
+    rpcBindPort: 3901
+    rpcSecretRef:
+      name: garage-rpc-secret
+      key: rpc-secret
+  admin:
+    adminTokenSecretRef:
+      name: garage-admin-token
+      key: admin-token
+  s3Api:
+    region: garage
+  layoutManagement:
+    autoApply: true

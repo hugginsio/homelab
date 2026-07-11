@@ -22,10 +22,10 @@ spec:
         name: cluster-vars
         optional: false
       - kind: ConfigMap
-        name: homelab-vars
+        name: cluster-vars
         optional: false
       - kind: Secret
-        name: homelab-vars
+        name: cluster-vars
         optional: false
   patches:
     - patch: |-
@@ -43,9 +43,9 @@ spec:
               - kind: ConfigMap
                 name: cluster-vars
               - kind: ConfigMap
-                name: homelab-vars
+                name: cluster-vars
               - kind: Secret
-                name: homelab-vars
+                name: cluster-vars
       target:
         group: kustomize.toolkit.fluxcd.io
         version: v1
