@@ -3,14 +3,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &name vms
+  name: vms
 spec:
   interval: 3h
-  releaseName: *name
+  releaseName: vms
   chart:
     spec:
       chart: victoria-metrics-single
-      version: 0.42.0
+      version: 0.45.0
       sourceRef:
         kind: HelmRepository
         name: victoriametrics

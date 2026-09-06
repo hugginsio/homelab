@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.0.1/charts/library/common/values.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.1.0/charts/library/common/values.schema.json
 # https://bjw-s-labs.github.io/helm-charts/docs/app-template/
 
 defaultPodOptions:
@@ -20,7 +20,7 @@ controllers:
       app:
         image:
           repository: "ghcr.io/pocket-id/pocket-id"
-          tag: "v2.12.0-distroless@sha256:b2fad8a82fab26fe4c11797dd13ea55aa6c7d6ea93fe829a139f2e28be2d339d"
+          tag: "v2.14.0-distroless@sha256:e0f83a42a78d0759b6d2d8c7380ef0fa8a4c95dfa01ad88740a073ae9cc4ba94"
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:

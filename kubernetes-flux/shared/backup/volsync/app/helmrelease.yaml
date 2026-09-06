@@ -3,13 +3,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &name volsync
+  name: volsync
 spec:
   interval: 3h
-  releaseName: *name
+  releaseName: volsync
   chart:
     spec:
-      chart: *name
+      chart: volsync
       version: 0.16.0
       sourceRef:
         kind: HelmRepository

@@ -8,5 +8,5 @@ spec:
   interval: 99h
   url: "oci://ghcr.io/rajsinghtech/charts/garage-operator"
   ref:
-    tag: 0.6.28
-    digest: "sha256:52e7e66658bc03479a758e4f5abdf103820a954b958cac62df1ef87b479829d4"
+    tag: 0.7.8
+    digest: sha256:c7e386a89885f58e62a9589361b9c0243523f11625bcf52cf3bf43cdede0d580

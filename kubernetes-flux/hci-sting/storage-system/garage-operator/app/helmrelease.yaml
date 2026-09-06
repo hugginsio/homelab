@@ -3,10 +3,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &name garage-operator
+  name: garage-operator
 spec:
   interval: 3h
-  releaseName: *name
+  releaseName: garage-operator
   chartRef:
     kind: OCIRepository
     name: garage-operator

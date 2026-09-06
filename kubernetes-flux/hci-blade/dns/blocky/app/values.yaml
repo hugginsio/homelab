@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.0.1/charts/library/common/values.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.1.0/charts/library/common/values.schema.json
 # https://bjw-s-labs.github.io/helm-charts/docs/app-template/
 
 defaultPodOptions:
@@ -31,7 +31,7 @@ controllers:
       app:
         image:
           repository: "ghcr.io/0xerr0r/blocky"
-          tag: "v0.33.0@sha256:96c4ee1d4abee3e81475796403ffde0dfd0c53a6e263e2c35c867ba5563535d4"
+          tag: v0.35.0@sha256:4f165b63db0d76c96ecc47c7a8f57caeedc003a912bdce29abb0e283ce02e16b
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:

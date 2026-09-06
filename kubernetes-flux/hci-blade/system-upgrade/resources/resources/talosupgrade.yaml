@@ -6,7 +6,7 @@ metadata:
   name: blade
 spec:
   talos:
-    version: v1.13.6
+    version: v1.13.10
   policy:
     rebootMode: powercycle
   maintenance:

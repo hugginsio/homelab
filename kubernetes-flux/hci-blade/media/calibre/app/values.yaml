@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.0.1/charts/library/common/values.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.1.0/charts/library/common/values.schema.json
 # https://bjw-s-labs.github.io/helm-charts/docs/app-template/
 
 defaultPodOptions:
@@ -12,7 +12,7 @@ controllers:
       app:
         image:
           repository: "lscr.io/linuxserver/calibre"
-          tag: "9.8.0@sha256:02f1bfe7194e11c56958a2181dd0526e4312cd3d843e9f0ea0e1f60e4aa1d698"
+          tag: 9.14.0@sha256:31f008cd3921302f0d2fd9b245dcaadec8e8d4416d098f4e18973945eb372249
         resources:
           requests:
             cpu: 100m

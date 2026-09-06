@@ -3,15 +3,15 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &name metrics-server
+  name: metrics-server
   namespace: kube-system
 spec:
   interval: 3h
-  releaseName: *name
+  releaseName: metrics-server
   chart:
     spec:
       chart: metrics-server
-      version: 3.13.1
+      version: 3.14.0
       sourceRef:
         kind: HelmRepository
         name: metrics-server

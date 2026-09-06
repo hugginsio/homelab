@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.0.1/charts/library/common/values.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.1.0/charts/library/common/values.schema.json
 # https://bjw-s-labs.github.io/helm-charts/docs/app-template/
 
 defaultPodOptions:
@@ -54,7 +54,7 @@ controllers:
       app:
         image:
           repository: "quay.io/oauth2-proxy/oauth2-proxy"
-          tag: "v7.15.3@sha256:a6d60e44288b954ff1a11ed438d1196a2c3a56c64d42f7b22d5846789e5bf614"
+          tag: v7.15.4@sha256:b1b2021fe8f4004573e8d690dec6c7bb29cc44364572cf8510a05bf3a0ae2ded
         securityContext: *sc
         resources:
           requests:

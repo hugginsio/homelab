@@ -3,10 +3,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &name operator
+  name: operator
 spec:
   interval: 3h
-  releaseName: *name
+  releaseName: operator
   chart:
     spec:
       chart: cloudnative-pg

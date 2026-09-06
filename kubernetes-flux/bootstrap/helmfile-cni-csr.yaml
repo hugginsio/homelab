@@ -17,12 +17,12 @@ releases:
   - name: cilium
     namespace: kube-system
     chart: "cilium/cilium"
-    version: 1.19.5
+    version: 1.20.1
     values:
       - "cilium.yaml"
   - name: kubelet-csr-approver
     namespace: kube-system
     chart: "postfinance/kubelet-csr-approver"
-    version: 1.2.14
+    version: 1.2.15
     values:
       - "../shared/kube-system/kubelet-csr-approver/app/values.yaml"
