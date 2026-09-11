@@ -3,15 +3,7 @@
 # https://docs.cilium.io/en/stable/
 
 authentication:
-  enabled: true
-  mutual:
-    spire:
-      enabled: true
-      install:
-        enabled: true
-        server:
-          dataStorage:
-            storageClass: longhorn
+  enabled: false
 
 cgroup:
   autoMount:
