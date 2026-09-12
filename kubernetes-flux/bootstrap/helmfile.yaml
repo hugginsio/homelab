@@ -20,7 +20,7 @@ releases:
   - name: prometheus-operator-crds
     namespace: monitoring
     chart: "prometheus-community/prometheus-operator-crds"
-    version: 31.0.1
+    version: 32.0.0
   - name: metrics-server
     namespace: kube-system
     chart: "metrics-server/metrics-server"
@@ -32,7 +32,7 @@ releases:
   - name: flux-operator
     namespace: flux-system
     chart: "controlplaneio-fluxcd/flux-operator"
-    version: 0.59.0
+    version: 0.60.0
     values:
       - "../shared/flux-system/flux-operator/app/values.yaml"
     needs:
