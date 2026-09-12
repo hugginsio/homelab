@@ -1,0 +1,56 @@
+name: Update app-template workloads
+
+sources:
+  chart:
+    name: Latest app-template chart version
+    kind: helmchart
+    spec:
+      name: app-template
+      url: https://bjw-s-labs.github.io/helm-charts
+      versionfilter:
+        kind: semver
+        pattern: '*'
+{{- range $w := .workloads }}
+{{- range $c := $w.containers }}
+{{- $cid := $c.id | default $c.container }}
+  {{ $w.name }}-{{ $cid }}-tag:
+    name: Latest {{ $c.image }} tag
+    kind: dockerimage
+    spec:
+      image: {{ $c.image }}
+      tagfilter: '{{ $c.tagfilter | default `^v?\d+\.\d+\.\d+$` }}'
+      versionfilter:
+        kind: {{ $c.kind | default "semver" }}
+        {{- if $c.regex }}
+        regex: '{{ $c.regex }}'
+        {{- end }}
+        pattern: '{{ $c.pattern | default `*` }}'
+  {{ $w.name }}-{{ $cid }}-digest:
+    name: Digest for {{ $c.image }}
+    kind: dockerdigest
+    spec:
+      image: {{ $c.image }}
+      tag: '{{ printf "%s-%s-tag" $w.name $cid | source }}'
+{{- end }}
+{{- end }}
+
+targets:
+{{- range $w := .workloads }}
+  {{ $w.name }}-chart:
+    name: Bump app-template chart version ({{ $w.name }})
+    kind: yaml
+    sourceid: chart
+    spec:
+      file: {{ $w.dir }}/helmrelease.yaml
+      key: $.spec.chart.spec.version
+{{- range $c := $w.containers }}
+{{- $cid := $c.id | default $c.container }}
+  {{ $w.name }}-{{ $cid }}-image:
+    name: Pin {{ $c.image }} tag and digest
+    kind: yaml
+    sourceid: {{ $w.name }}-{{ $cid }}-digest
+    spec:
+      file: {{ $w.dir }}/values.yaml
+      key: $.controllers.{{ $c.controller | default "app" }}.containers.{{ $c.container }}.image.tag
+{{- end }}
+{{- end }}

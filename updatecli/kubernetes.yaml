@@ -1,0 +1,30 @@
+name: Update Kubernetes
+
+sources:
+  kubernetes:
+    name: Latest kube-apiserver version
+    kind: dockerimage
+    spec:
+      image: registry.k8s.io/kube-apiserver
+      tagfilter: '^v\d+\.\d+\.\d+$'
+      versionfilter:
+        kind: semver
+        pattern: '*'
+
+targets:
+  kubernetesupgrade:
+    name: Bump KubernetesUpgrade version
+    kind: yaml
+    sourceid: kubernetes
+    spec:
+      file: kubernetes-flux/*/system-upgrade/resources/resources/kubernetesupgrade.yaml
+      key: $.spec.kubernetes.version
+      searchpattern: true
+  talconfig:
+    name: Bump kubernetesVersion
+    kind: yaml
+    sourceid: kubernetes
+    spec:
+      file: talos/*/talconfig.yaml
+      key: $.kubernetesVersion
+      searchpattern: true

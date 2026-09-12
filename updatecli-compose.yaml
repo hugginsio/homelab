@@ -1,0 +1,14 @@
+name: homelab
+
+policies:
+  - name: app-template workloads
+    config:
+      - updatecli/app-template.yaml
+    values:
+      - updatecli/values.yaml
+  - name: talos
+    config:
+      - updatecli/talos.yaml
+  - name: kubernetes
+    config:
+      - updatecli/kubernetes.yaml

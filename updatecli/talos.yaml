@@ -1,0 +1,30 @@
+name: Update Talos
+
+sources:
+  talos:
+    name: Latest siderolabs/installer version
+    kind: dockerimage
+    spec:
+      image: ghcr.io/siderolabs/installer
+      tagfilter: '^v\d+\.\d+\.\d+$'
+      versionfilter:
+        kind: semver
+        pattern: '*'
+
+targets:
+  talosupgrade:
+    name: Bump TalosUpgrade version
+    kind: yaml
+    sourceid: talos
+    spec:
+      file: kubernetes-flux/*/system-upgrade/resources/resources/talosupgrade.yaml
+      key: $.spec.talos.version
+      searchpattern: true
+  talconfig:
+    name: Bump talosVersion
+    kind: yaml
+    sourceid: talos
+    spec:
+      file: talos/*/talconfig.yaml
+      key: $.talosVersion
+      searchpattern: true

@@ -1,0 +1,107 @@
+# Workloads using the bjw-s app-template chart.
+# Each entry updates the chart version in <dir>/helmrelease.yaml and pins
+# tag@digest for every listed container in <dir>/values.yaml.
+#
+# Per-container options:
+#   container:  (required) container name under controllers.*.containers.*
+#   image:      (required) OCI image reference
+#   controller: controller name (default: app)
+#   tagfilter:  regex restricting registry tags (default: ^v?\d+\.\d+\.\d+$)
+#   kind:       versionfilter kind (default: semver)
+#   regex:      versionfilter extraction regex (required for kind regex/semver)
+#   pattern:    versionfilter constraint (default: *)
+workloads:
+  - name: pocket-id
+    dir: kubernetes-flux/hci-blade/auth/pocket-id/app
+    containers:
+      - container: app
+        image: ghcr.io/pocket-id/pocket-id
+        tagfilter: '^v\d+\.\d+\.\d+-distroless$'
+        kind: regex/semver
+        regex: '^v(\d+\.\d+\.\d+)-distroless$'
+  - name: blocky-blade
+    dir: kubernetes-flux/hci-blade/dns/blocky/app
+    containers:
+      - container: app
+        image: ghcr.io/0xerr0r/blocky
+  - name: blocky-mini
+    dir: kubernetes-flux/hci-mini/dns/blocky/app
+    containers:
+      - container: app
+        image: ghcr.io/0xerr0r/blocky
+  - name: knot
+    dir: kubernetes-flux/hci-blade/git/knot/app
+    containers:
+      - container: app
+        image: atcr.io/tangled.org/knot
+        tagfilter: '^v\d+\.\d+\.\d+-alpha$'
+        kind: regex/semver
+        regex: '^v(\d+\.\d+\.\d+)-alpha$'
+  - name: calibre
+    dir: kubernetes-flux/hci-blade/media/calibre/app
+    containers:
+      - container: app
+        image: lscr.io/linuxserver/calibre
+  - name: files
+    dir: kubernetes-flux/hci-blade/media/files/app
+    containers:
+      - container: app
+        image: ghcr.io/gtsteffaniak/filebrowser
+        tagfilter: '^\d+\.\d+\.\d+-stable$'
+        kind: regex/semver
+        regex: '^(\d+\.\d+\.\d+)-stable$'
+  - name: metube
+    dir: kubernetes-flux/hci-blade/media/metube/app
+    containers:
+      - container: app
+        image: ghcr.io/alexta69/metube
+        tagfilter: '^\d{4}\.\d{2}\.\d{2}$'
+      - id: cleanup
+        container: app
+        controller: cleanup
+        image: docker.io/library/busybox
+  - name: navidrome
+    dir: kubernetes-flux/hci-blade/media/navidrome/app
+    containers:
+      - container: app
+        image: docker.io/deluan/navidrome
+      - id: auth
+        container: app
+        controller: auth
+        image: quay.io/oauth2-proxy/oauth2-proxy
+  - name: mealie
+    dir: kubernetes-flux/hyper/datastore/mealie/app
+    containers:
+      - container: app
+        image: docker.io/library/nginx
+  - name: papra
+    dir: kubernetes-flux/hyper/datastore/papra/app
+    containers:
+      - container: app
+        image: ghcr.io/papra-hq/papra
+        tagfilter: '^\d+\.\d+\.\d+-rootless$'
+        kind: regex/semver
+        regex: '^(\d+\.\d+\.\d+)-rootless$'
+      - container: oauth
+        image: quay.io/oauth2-proxy/oauth2-proxy
+  - name: alpine
+    dir: kubernetes-flux/hyper/default/alpine/app
+    containers:
+      - container: app
+        image: docker.io/library/alpine
+  - name: golink
+    dir: kubernetes-flux/hyper/default/golink/app
+    containers:
+      - container: app
+        image: ghcr.io/tailscale/golink
+  - name: minecraft-ptarmigan
+    dir: kubernetes-flux/hyper/media/minecraft-ptarmigan/app
+    containers:
+      - container: app
+        image: docker.io/itzg/minecraft-bedrock-server
+        tagfilter: '^\d{4}\.\d+\.\d+$'
+  - name: plex-files
+    dir: kubernetes-flux/hyper/media/plex-files/app
+    containers:
+      - container: app
+        image: docker.io/filebrowser/filebrowser
