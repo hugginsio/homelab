@@ -11,6 +11,6 @@ spec:
     rebootMode: powercycle
   maintenance:
     windows:
-      - start: "0 7 * * 6"
-        duration: "1h"
+      - start: "0 7 * * SAT"
+        duration: "2h"
         timezone: "America/Chicago"
