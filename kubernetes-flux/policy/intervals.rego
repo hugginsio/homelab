@@ -5,8 +5,8 @@ import rego.v1
 # Source resources should be polled infrequently; webhooks handle change notification.
 deny contains msg if {
 	input.kind in {"GitRepository", "OCIRepository", "HelmRepository"}
-	input.spec.interval != "99h"
-	msg := sprintf("%s interval should be '99h', got '%s'", [input.kind, input.spec.interval])
+	input.spec.interval != "24h"
+	msg := sprintf("%s interval should be '24h', got '%s'", [input.kind, input.spec.interval])
 }
 
 # Kustomizations should reconcile at 3h as a drift-detection fallback.
