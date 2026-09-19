@@ -10,6 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/part-of: sure
+      kube.huggins.io/cache-db: "3"
   path: ./kubernetes-flux/hci-blade/finance/sure/app
   prune: false
   wait: true
