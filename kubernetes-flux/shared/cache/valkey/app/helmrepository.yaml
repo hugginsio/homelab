@@ -5,5 +5,5 @@ kind: HelmRepository
 metadata:
   name: valkey
 spec:
-  interval: 99h
+  interval: 24h
   url: "https://valkey.io/valkey-helm/"

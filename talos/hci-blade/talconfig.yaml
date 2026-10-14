@@ -125,9 +125,9 @@ patches:
         resources:
           requests:
             cpu: 200m
-            memory: 1024Mi
+            memory: 2048Mi
           limits:
-            memory: 1024Mi
+            memory: 2048Mi
       network:
         cni:
           # NOTE: modify this for temporary clusters

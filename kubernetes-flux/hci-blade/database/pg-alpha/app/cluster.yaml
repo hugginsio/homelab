@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/postgresql.cnpg.io/cluster_v1.json
+
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: pg-alpha
+spec:
+  imageName: "ghcr.io/cloudnative-pg/postgresql:18.6-system-trixie@sha256:fee233b6d388273e61313f93ac5bfb75449ecd6e107b804b19583526db0f5760"
+  instances: 3
+  monitoring:
+    enablePodMonitor: true
+  podSecurityContext:
+    fsGroup: 65534
+    fsGroupChangePolicy: "OnRootMismatch"
+    seccompProfile:
+      type: RuntimeDefault
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      memory: 1Gi
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    privileged: false
+    readOnlyRootFilesystem: true
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+  storage:
+    size: 20Gi
+    storageClass: longhorn

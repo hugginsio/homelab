@@ -6,7 +6,7 @@ metadata:
   name: homelab
   namespace: flux-system
 spec:
-  interval: 99h
+  interval: 24h
   url: "https://github.com/hugginsio/homelab.git"
   ref:
     branch: main
@@ -16,9 +16,10 @@ spec:
     /*
     !/kubernetes-flux/
     /kubernetes-flux/**/helmfil*.yaml
+    /kubernetes-flux/*.yaml
     /kubernetes-flux/*/ks.yaml
-    /kubernetes-flux/Taskfile.yaml
     /kubernetes-flux/bootstrap/
+    /kubernetes-flux/kind/
     /kubernetes-flux/policy/
     /kubernetes-flux/shared/**/*.md
   sparseCheckout:
@@ -33,7 +34,7 @@ metadata:
   name: homelab-staging
   namespace: flux-system
 spec:
-  interval: 99h
+  interval: 24h
   url: "https://github.com/hugginsio/homelab-staging.git"
   ref:
     branch: main
@@ -42,11 +43,12 @@ spec:
   ignore: |-
     /*
     !/kubernetes-flux/
+    /kubernetes-flux/**/helmfil*.yaml
+    /kubernetes-flux/*.yaml
     /kubernetes-flux/*/ks.yaml
-    /kubernetes-flux/Taskfile.yaml
     /kubernetes-flux/bootstrap/
+    /kubernetes-flux/kind/
     /kubernetes-flux/policy/
     /kubernetes-flux/shared/**/*.md
-    /kubernetes-flux/shared/**/helmfil*.yaml
   sparseCheckout:
     - kubernetes-flux

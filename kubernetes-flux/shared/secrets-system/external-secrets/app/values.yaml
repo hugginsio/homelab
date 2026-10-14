@@ -9,10 +9,10 @@ hostUsers: false
 
 resources:
   requests:
-    cpu: 10m
-    memory: 128Mi
-  limits:
+    cpu: 50m
     memory: 256Mi
+  limits:
+    memory: 512Mi
 
 webhook:
   hostNetwork: false

@@ -70,9 +70,9 @@ nodes:
             resources:
               requests:
                 cpu: 200m
-                memory: 512Mi
+                memory: 2048Mi
               limits:
-                memory: 1024Mi
+                memory: 2048Mi
           discovery:
             enabled: false
           network:
