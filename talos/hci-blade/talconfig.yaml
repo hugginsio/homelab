@@ -8,8 +8,8 @@ additionalApiServerCertSans: &sans
 allowSchedulingOnControlPlanes: true
 domain: cluster.internal
 
-talosVersion: "v1.13.10"
-kubernetesVersion: "v1.36.4"
+talosVersion: "v1.13.11"
+kubernetesVersion: "v1.36.5"
 
 controlPlane:
   certSANs: *sans
@@ -27,7 +27,6 @@ controlPlane:
   nameservers:
     - 10.0.2.1
   nodeLabels:
-    topology.kubernetes.io/instance-type: smol
     topology.kubernetes.io/region: home
   volumes:
     - name: EPHEMERAL
@@ -46,8 +45,10 @@ nodes:
     certSANs: *sans
     controlPlane: true
     ipAddress: 10.0.2.31
+    nodeLabels:
+      topology.kubernetes.io/instance-type: lorg
     installDiskSelector:
-      serial: "0x8b3378d0"
+      serial: "0xa86320f1"
     userVolumes:
       - name: data
         provisioning:
@@ -66,6 +67,8 @@ nodes:
     certSANs: *sans
     controlPlane: true
     ipAddress: 10.0.2.32
+    nodeLabels:
+      topology.kubernetes.io/instance-type: smol
     installDiskSelector:
       serial: "0x3bb80c00"
     userVolumes:
@@ -86,6 +89,8 @@ nodes:
     certSANs: *sans
     controlPlane: true
     ipAddress: 10.0.2.33
+    nodeLabels:
+      topology.kubernetes.io/instance-type: smol
     installDiskSelector:
       serial: "0xcbf921d0"
     userVolumes:
