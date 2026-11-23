@@ -8,5 +8,5 @@ spec:
   interval: 24h
   url: "oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator"
   ref:
-    tag: 0.61.0
-    digest: sha256:8c039527c4a20599bc49bf69fa944e4ae08a0d7c1d585664261d9e78e51b0bde
+    tag: 0.63.0
+    digest: sha256:62c547ad36803ebc2d679d0b50c1e1ad965cfec6352f27720907361e411891d2
