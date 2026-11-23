@@ -5,4 +5,5 @@ kind: Namespace
 metadata:
   name: tailscale-system
   labels:
+    secrets.huggins.dev/ak: enable
     secrets.huggins.dev/op: enable
