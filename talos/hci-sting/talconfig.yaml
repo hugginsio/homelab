@@ -1,5 +1,5 @@
 # https://budimanjojo.github.io/talhelper/latest/
-# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/tags/v3.1.5/pkg/config/schemas/talconfig.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/refs/tags/v3.1.17/pkg/config/schemas/talconfig.json
 
 clusterName: hci-sting
 endpoint: https://10.0.0.254:6443
@@ -9,8 +9,8 @@ additionalApiServerCertSans: &sans
 allowSchedulingOnControlPlanes: true
 domain: cluster.internal
 
-talosVersion: "v1.11.6"
-kubernetesVersion: "v1.34.1"
+talosVersion: "v1.13.12"
+kubernetesVersion: "v1.36.7"
 
 nodes:
   - hostname: alpha

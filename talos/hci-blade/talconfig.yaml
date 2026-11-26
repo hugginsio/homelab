@@ -8,8 +8,8 @@ additionalApiServerCertSans: &sans
 allowSchedulingOnControlPlanes: true
 domain: cluster.internal
 
-talosVersion: "v1.13.11"
-kubernetesVersion: "v1.36.5"
+talosVersion: "v1.13.12"
+kubernetesVersion: "v1.36.7"
 
 controlPlane:
   certSANs: *sans
