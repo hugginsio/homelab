@@ -1,0 +1,92 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/common-5.1.0/charts/library/common/values.schema.json
+# https://bjw-s-labs.github.io/helm-charts/docs/app-template/
+
+defaultPodOptions:
+  automountServiceAccountToken: false
+  securityContext:
+    fsGroup: 65534
+    fsGroupChangePolicy: OnRootMismatch
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
+
+controllers:
+  app:
+    type: deployment
+    replicas: 1
+    containers:
+      app:
+        image:
+          repository: "ghcr.io/jaxxstorm/proxyt"
+          tag: "v0.1.2@sha256:64166d8594798523d576ce565bb2e417b4554347b84b31659f7dc9396b57aa71"
+        args:
+          - serve
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            memory: 128Mi
+        env:
+          PROXYT_DOMAIN: "${TAILNET_NAME}"
+          PROXYT_HTTP_ONLY: "true"
+          PROXYT_ISSUE: "false"
+          PROXYT_PORT: "8080"
+        probes:
+          liveness: &probe
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 8080
+              periodSeconds: 10
+              timeoutSeconds: 2
+          readiness: *probe
+          startup:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 8080
+              periodSeconds: 2
+              failureThreshold: 30
+service:
+  app:
+    controller: app
+    ports:
+      http:
+        port: 8080
+ingress:
+  main:
+    className: tailscale
+    annotations:
+      tailscale.com/funnel: "true"
+    hosts:
+      - host: proxyt
+        paths:
+          - path: /ts2021
+            pathType: Prefix
+            service:
+              identifier: app
+              port: http
+          - path: /key
+            pathType: Exact
+            service:
+              identifier: app
+              port: http
+    tls:
+      - hosts:
+          - proxyt
+persistence:
+  tmp:
+    type: emptyDir
