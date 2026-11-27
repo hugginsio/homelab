@@ -1,0 +1,40 @@
+# https://coreos.github.io/butane/config-fcos-v1_7/
+# yaml-language-server: $schema=https://relativ-it.github.io/Butane-Schemas/Butane-Schema.json
+
+variant: fcos
+version: 1.7.0
+passwd:
+  users:
+    - name: core
+      ssh_authorized_keys:
+        - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEJzp8T7Wpoa2Lo7Qv+ISvIGjlPfZAghcD182yeK2pwr kyle@huggins.io"
+storage:
+  files:
+    - path: /etc/hostname
+      overwrite: true
+      mode: 0644
+      contents:
+        inline: hci-hydrogen
+    - path: /etc/chrony.conf
+      overwrite: true
+      mode: 0644
+      contents:
+        inline: |
+          server time.cloudflare.com iburst
+          driftfile /var/lib/chrony/drift
+          makestep 1.0 3
+          rtcsync
+          keyfile /etc/chrony.keys
+          leapsectz right/UTC
+          logdir /var/log/chrony
+    - path: /etc/zincati/config.d/55-updates-strategy.toml
+      mode: 0644
+      contents:
+        inline: |
+          [updates]
+          strategy = "periodic"
+
+          [[updates.periodic.window]]
+          days = [ "Sat" ]
+          start_time = "12:00"
+          length_minutes = 120

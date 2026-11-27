@@ -1,0 +1,15 @@
+# https://taskfile.dev
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: 3
+
+tasks:
+  ignite:
+    desc: "Convert Butane configuration to Ignition"
+    requires:
+      vars:
+        - NODEPATH
+    preconditions:
+      - "which butane"
+    cmds:
+      - "butane --pretty --strict './{{.NODEPATH}}/config.bu' > './{{.NODEPATH}}/config.ign'"
